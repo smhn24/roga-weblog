@@ -4,10 +4,9 @@ const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 const connectDB = require('./config/db');
-const blogRoutes = require('./routes/blog');
-const dashboardRoutes = require('./routes/dashboard');
 
 //* Load Config
 dotEnv.config({ path: './config/config.env' });
@@ -26,12 +25,16 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.set('layout', './layouts/mainLayout');
 
+//* Body Parser
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //* Static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 //* Routes
-app.use(blogRoutes);
-app.use('/dashboard', dashboardRoutes);
+app.use('/', require('./routes/blog'));
+app.use('/users', require('./routes/users'));
+app.use('/dashboard', require('./routes/dashboard'));
 
 const PORT = process.env.PORT || 3000;
 
