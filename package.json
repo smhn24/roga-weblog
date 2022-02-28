@@ -4,15 +4,19 @@
 	"description": "Simple weblog",
 	"main": "app.js",
 	"scripts": {
-		"start": "node app",
-		"dev": "nodemon app"
+		"start": "cross-env NODE_ENV=production node app",
+		"dev": "cross-env NODE_ENV=development nodemon app"
 	},
 	"keywords": [],
 	"author": "Seyyed Mohammad Hossein Nabavi",
 	"license": "MIT",
 	"dependencies": {
+		"dotenv": "^16.0.0",
 		"ejs": "^3.1.6",
 		"express": "^4.17.3",
 		"mongoose": "^5.13.14"
+	},
+	"devDependencies": {
+		"cross-env": "^7.0.3"
 	}
 }
