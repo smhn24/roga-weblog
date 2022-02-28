@@ -24,8 +24,6 @@ app.set('views', 'views');
 
 //* Static folder
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.static(path.join(__dirname, process.env.BOOTSTRAP)));
-// app.use(express.static(path.join(__dirname, process.env.FONTAWESOME)));
 
 //* Routes
 app.use(indexRoutes);
