@@ -6,7 +6,8 @@ const dotEnv = require('dotenv');
 const morgan = require('morgan');
 
 const connectDB = require('./config/db');
-const indexRoutes = require('./routes');
+const blogRoutes = require('./routes/blog');
+const dashboardRoutes = require('./routes/dashboard');
 
 //* Load Config
 dotEnv.config({ path: './config/config.env' });
@@ -29,7 +30,8 @@ app.set('layout', './layouts/mainLayout');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //* Routes
-app.use(indexRoutes);
+app.use(blogRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 const PORT = process.env.PORT || 3000;
 
