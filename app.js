@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 const dotEnv = require('dotenv');
+const morgan = require('morgan');
 
 const indexRoutes = require('./routes');
 
@@ -9,6 +10,9 @@ const indexRoutes = require('./routes');
 dotEnv.config({ path: './config/config.env' });
 
 const app = express();
+
+//* Logging
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 //* View Engine
 app.set('view engine', 'ejs');
