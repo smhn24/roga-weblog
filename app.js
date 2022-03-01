@@ -36,6 +36,11 @@ app.use('/', require('./routes/blog'));
 app.use('/users', require('./routes/users'));
 app.use('/dashboard', require('./routes/dashboard'));
 
+//* 404 Page
+app.use((req, res) => {
+	res.render('404', { pageTitle: 'صفحه پیدا نشد|404', path: '/404' });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () =>
