@@ -1,5 +1,6 @@
 <form class="form-signin" action="/users/register" method="post">
     <h1 class="h3 mb-3 font-weight-normal">ثبت نام کاربر</h1>
+    <%- include('./includes/messages.ejs') %>
     <label for="inputFullname" class="sr-only">نام و نام خانوادگی</label>
     <input name="fullname" id="inputFullname" class="form-control mb-2" placeholder="نام و نام خانودگی" required
         autofocus>
