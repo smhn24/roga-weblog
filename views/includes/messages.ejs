@@ -1,7 +1,7 @@
 <% if (typeof errors != 'undefined') { %>
 <% errors.forEach(function(err){ %>
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <%= err %>
+    <%= err.message %>
     <button type="button" class="close" aria-label="Close" data-dismiss="alert">
         <span aria-hidden="true">&times;</span>
     </button>
