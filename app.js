@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
 
 const connectDB = require('./config/db');
 
@@ -38,9 +40,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
 	session({
 		secret: 'secret',
-		cookie: { maxAge: 60000 },
 		resave: false,
 		saveUninitialized: false,
+		store: new MongoStore({
+			mongooseConnection: mongoose.connection,
+		}),
 	}),
 );
 
