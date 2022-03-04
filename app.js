@@ -5,6 +5,8 @@ const expressLayout = require('express-ejs-layouts');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const connectDB = require('./config/db');
 
@@ -27,6 +29,19 @@ app.set('layout', './layouts/mainLayout');
 
 //* Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//* Session
+app.use(
+	session({
+		secret: 'secret',
+		cookie: { maxAge: 60000 },
+		resave: false,
+		saveUninitialized: false,
+	}),
+);
+
+//* Flash
+app.use(flash());
 
 //* Static folder
 app.use(express.static(path.join(__dirname, 'public')));
