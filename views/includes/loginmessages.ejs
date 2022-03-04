@@ -6,3 +6,12 @@
     </button>
 </div>
 <% } %>
+
+<% if (error.length > 0) { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <%= error %>
+    <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
