@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 const connectDB = require('./config/db');
 
@@ -15,6 +16,9 @@ dotEnv.config({ path: './config/config.env' });
 
 //* Database conncection
 connectDB();
+
+//* Passport Configuration
+require('./config/passport');
 
 const app = express();
 
@@ -39,6 +43,10 @@ app.use(
 		saveUninitialized: false,
 	}),
 );
+
+//* Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 //* Flash
 app.use(flash());
