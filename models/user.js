@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const { schema } = require('./secure/userValidation');
 
@@ -28,6 +29,22 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.userValidation = function (body) {
 	return schema.validate(body, { abortEarly: false });
 };
+
+userSchema.pre('save', async function (next) {
+	let user = this;
+	if (!user.isModified('password')) return next();
+	// bcrypt.hash(user.password, 10, (err, hash) => {
+	// 	if (err) return next(err);
+
+	// 	user.password = hash;
+	// 	next();
+	// });
+	try {
+		user.password = await bcrypt.hash(user.password, 10);
+	} catch (err) {
+		return next(err);
+	}
+});
 
 const User = mongoose.model('User', userSchema);
 
