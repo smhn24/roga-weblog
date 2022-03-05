@@ -5,7 +5,7 @@
 	"main": "app.js",
 	"scripts": {
 		"start": "cross-env NODE_ENV=production node app",
-		"dev": "cross-env NODE_ENV=development nodemon app"
+		"dev": "cross-env NODE_ENV=development DEBUG=weblog-project nodemon app"
 	},
 	"keywords": [],
 	"author": "Seyyed Mohammad Hossein Nabavi",
@@ -15,6 +15,7 @@
 		"body-parser": "^1.19.2",
 		"connect-flash": "^0.1.1",
 		"connect-mongo": "^3.2.0",
+		"debug": "^4.3.3",
 		"dotenv": "^16.0.0",
 		"ejs": "^3.1.6",
 		"express": "^4.17.3",
