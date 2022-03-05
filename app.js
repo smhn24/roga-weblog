@@ -13,6 +13,7 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const connectDB = require('./config/db');
+const winston = require('./config/winston');
 
 //* Load Config
 dotEnv.config({ path: './config/config.env' });
@@ -28,7 +29,7 @@ const app = express();
 
 //* Logging
 if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'));
+	app.use(morgan('combined', { stream: winston.stream }));
 	debug('Morgan enabled');
 }
 
