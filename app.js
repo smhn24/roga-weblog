@@ -29,7 +29,7 @@ const app = express();
 
 //* Logging
 if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('combined', { stream: winston.stream }));
+	app.use(morgan('dev', { stream: winston.stream }));
 	debug('Morgan enabled');
 }
 
@@ -41,6 +41,7 @@ app.set('layout', './layouts/mainLayout');
 
 //* Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //* Session
 app.use(

@@ -1,4 +1,5 @@
 const passport = require('passport');
+const fetch = require('node-fetch');
 
 const User = require('../models/User');
 
@@ -11,11 +12,38 @@ exports.login = (req, res) => {
 	});
 };
 
-exports.handleLogin = (req, res, next) => {
-	passport.authenticate('local', {
-		failureRedirect: '/users/login',
-		failureFlash: true,
-	})(req, res, next);
+exports.handleLogin = async (req, res, next) => {
+	if (!req.body['g-recaptcha-response']) {
+		req.flash('error', 'احراز هویت captcha را انجام دهید');
+		return res.redirect('/users/login');
+	}
+
+	const secretKey = process.env.CAPTCHA_SECRET;
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
+
+	try {
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			},
+		});
+		const json = await response.json();
+		if (json.success) {
+			passport.authenticate('local', {
+				failureRedirect: '/users/login',
+				failureFlash: true,
+			})(req, res, next);
+		} else {
+			req.flash('error', 'مشکلی در captcah وجود دارد');
+			return res.redirect('/users/login');
+		}
+	} catch (err) {
+		console.log(err);
+		req.flash('error', 'مشکلی به وجود آمده است');
+		return res.redirect('/users/login');
+	}
 };
 
 exports.rememberMe = (req, res) => {

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/font-awesome.css">
     <% if (path === '/login' || path == '/register') { %>
     <link rel="stylesheet" href="/css/signin.css">
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
     <% } %>
     <% if (path === '/404') { %>
     <link rel="stylesheet" href="/css/404.css">
@@ -19,6 +20,7 @@
 </head>
 
 <body class="rtl">
+    <%- include('../includes/navbar.ejs')%>
     <%- body %>
     <script src="/js/jquery.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
