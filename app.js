@@ -52,6 +52,7 @@ app.use(
 		store: new MongoStore({
 			mongooseConnection: mongoose.connection,
 		}),
+		unset: 'destroy',
 	}),
 );
 
