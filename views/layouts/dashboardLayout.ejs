@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/bootstrap-rtl.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.17.2/ckeditor.js"
+        integrity="sha512-QuHtmTNLFyCbmk2jGlr0URK0XiNn1G0nHYMaNfbOLQgXBiO6RllC+xFkPO5YnG6zYnRVUj6b5uSXwmJeJgOLBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="rtl">
@@ -52,6 +55,11 @@
             </main>
         </div>
     </div>
+    <script>
+        CKEDITOR.replace('body', {
+            language: 'fa',
+        })
+    </script>
     <script src="/js/jquery.slim.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 
