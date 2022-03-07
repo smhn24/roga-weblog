@@ -20,7 +20,9 @@
 </head>
 
 <body class="rtl">
+    <% if (path !== '/404') { %>
     <%- include('../includes/navbar.ejs')%>
+    <% } %>
     <%- body %>
     <script src="/js/jquery.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
