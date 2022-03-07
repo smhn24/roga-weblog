@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const blogSchema = new monolog.Schema({
+const blogSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		required: true,
@@ -18,7 +18,7 @@ const blogSchema = new monolog.Schema({
 		default: 'عمومی',
 		enum: ['عمومی', 'خصوصی'],
 	},
-	users: {
+	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
