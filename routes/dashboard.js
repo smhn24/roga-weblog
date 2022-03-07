@@ -9,8 +9,12 @@ const router = new Router();
 // @route GET /dashboard/
 router.get('/', authenticated, adminController.getDashboard);
 
-// @desc Add Post
+// @desc Dashboard Add Post
 // @route GET /dashboard/add-post
 router.get('/add-post', authenticated, adminController.getAddPosts);
+
+// @desc Dashboard Handle Post Creation
+// @route POST /dashboard/add-post
+router.post('/add-post', authenticated, adminController.createPost);
 
 module.exports = router;
