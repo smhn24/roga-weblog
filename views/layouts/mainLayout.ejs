@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="/css/signin.css">
     <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
     <% } %>
-    <% if (path === '/404') { %>
-    <link rel="stylesheet" href="/css/404.css">
+    <% if (path === '/404' || path === '/500') { %>
+    <link rel="stylesheet" href="/css/error.css">
     <% } %>
     <title><%= pageTitle %> </title>
 </head>
 
 <body class="rtl">
-    <% if (path !== '/404') { %>
+    <% if (path !== '/404' && path !== '/500') { %>
     <%- include('../includes/navbar.ejs')%>
     <% } %>
     <%- body %>
