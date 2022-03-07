@@ -1,23 +1,37 @@
+<% if (blogs.length > 0) { %>
 <h2 class="mt-2">آخرین پست ها</h2>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
             <tr>
-                <th>ردیف</th>
-                <th>تست</th>
-                <th>تست</th>
-                <th>تست</th>
+                <th>#</th>
+                <th>عنوان</th>
+                <th>تاریخ</th>
+                <th>وضعیت</th>
                 <th>تست</th>
             </tr>
         </thead>
         <tbody>
+            <% for(let blog of blogs) { %>
             <tr>
                 <td>1</td>
-                <td>تست</td>
-                <td>تست</td>
-                <td>تست</td>
+                <td>
+                    <a href="/blogs/<%= blog._id %>"><%= blog.title %> </a>
+                </td>
+                <td><%= blog.createdAt %> </td>
+                <td>
+                    <span class="badge <%= blog.status === 'عمومی'? 'badge-success': 'badge-warning' %>">
+                        <%= blog.status %>
+                    </span>
+                </td>
                 <td>تست</td>
             </tr>
+            <% } %>
         </tbody>
     </table>
 </div>
+<% } else { %>
+<div class="text-center">
+    <h3 class="mt-2">در حال حاضر هیچ پستی توسط شما منتشر نشده است</h3>
+</div>
+<% } %>
