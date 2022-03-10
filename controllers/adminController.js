@@ -1,3 +1,6 @@
+const multer = require('multer');
+const uuid = require('uuid').v4;
+
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
 const { get500 } = require('./errorController');
@@ -46,4 +49,39 @@ exports.createPost = async (req, res) => {
 			errors,
 		});
 	}
+};
+
+exports.uploadImage = (req, res) => {
+	const storage = multer.diskStorage({
+		destination: (req, file, cb) => {
+			cb(null, './public/uploads/');
+		},
+		filename: (req, file, cb) => {
+			cb(null, `${uuid()}_${file.originalname}`);
+		},
+	});
+
+	const fileFilter = (req, file, cb) => {
+		if (file.mimetype == 'image/png') {
+			cb(null, true);
+		} else {
+			cb('درحال حاضر تنها پسوند png پشتیبانی میشود.', false);
+		}
+	};
+
+	const upload = multer({
+		limits: { fileSize: 4000000 },
+		dest: 'uploads/',
+		storage,
+		fileFilter,
+	}).single('image');
+
+	upload(req, res, (err) => {
+		if (err) {
+			console.log(err);
+			res.send(err);
+		} else {
+			res.status(200).send('آپلود عکس موفقیت آمیز بود');
+		}
+	});
 };
