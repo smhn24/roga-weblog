@@ -1,16 +1,19 @@
 document.getElementById('imageUpload').onclick = function () {
 	var xhttp = new XMLHttpRequest(); // Create new AJAX request
+
+	var selectedImage = document.getElementById('selectedImage');
+	var imageStatus = document.getElementById('imageStatus');
+
 	xhttp.onreadystatechange = function () {
-		if (this.status === 200) {
-			document.getElementById('imageStatus').innerHTML =
-				this.responseText;
-		} else {
-			document.getElementById('imageStatus').innerHTML =
-				'مشکلی از سمت سرور وجود دارد';
-		}
+		imageStatus.innerHTML = this.responseText;
 	};
 	xhttp.open('POST', '/dashboard/image-upload');
 	var formData = new FormData();
-	formData.append('image', document.getElementById('selectedImage').files[0]);
-	xhttp.send(formData);
+
+	if (selectedImage.files.length > 0) {
+		formData.append('image', selectedImage.files[0]);
+		xhttp.send(formData);
+	} else {
+		imageStatus.innerHTML = 'هنوز عکسی انتخاب نشده است';
+	}
 };
