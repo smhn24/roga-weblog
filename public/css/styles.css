@@ -10,3 +10,7 @@
 body {
     font-family: "BYekan" !important;
 }
+
+.custom-file-input ~ .custom-file-label::after {
+    content: "انتخاب عکس" !important;
+}
