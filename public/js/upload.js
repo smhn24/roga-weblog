@@ -8,6 +8,16 @@ document.getElementById('imageUpload').onclick = function () {
 		imageStatus.innerHTML = this.responseText;
 	};
 	xhttp.open('POST', '/dashboard/image-upload');
+
+	xhttp.upload.onprogress = function (e) {
+		if (e.lengthComputable) {
+			// console.log(e.loaded);
+			// console.log(e.total);
+			var result = Math.floor((e.loaded / e.total) * 100);
+			console.log(result + '%');
+		}
+	};
+
 	var formData = new FormData();
 
 	if (selectedImage.files.length > 0) {
