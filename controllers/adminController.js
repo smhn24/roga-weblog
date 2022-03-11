@@ -97,6 +97,14 @@ exports.createPost = async (req, res) => {
 	}
 };
 
+exports.deletePost = async (req, res) => {
+	const post = await Blog.findOne({ _id: req.params.id });
+	if (!post) return res.redirect('errors/404');
+	if (post.user.toString() != req.user._id) return res.redirect('/dashboard');
+	post.remove();
+	return res.redirect('/dashboard');
+};
+
 exports.uploadImage = (req, res) => {
 	const upload = multer({
 		limits: { fileSize: 2000000 },
