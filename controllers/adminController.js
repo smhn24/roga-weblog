@@ -1,4 +1,6 @@
 const multer = require('multer');
+const sharp = require('sharp');
+const uuid = require('uuid').v4;
 
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
@@ -54,17 +56,32 @@ exports.createPost = async (req, res) => {
 exports.uploadImage = (req, res) => {
 	const upload = multer({
 		limits: { fileSize: 4000000 },
-		dest: 'uploads/',
-		storage,
+		// dest: 'uploads/',
+		// storage,
 		fileFilter,
 	}).single('image');
 
-	upload(req, res, (err) => {
+	upload(req, res, async (err) => {
 		if (err) {
-			console.log(err);
 			res.send(err);
 		} else {
 			if (req.file) {
+				const fileName = `${uuid()}_${req.file.originalname}`;
+				if (req.file.mimetype === 'image/jpeg') {
+					await sharp(req.file.buffer)
+						.jpeg({
+							quality: 60,
+						})
+						.toFile(`./public/uploads/${fileName}`)
+						.catch((err) => console.log(err));
+				} else if (req.file.mimetype === 'image/png') {
+					await sharp(req.file.buffer)
+						.png({
+							quality: 60,
+						})
+						.toFile(`./public/uploads/${fileName}`)
+						.catch((err) => console.log(err));
+				}
 				res.status(200).send('آپلود عکس موفقیت آمیز بود');
 			} else {
 				res.send('هنوز عکسی انتخاب نشده است');
