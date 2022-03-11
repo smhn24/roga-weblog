@@ -29,4 +29,8 @@ router.get('/edit-post/:id', authenticated, adminController.getEditPost);
 // @route POST /dashboard/edit-post
 router.post('/edit-post/:id', authenticated, adminController.editPost);
 
+// @desc Dashboard Delete Post
+// @route GET /dashboard/delete-post
+router.get('/delete-post/:id', authenticated, adminController.deletePost);
+
 module.exports = router;
