@@ -5,7 +5,7 @@ const shortid = require('shortid');
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
 const { get500 } = require('./errorController');
-const { storage, fileFilter } = require('../utils/multer');
+const { fileFilter } = require('../utils/multer');
 
 exports.getDashboard = async (req, res) => {
 	try {
@@ -31,6 +31,50 @@ exports.getAddPosts = (req, res) => {
 		layout: './layouts/dashboardLayout',
 		fullname: req.user.fullname,
 	});
+};
+
+exports.getEditPost = async (req, res) => {
+	const post = await Blog.findOne({
+		_id: req.params.id,
+	});
+	if (!post) return res.redirect('errors/404');
+	if (post.user.toString() != req.user._id) return res.redirect('/dashboard');
+	res.render('private/editPost', {
+		pageTitle: 'بخش مدیریت | ویرایش پست',
+		path: '/dashboard/edit-post',
+		layout: './layouts/dashboardLayout',
+		fullname: req.user.fullname,
+		post,
+	});
+};
+
+exports.editPost = async (req, res) => {
+	const errors = [];
+	const post = await Blog.findOne({ _id: req.params.id });
+	try {
+		await Blog.postValidation(req.body);
+		if (!post) return res.redirect('/errors/404');
+		if (post.user.toString() != req.user._id)
+			return res.redirect('/dashboard');
+		const { title, status, body } = req.body;
+		post.title = title;
+		post.status = status;
+		post.body = body;
+		await post.save();
+		res.redirect('/dashboard');
+	} catch (err) {
+		err.inner.forEach((e) => {
+			errors.push({ name: e.path, message: e.message });
+		});
+		return res.render('private/editPost', {
+			pageTitle: 'بخش مدیریت | ویرایش پست',
+			path: '/dashboard/edit-post',
+			layout: './layouts/dashboardLayout',
+			fullname: req.user.fullname,
+			errors,
+			post,
+		});
+	}
 };
 
 exports.createPost = async (req, res) => {

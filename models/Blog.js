@@ -17,8 +17,8 @@ const blogSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		default: 'عمومی',
-		enum: ['عمومی', 'خصوصی'],
+		default: 'public',
+		enum: ['public', 'private'],
 	},
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
