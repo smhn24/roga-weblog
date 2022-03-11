@@ -8,7 +8,6 @@
                 <th>عنوان</th>
                 <th>تاریخ</th>
                 <th>وضعیت</th>
-                <th>تست</th>
             </tr>
         </thead>
         <tbody>
@@ -20,11 +19,16 @@
                 </td>
                 <td><%= formatDate(blog.createdAt) %> </td>
                 <td>
-                    <span class="badge <%= blog.status === 'عمومی'? 'badge-success': 'badge-warning' %>">
-                        <%= blog.status %>
+                    <span class="badge <%= blog.status === 'public'? 'badge-success': 'badge-warning' %>">
+                        <%= blog.status === 'public'? 'عمومی' : 'خصوصی' %>
                     </span>
                 </td>
-                <td>تست</td>
+                <td>
+                    <a href="/dashboard/edit-post/<%= blog._id %> " class="btn btn-sm btn-primary">ویرایش</a>
+                </td>
+                <td>
+                    <a href="/dashboard/delete-post/<%= blog._id %> " class="btn btn-sm btn-danger">حذف</a>
+                </td>
             </tr>
             <% } %>
         </tbody>

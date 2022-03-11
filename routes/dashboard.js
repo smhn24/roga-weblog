@@ -21,4 +21,12 @@ router.post('/add-post', authenticated, adminController.createPost);
 // @route POST /dashboard/image-upload
 router.post('/image-upload', authenticated, adminController.uploadImage);
 
+// @desc Dashboard Edit Post
+// @route GET /dashboard/edit-post
+router.get('/edit-post/:id', authenticated, adminController.getEditPost);
+
+// @desc Dashboard Handle Edit Post
+// @route POST /dashboard/edit-post
+router.post('/edit-post/:id', authenticated, adminController.editPost);
+
 module.exports = router;
