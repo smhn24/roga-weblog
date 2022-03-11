@@ -3,11 +3,13 @@ document.getElementById('imageUpload').onclick = function () {
 
 	var selectedImage = document.getElementById('selectedImage');
 	var imageStatus = document.getElementById('imageStatus');
+	var uploadResult = document.getElementById('uploadResult');
 	var progressDiv = document.getElementById('progressDiv');
 	var progressBar = document.getElementById('progressBar');
 
 	xhttp.onreadystatechange = function () {
 		imageStatus.innerHTML = this.responseText;
+		uploadResult.innerHTML = 'لینک فایل: ' + '<br>' + this.responseText;
 	};
 	xhttp.open('POST', '/dashboard/image-upload');
 

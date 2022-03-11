@@ -55,14 +55,16 @@ exports.createPost = async (req, res) => {
 
 exports.uploadImage = (req, res) => {
 	const upload = multer({
-		limits: { fileSize: 4000000 },
-		// dest: 'uploads/',
-		// storage,
+		limits: { fileSize: 2000000 },
 		fileFilter,
 	}).single('image');
 
 	upload(req, res, async (err) => {
 		if (err) {
+			if (err.code === 'LIMIT_FILE_SIZE')
+				return res
+					.status(400)
+					.send('حجم فایل نباید بیشتر از 2 مگابایت باشد');
 			res.send(err);
 		} else {
 			if (req.file) {
@@ -82,7 +84,9 @@ exports.uploadImage = (req, res) => {
 						.toFile(`./public/uploads/${fileName}`)
 						.catch((err) => console.log(err));
 				}
-				res.status(200).send('آپلود عکس موفقیت آمیز بود');
+				res.status(200).send(
+					`http://localhost:3000/uploads/${fileName}`,
+				);
 			} else {
 				res.send('هنوز عکسی انتخاب نشده است');
 			}
