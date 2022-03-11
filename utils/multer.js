@@ -11,9 +11,9 @@ exports.storage = multer.diskStorage({
 });
 
 exports.fileFilter = (req, file, cb) => {
-	if (file.mimetype == 'image/png') {
+	if (file.mimetype == 'image/png' || file.mimetype == 'image/jpeg') {
 		cb(null, true);
 	} else {
-		cb('درحال حاضر تنها پسوند png پشتیبانی میشود.', false);
+		cb('در حال حاضر فقط JPEG و PNG پشتیبانی میشود.', false);
 	}
 };
