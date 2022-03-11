@@ -1,6 +1,6 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const uuid = require('uuid').v4;
+const shortid = require('shortid');
 
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
@@ -65,10 +65,12 @@ exports.uploadImage = (req, res) => {
 				return res
 					.status(400)
 					.send('حجم فایل نباید بیشتر از 2 مگابایت باشد');
-			res.send(err);
+			res.status(400).send(err);
 		} else {
 			if (req.file) {
-				const fileName = `${uuid()}_${req.file.originalname}`;
+				const fileName = `${shortid.generate()}_${
+					req.file.originalname
+				}`;
 				if (req.file.mimetype === 'image/jpeg') {
 					await sharp(req.file.buffer)
 						.jpeg({

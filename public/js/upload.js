@@ -8,8 +8,12 @@ document.getElementById('imageUpload').onclick = function () {
 	var progressBar = document.getElementById('progressBar');
 
 	xhttp.onreadystatechange = function () {
-		imageStatus.innerHTML = this.responseText;
-		uploadResult.innerHTML = 'لینک فایل: ' + '<br>' + this.responseText;
+		if (xhttp.status === 200) {
+			imageStatus.innerHTML = 'آپلود عکس موفقیت آمیز بود';
+			uploadResult.innerHTML = this.responseText;
+		} else {
+			imageStatus.innerHTML = this.responseText;
+		}
 	};
 	xhttp.open('POST', '/dashboard/image-upload');
 
