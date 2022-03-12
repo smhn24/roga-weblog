@@ -8,8 +8,8 @@ const { get500 } = require('./errorController');
 const { fileFilter } = require('../utils/multer');
 
 exports.getDashboard = async (req, res) => {
-	const page = req.query.page || 1;
-	const postPerPage = 5;
+	const page = +req.query.page || 1;
+	const postPerPage = +req.query.limit || 5;
 
 	try {
 		const numberOfPosts = await Blog.find({
