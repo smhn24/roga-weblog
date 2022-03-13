@@ -15,7 +15,7 @@
             <tr>
                 <td>1</td>
                 <td>
-                    <a href="/blogs/<%= blog._id %>"><%= blog.title %> </a>
+                    <a href="/blogs/<%= blog.id %>"> <%= blog.title %> </a>
                 </td>
                 <td><%= formatDate(blog.createdAt) %> </td>
                 <td>
@@ -24,10 +24,10 @@
                     </span>
                 </td>
                 <td>
-                    <a href="/dashboard/edit-post/<%= blog._id %> " class="btn btn-sm btn-primary">ویرایش</a>
+                    <a href="/dashboard/edit-post/<%= blog.id %>" class="btn btn-sm btn-primary">ویرایش</a>
                 </td>
                 <td>
-                    <a href="/dashboard/delete-post/<%= blog._id %> " class="btn btn-sm btn-danger">حذف</a>
+                    <a href="/dashboard/delete-post/<%= blog.id %>" class="btn btn-sm btn-danger">حذف</a>
                 </td>
             </tr>
             <% } %>

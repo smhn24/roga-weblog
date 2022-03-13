@@ -1,0 +1,19 @@
+<% if (posts.length > 0) { %>
+<% for(var post of posts) { %>
+<div class="card mt-4 mb-4">
+    <img class="card-img-top" src="images/sample-image.jpg" alt="Card image cap" />
+    <div class="card-body">
+        <h2 class="card-title"><%= post.title %></h2>
+        <p class="card-text text-justify"><%- post.body %></p>
+        <a href="/post/<%= post.id %>" class="btn btn-primary">ادامه مطلب...</a>
+    </div>
+    <div class="card-footer text-muted">
+        تاریخ پست: <%= formatDate(post.createdAt) %>
+    </div>
+</div>
+<% } %>
+<% } else { %>
+<div class="m-5 text-center">
+    <h1>هیچ پستی در پایگاه داده موجود نیست</h1>
+</div>
+<% } %>
