@@ -3,10 +3,10 @@
     <%- include('../includes/validationErrors.ejs') %>
 </div>
 <div class="d-flex align-items-center justify-content-center">
-    <form action="/dashboard/edit-post/<%= post._id %> " class="w-50" method="POST">
+    <form action="/dashboard/edit-post/<%= post.id %>" class="w-50" method="POST">
         <div class="form-group">
             <label for="title">عنوان پست</label>
-            <input type="text" class="form-control w-50" name="title" id="title" value="<%= post.title %> " />
+            <input type="text" class="form-control w-50" name="title" id="title" value="<%= post.title %>" />
         </div>
 
         <div class="form-group">

@@ -48,11 +48,9 @@ exports.getAddPosts = (req, res) => {
 };
 
 exports.getEditPost = async (req, res) => {
-	const post = await Blog.findOne({
-		_id: req.params.id,
-	});
+	const post = await Blog.findById(req.params.id);
 	if (!post) return res.redirect('errors/404');
-	if (post.user.toString() != req.user._id) return res.redirect('/dashboard');
+	if (post.user.toString() !== req.user.id) return res.redirect('/dashboard');
 	res.render('private/editPost', {
 		pageTitle: 'بخش مدیریت | ویرایش پست',
 		path: '/dashboard/edit-post',
@@ -64,11 +62,11 @@ exports.getEditPost = async (req, res) => {
 
 exports.editPost = async (req, res) => {
 	const errors = [];
-	const post = await Blog.findOne({ _id: req.params.id });
+	const post = await Blog.findById(req.params.id);
 	try {
 		await Blog.postValidation(req.body);
 		if (!post) return res.redirect('/errors/404');
-		if (post.user.toString() != req.user._id)
+		if (post.user.toString() != req.user.id)
 			return res.redirect('/dashboard');
 		const { title, status, body } = req.body;
 		post.title = title;
@@ -112,9 +110,9 @@ exports.createPost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
-	const post = await Blog.findOne({ _id: req.params.id });
+	const post = await Blog.findById(req.params.id);
 	if (!post) return res.redirect('errors/404');
-	if (post.user.toString() != req.user._id) return res.redirect('/dashboard');
+	if (post.user.toString() != req.user.id) return res.redirect('/dashboard');
 	post.remove();
 	return res.redirect('/dashboard');
 };

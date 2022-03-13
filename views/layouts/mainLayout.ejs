@@ -16,7 +16,7 @@
     <% if (path === '/404' || path === '/500') { %>
     <link rel="stylesheet" href="/css/error.css">
     <% } %>
-    <title><%= pageTitle %> </title>
+    <title><%= pageTitle %></title>
 </head>
 
 <body class="rtl">
@@ -24,6 +24,12 @@
     <%- include('../includes/navbar.ejs')%>
     <% } %>
     <%- body %>
+    <!-- Footer -->
+    <footer class="py-4 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">کپی رایت &copy; سبک نوین</p>
+        </div>
+    </footer>
     <script src="/js/jquery.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 </body>
