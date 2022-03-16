@@ -4,7 +4,7 @@
     <img class="card-img-top" src="images/sample-image.jpg" alt="Card image cap" />
     <div class="card-body">
         <h2 class="card-title"><%= post.title %></h2>
-        <p class="card-text text-justify"><%- post.body %></p>
+        <p class="card-text text-justify"><%- truncate(post.body, 400) %></p>
         <a href="/post/<%= post.id %>" class="btn btn-primary">ادامه مطلب...</a>
     </div>
     <div class="card-footer text-muted">
