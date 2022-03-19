@@ -11,7 +11,8 @@
             <p>تاریخ انتشار : <%= formatDate(post.createAt)%></p>
             <hr>
             <div class="text-center">
-                <img class="img-fluid rounded" src="/images/sample-image.jpg" alt="">
+                <img class="img-fluid rounded" src="http://localhost:3000/uploads/thumbnails/<%= post.thumbnail %>"
+                    alt="">
             </div>
             <hr>
             <p class="text-justify"><%- post.body %></p>
