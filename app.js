@@ -1,11 +1,11 @@
 const path = require('path');
 
 const debug = require('debug')('weblog-project');
+const fileUpload = require('express-fileupload');
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
@@ -40,8 +40,11 @@ app.set('views', 'views');
 app.set('layout', './layouts/mainLayout');
 
 //* Body Parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+//* File Upload middleware
+app.use(fileUpload());
 
 //* Session
 app.use(

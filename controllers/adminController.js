@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const shortid = require('shortid');
+const { nanoid } = require('nanoid');
+const appRoot = require('app-root-path');
 
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
@@ -16,6 +17,7 @@ exports.getDashboard = async (req, res) => {
 			user: req.user.id,
 		}).countDocuments();
 		const blogs = await Blog.find({ user: req.user.id })
+			.sort({ createdAt: 'desc' })
 			.skip((page - 1) * postPerPage)
 			.limit(postPerPage);
 		res.render('private/blogs', {
@@ -91,9 +93,35 @@ exports.editPost = async (req, res) => {
 
 exports.createPost = async (req, res) => {
 	const errors = [];
+
+	const thumbnail = req.files ? req.files.thumbnail : {};
+	const fileName = `${nanoid()}_${thumbnail.name}`;
+	const uploadPath = `${appRoot}/public/uploads/thumbnails/${fileName}`;
+
 	try {
+		req.body = { ...req.body, thumbnail };
+
 		await Blog.postValidation(req.body);
-		await Blog.create({ ...req.body, user: req.user.id });
+		if (thumbnail.mimetype === 'image/jpeg') {
+			await sharp(thumbnail.data)
+				.jpeg({
+					quality: 60,
+				})
+				.toFile(uploadPath)
+				.catch((err) => console.log(err));
+		} else if (thumbnail.mimetype === 'image/png') {
+			await sharp(thumbnail.data)
+				.png({
+					quality: 60,
+				})
+				.toFile(uploadPath)
+				.catch((err) => console.log(err));
+		}
+		await Blog.create({
+			...req.body,
+			user: req.user.id,
+			thumbnail: fileName,
+		});
 		res.redirect('/dashboard');
 	} catch (err) {
 		err.inner.forEach((e) => {
@@ -131,30 +159,28 @@ exports.uploadImage = (req, res) => {
 					.send('حجم فایل نباید بیشتر از 2 مگابایت باشد');
 			res.status(400).send(err);
 		} else {
-			if (req.file) {
-				const fileName = `${shortid.generate()}_${
-					req.file.originalname
-				}`;
-				if (req.file.mimetype === 'image/jpeg') {
-					await sharp(req.file.buffer)
+			if (req.files) {
+				const fileName = `${nanoid()}_${req.files.image.name}`;
+				if (req.files.image.mimetype === 'image/jpeg') {
+					await sharp(req.files.data)
 						.jpeg({
 							quality: 60,
 						})
-						.toFile(`./public/uploads/${fileName}`)
+						.toFile(`./public/uploads/images/${fileName}`)
 						.catch((err) => console.log(err));
-				} else if (req.file.mimetype === 'image/png') {
-					await sharp(req.file.buffer)
+				} else if (req.files.image.mimetype === 'image/png') {
+					await sharp(req.files.image.data)
 						.png({
 							quality: 60,
 						})
-						.toFile(`./public/uploads/${fileName}`)
+						.toFile(`./public/uploads/images/${fileName}`)
 						.catch((err) => console.log(err));
 				}
 				res.status(200).send(
-					`http://localhost:3000/uploads/${fileName}`,
+					`http://localhost:3000/uploads/images/${fileName}`,
 				);
 			} else {
-				res.send('هنوز عکسی انتخاب نشده است');
+				res.status(400).send('هنوز عکسی انتخاب نشده است');
 			}
 		}
 	});
