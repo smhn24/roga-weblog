@@ -1,7 +1,7 @@
 <% if (posts.length > 0) { %>
 <% for(var post of posts) { %>
 <div class="card mt-4 mb-4">
-    <img class="card-img-top" src="images/sample-image.jpg" alt="Card image cap" />
+    <img class="card-img-top" src="http://localhost:3000/uploads/thumbnails/<%= post.thumbnail %>" alt="Card image cap">
     <div class="card-body">
         <h2 class="card-title"><%= post.title %></h2>
         <p class="card-text text-justify"><%- truncate(post.body, 400) %></p>
