@@ -175,6 +175,10 @@ exports.uploadImage = (req, res) => {
 						})
 						.toFile(`./public/uploads/images/${fileName}`)
 						.catch((err) => console.log(err));
+				} else {
+					return res
+						.status(400)
+						.send('در حال حاضر فقط JPEG و PNG پشتیبانی میشود.');
 				}
 				res.status(200).send(
 					`http://localhost:3000/uploads/images/${fileName}`,
