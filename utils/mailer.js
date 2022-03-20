@@ -7,23 +7,20 @@ const transporterDetails = smtpTransport({
 	secure: true,
 	auth: {
 		user: 'weblog@smh-nabavi.ir',
-		pass: 'weblogPassword',
+		pass: process.env.EMAIL_PASSWORD,
 	},
 	tls: {
 		rejectUnauthorized: false,
 	},
 });
 
-const transporter = nodeMailer.createTransport(transporterDetails);
-
-const options = {
-	from: 'weblog@smh-nabavi.ir',
-	to: 'nabavi.1383@gmail.com',
-	subject: 'ایمیل از طرف سرور سایت وبلاگ',
-	text: 'یک تست ساده از nodemailer',
+exports.sendEmail = (email, fullname, subject, message) => {
+	const transporter = nodeMailer.createTransport(transporterDetails);
+	transporter.sendMail({
+		from: 'weblog@smh-nabavi.ir',
+		to: email,
+		subject: subject,
+		html: `<h1>سلام ${fullname} عزیز</h1><br>
+			<p>${message}</p>`,
+	});
 };
-
-transporter.sendMail(options, (err, info) => {
-	if (err) console.log(err);
-	console.log(info);
-});
