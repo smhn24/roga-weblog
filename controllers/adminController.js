@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { unlink } = require('fs/promises');
 
 const multer = require('multer');
 const sharp = require('sharp');
@@ -9,6 +9,7 @@ const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
 const { get500 } = require('./errorController');
 const { fileFilter } = require('../utils/multer');
+const { fileExist } = require('../utils/fileExsiting');
 
 exports.getDashboard = async (req, res) => {
 	const page = +req.query.page || 1;
@@ -89,29 +90,24 @@ exports.editPost = async (req, res) => {
 			return res.redirect('/dashboard');
 
 		if (thumbnail.name) {
-			fs.unlink(
-				`${appRoot}/public/uploads/thumbnails/${post.thumbnail}`,
-				async (err) => {
-					if (err) console.log(err);
-					else {
-						if (thumbnail.mimetype === 'image/jpeg') {
-							await sharp(thumbnail.data)
-								.jpeg({
-									quality: 60,
-								})
-								.toFile(uploadPath)
-								.catch((err) => console.log(err));
-						} else if (thumbnail.mimetype === 'image/png') {
-							await sharp(thumbnail.data)
-								.png({
-									quality: 60,
-								})
-								.toFile(uploadPath)
-								.catch((err) => console.log(err));
-						}
-					}
-				},
-			);
+			const thumbPath = `${appRoot}/public/uploads/thumbnails/${post.thumbnail}`;
+			if (await fileExist(thumbPath)) await unlink(thumbPath);
+
+			if (thumbnail.mimetype === 'image/jpeg') {
+				await sharp(thumbnail.data)
+					.jpeg({
+						quality: 60,
+					})
+					.toFile(uploadPath)
+					.catch((err) => console.log(err));
+			} else if (thumbnail.mimetype === 'image/png') {
+				await sharp(thumbnail.data)
+					.png({
+						quality: 60,
+					})
+					.toFile(uploadPath)
+					.catch((err) => console.log(err));
+			}
 		}
 
 		const { title, status, body } = req.body;

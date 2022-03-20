@@ -72,6 +72,44 @@ exports.register = (req, res) => {
 
 exports.createUser = async (req, res) => {
 	const errors = [];
+
+	if (!req.body['g-recaptcha-response']) {
+		errors.push({ message: 'احراز هویت captcha را انجام دهید' });
+		return res.render('register', {
+			pageTitle: 'ثبت نام کاربر جدید',
+			path: '/register',
+			errors,
+		});
+	}
+	const secretKey = process.env.CAPTCHA_SECRET;
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
+
+	try {
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			},
+		});
+		const json = await response.json();
+		if (!json.success) {
+			errors.push({ message: 'مشکلی در captcah وجود دارد' });
+			return res.render('register', {
+				pageTitle: 'ثبت نام کاربر جدید',
+				path: '/register',
+				errors,
+			});
+		}
+	} catch (err) {
+		errors.push({ message: 'مشکلی به جود آمده است' });
+		return res.render('register', {
+			pageTitle: 'ثبت نام کاربر جدید',
+			path: '/register',
+			errors,
+		});
+	}
+
 	try {
 		await User.userValidation(req.body);
 		const { fullname, password, email } = req.body;
