@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const multer = require('multer');
 const sharp = require('sharp');
 const { nanoid } = require('nanoid');
@@ -65,15 +67,58 @@ exports.getEditPost = async (req, res) => {
 exports.editPost = async (req, res) => {
 	const errors = [];
 	const post = await Blog.findById(req.params.id);
+	const thumbnail = req.files ? req.files.thumbnail : {};
+	const fileName = `${nanoid()}_${thumbnail.name}`;
+	const uploadPath = `${appRoot}/public/uploads/thumbnails/${fileName}`;
+
 	try {
-		await Blog.postValidation(req.body);
+		if (thumbnail.name)
+			await Blog.postValidation({ ...req.body, thumbnail });
+		else
+			await Blog.postValidation({
+				...req.body,
+				thumbnail: {
+					name: 'placeholder',
+					size: 0,
+					mimetype: 'image/jpeg',
+				},
+			});
+
 		if (!post) return res.redirect('/errors/404');
-		if (post.user.toString() != req.user.id)
+		if (post.user.toString() !== req.user.id)
 			return res.redirect('/dashboard');
+
+		if (thumbnail.name) {
+			fs.unlink(
+				`${appRoot}/public/uploads/thumbnails/${post.thumbnail}`,
+				async (err) => {
+					if (err) console.log(err);
+					else {
+						if (thumbnail.mimetype === 'image/jpeg') {
+							await sharp(thumbnail.data)
+								.jpeg({
+									quality: 60,
+								})
+								.toFile(uploadPath)
+								.catch((err) => console.log(err));
+						} else if (thumbnail.mimetype === 'image/png') {
+							await sharp(thumbnail.data)
+								.png({
+									quality: 60,
+								})
+								.toFile(uploadPath)
+								.catch((err) => console.log(err));
+						}
+					}
+				},
+			);
+		}
+
 		const { title, status, body } = req.body;
 		post.title = title;
 		post.status = status;
 		post.body = body;
+		post.thumbnail = thumbnail.name ? fileName : post.thumbnail;
 		await post.save();
 		res.redirect('/dashboard');
 	} catch (err) {
@@ -162,7 +207,7 @@ exports.uploadImage = (req, res) => {
 			if (req.files) {
 				const fileName = `${nanoid()}_${req.files.image.name}`;
 				if (req.files.image.mimetype === 'image/jpeg') {
-					await sharp(req.files.data)
+					await sharp(req.files.image.data)
 						.jpeg({
 							quality: 60,
 						})
