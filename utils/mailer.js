@@ -6,7 +6,7 @@ const transporterDetails = smtpTransport({
 	port: 465,
 	secure: true,
 	auth: {
-		user: 'weblog@smh-nabavi.ir',
+		user: process.env.EMAIL_USERNAME,
 		pass: process.env.EMAIL_PASSWORD,
 	},
 	tls: {
@@ -17,7 +17,7 @@ const transporterDetails = smtpTransport({
 exports.sendEmail = (email, fullname, subject, message) => {
 	const transporter = nodeMailer.createTransport(transporterDetails);
 	transporter.sendMail({
-		from: 'weblog@smh-nabavi.ir',
+		from: process.env.EMAIL_USERNAME,
 		to: email,
 		subject: subject,
 		html: `<h1>سلام ${fullname} عزیز</h1><br>

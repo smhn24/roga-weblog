@@ -21,8 +21,16 @@ router.get('/logout', authenticated, userController.logout);
 // @route GET /users/register
 router.get('/register', userController.register);
 
+// @desc Forget Password page
+// @route GET /users/forget-password
+router.get('/forget-password', userController.forgetPassword);
+
 // @desc Register handle
 // @route POST /users/register
 router.post('/register', userController.createUser);
+
+// @desc Handle Forget Password
+// @route POST /users/forget-password
+router.post('/forget-password', userController.handleForgetPassword);
 
 module.exports = router;

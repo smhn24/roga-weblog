@@ -1,6 +1,10 @@
+const { unlink } = require('fs/promises');
+
 const mongoose = require('mongoose');
+const appRoot = require('app-root-path');
 
 const { schema } = require('./secure/postValidation');
+const { fileExist } = require('../utils/fileExsiting');
 
 const blogSchema = new mongoose.Schema({
 	title: {
@@ -37,5 +41,10 @@ const blogSchema = new mongoose.Schema({
 blogSchema.statics.postValidation = function (body) {
 	return schema.validate(body, { abortEarly: false });
 };
+
+blogSchema.pre('remove', async function (next) {
+	const thumbPath = `${appRoot}/public/uploads/thumbnails/${this.thumbnail}`;
+	if (await fileExist(thumbPath)) await unlink(thumbPath);
+});
 
 module.exports = mongoose.model('Blog', blogSchema);
