@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { sendEmail } = require('../utils/mailer');
+const { get404 } = require('./errorController');
 
 exports.login = (req, res) => {
 	res.render('login', {
@@ -171,7 +172,7 @@ exports.handleForgetPassword = async (req, res) => {
 	const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
 		expiresIn: '1h',
 	});
-	const resetLink = `http://localhost:3000/users/forget-password/${token}`;
+	const resetLink = `http://localhost:3000/users/reset-password/${token}`;
 	sendEmail(
 		user.email,
 		user.fullname,
@@ -179,5 +180,53 @@ exports.handleForgetPassword = async (req, res) => {
 		`<h1>برای تغییر رمز عبور روی لینک زیر کلیک کنید</h1> <a href="${resetLink}">لینک تغییر رمز عبور</a>`,
 	);
 	req.flash('success_msg', 'لینک تغییر رمز عبور به ایمیل شما ارسال شد');
+	res.redirect('/users/login');
+};
+
+exports.resetPassword = async (req, res) => {
+	const token = req.params.token;
+
+	let decodedToken;
+	try {
+		decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+	} catch (err) {
+		console.log(err);
+		if (!decodedToken) {
+			return get404(req, res);
+		}
+	}
+
+	res.render('resetPassword', {
+		pageTitle: 'تغییر رمز عبور',
+		path: '/login',
+		message: req.flash('success_msg'),
+		error: req.flash('error'),
+		userId: decodedToken.userId,
+	});
+};
+
+exports.handleResetPassword = async (req, res) => {
+	const { password, confirmPassword } = req.body;
+
+	if (password !== confirmPassword) {
+		req.flash('error', 'رمز عبور و تکرار آن یکسان نیست');
+		return res.render('resetPassword', {
+			pageTitle: 'تغییر رمز عبور',
+			path: '/login',
+			message: req.flash('success_msg'),
+			error: req.flash('error'),
+			userId: req.params.id,
+		});
+	}
+
+	const user = await User.findById(req.params.id);
+	if (!user) {
+		return get404(req, res);
+	}
+
+	user.password = password;
+	await user.save();
+
+	req.flash('success_msg', 'رمز عبور با موفقیت به روز رسانی شد');
 	res.redirect('/users/login');
 };
