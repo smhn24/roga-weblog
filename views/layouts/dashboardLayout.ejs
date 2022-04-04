@@ -37,7 +37,10 @@
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="جستجو" aria-label="Search">
+        <form action="/dashboard/search" method="POST" class="w-100">
+            <input class="form-control form-control-dark w-100" type="text" placeholder="جستجو" aria-label="Search"
+                name="search">
+        </form>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="/users/logout">خروج</a>
