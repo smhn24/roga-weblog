@@ -126,3 +126,40 @@ exports.getCaptcha = (req, res) => {
 
 	res.send(imgbase64);
 };
+
+exports.handleSearch = async (req, res) => {
+	const page = +req.query.page || 1;
+	const postPerPage = +req.query.limit || 2;
+
+	try {
+		const numberOfPosts = await Blog.find({
+			status: 'public',
+			$text: { $search: req.body.search },
+		}).countDocuments();
+		const posts = await Blog.find({
+			status: 'public',
+			$text: { $search: req.body.search },
+		})
+			.sort({
+				createdAt: 'desc',
+			})
+			.skip((page - 1) * postPerPage)
+			.limit(postPerPage);
+		res.render('index', {
+			pageTitle: 'نتایج جستجو',
+			path: '/',
+			posts,
+			formatDate,
+			truncate,
+			currentPage: page,
+			nextPage: page + 1,
+			previousPage: page - 1,
+			hasNextPage: postPerPage * page < numberOfPosts,
+			hasPreviousPage: page > 1,
+			lastPage: Math.ceil(numberOfPosts / postPerPage),
+		});
+	} catch (err) {
+		console.log(err);
+		get500(req, res);
+	}
+};

@@ -230,3 +230,39 @@ exports.uploadImage = (req, res) => {
 		}
 	});
 };
+
+exports.handleDashboardSearch = async (req, res) => {
+	const page = +req.query.page || 1;
+	const postPerPage = +req.query.limit || 5;
+
+	try {
+		const numberOfPosts = await Blog.find({
+			user: req.user.id,
+			$text: { $search: req.body.search },
+		}).countDocuments();
+		const blogs = await Blog.find({
+			user: req.user.id,
+			$text: { $search: req.body.search },
+		})
+			.sort({ createdAt: 'desc' })
+			.skip((page - 1) * postPerPage)
+			.limit(postPerPage);
+		res.render('private/blogs', {
+			pageTitle: 'بخش مدیریت | داشبورد',
+			path: '/dashboard',
+			layout: './layouts/dashboardLayout',
+			fullname: req.user.fullname,
+			blogs,
+			formatDate,
+			currentPage: page,
+			nextPage: page + 1,
+			previousPage: page - 1,
+			hasNextPage: postPerPage * page < numberOfPosts,
+			hasPreviousPage: page > 1,
+			lastPage: Math.ceil(numberOfPosts / postPerPage),
+		});
+	} catch (err) {
+		console.log(err);
+		get500(req, res);
+	}
+};
