@@ -16,6 +16,10 @@ router.get('/post/:id', blogController.getSinglePost);
 // @route GET /contact-us
 router.get('/contact-us', blogController.getContactPage);
 
+// @desc Weblog Numeric Captcha
+// @route GET /captcha.png
+router.get('/captcha.png', blogController.getCaptcha);
+
 // @desc Weblog Handle Contact-us
 // @route POST /contact-us
 router.post('/contact-us', blogController.handleContactPage);
