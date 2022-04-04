@@ -12,4 +12,12 @@ router.get('/', blogController.getIndex);
 // @route GET /post/:id
 router.get('/post/:id', blogController.getSinglePost);
 
+// @desc Weblog Contact-us page
+// @route GET /contact-us
+router.get('/contact-us', blogController.getContactPage);
+
+// @desc Weblog Handle Contact-us
+// @route POST /contact-us
+router.post('/contact-us', blogController.handleContactPage);
+
 module.exports = router;
