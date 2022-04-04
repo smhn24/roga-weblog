@@ -13,6 +13,7 @@
 	"dependencies": {
 		"app-root-path": "^3.0.0",
 		"bcryptjs": "^2.4.3",
+		"captchapng": "^0.0.1",
 		"connect-flash": "^0.1.1",
 		"connect-mongo": "^3.2.0",
 		"debug": "^4.3.3",

@@ -1,10 +1,13 @@
 const Yup = require('yup');
+const captchapng = require('captchapng');
 
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
 const { get500, get404 } = require('./errorController');
 const { truncate } = require('../utils/helpers');
 const { sendEmail } = require('../utils/mailer');
+
+let CAPTCHA_NUM;
 
 exports.getIndex = async (req, res) => {
 	const page = +req.query.page || 1;
@@ -83,16 +86,19 @@ exports.handleContactPage = async (req, res) => {
 	try {
 		await schema.validate(req.body, { abortEarly: false });
 
-		//TODO Captcha validation
+		if (parseInt(req.body.captcha) === CAPTCHA_NUM) {
+			sendEmail(
+				email,
+				fullname,
+				'پیام از طرف وبلاگ',
+				`پیام کاربر: ${message} <br><br> ایمیل کاربر: ${email}`,
+			);
 
-		sendEmail(
-			email,
-			fullname,
-			'پیام از طرف وبلاگ',
-			`پیام کاربر: ${message} <br><br> ایمیل کاربر: ${email}`,
-		);
+			req.flash('success_msg', 'پیام شما با موفقیت ارسال شد');
+			return res.redirect('/contact-us');
+		}
 
-		req.flash('success_msg', 'پیام شما با موفقیت ارسال شد');
+		req.flash('error', 'کد امنیتی اشتباه است');
 		res.redirect('/contact-us');
 	} catch (err) {
 		err.inner.forEach((e) => {
@@ -106,4 +112,17 @@ exports.handleContactPage = async (req, res) => {
 			errors,
 		});
 	}
+};
+
+exports.getCaptcha = (req, res) => {
+	CAPTCHA_NUM = parseInt(Math.random() * 9999 + 1000);
+
+	const p = new captchapng(80, 30, CAPTCHA_NUM);
+	p.color(0, 0, 0, 0);
+	p.color(80, 80, 80, 255);
+
+	const img = p.getBase64();
+	const imgbase64 = Buffer(img, 'base64');
+
+	res.send(imgbase64);
 };
