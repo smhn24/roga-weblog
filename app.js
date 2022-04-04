@@ -1,11 +1,8 @@
 const path = require('path');
 
-const debug = require('debug')('weblog-project');
 const fileUpload = require('express-fileupload');
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
-const dotEnv = require('dotenv');
-const morgan = require('morgan');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
@@ -13,25 +10,14 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const connectDB = require('./config/db');
-const winston = require('./config/winston');
-
-//* Load Config
-dotEnv.config({ path: './config/config.env' });
 
 //* Database conncection
 connectDB();
-debug('Connected to database');
 
 //* Passport Configuration
 require('./config/passport');
 
 const app = express();
-
-//* Logging
-if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev', { stream: winston.stream }));
-	debug('Morgan enabled');
-}
 
 //* View Engine
 app.use(expressLayout);

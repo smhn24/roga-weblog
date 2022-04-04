@@ -172,7 +172,7 @@ exports.handleForgetPassword = async (req, res) => {
 	const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
 		expiresIn: '1h',
 	});
-	const resetLink = `http://localhost:3000/users/reset-password/${token}`;
+	const resetLink = `http://weblog.nabavi.dev/users/reset-password/${token}`;
 	sendEmail(
 		user.email,
 		user.fullname,

@@ -222,7 +222,7 @@ exports.uploadImage = (req, res) => {
 						.send('در حال حاضر فقط JPEG و PNG پشتیبانی میشود.');
 				}
 				res.status(200).send(
-					`http://localhost:3000/uploads/images/${fileName}`,
+					`http://weblog.nabavi.dev/uploads/images/${fileName}`,
 				);
 			} else {
 				res.status(400).send('هنوز عکسی انتخاب نشده است');
