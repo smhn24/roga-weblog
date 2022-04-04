@@ -1,5 +1,6 @@
 const passport = require('passport');
 const fetch = require('node-fetch');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { sendEmail } = require('../utils/mailer');
@@ -147,4 +148,36 @@ exports.createUser = async (req, res) => {
 			errors,
 		});
 	}
+};
+
+exports.forgetPassword = async (req, res) => {
+	res.render('forgetPassword', {
+		pageTitle: 'فراموشی رمز عبور',
+		path: '/login',
+		message: req.flash('success_msg'),
+		error: req.flash('error'),
+	});
+};
+
+exports.handleForgetPassword = async (req, res) => {
+	const { email } = req.body;
+
+	const user = await User.findOne({ email });
+	if (!user) {
+		req.flash('error', 'کاربری با این ایمیل وجود ندارد');
+		return res.redirect('/users/forget-password');
+	}
+
+	const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+		expiresIn: '1h',
+	});
+	const resetLink = `http://localhost:3000/users/forget-password/${token}`;
+	sendEmail(
+		user.email,
+		user.fullname,
+		'فراموشی رمز عبور',
+		`<h1>برای تغییر رمز عبور روی لینک زیر کلیک کنید</h1> <a href="${resetLink}">لینک تغییر رمز عبور</a>`,
+	);
+	req.flash('success_msg', 'لینک تغییر رمز عبور به ایمیل شما ارسال شد');
+	res.redirect('/users/login');
 };
