@@ -3,42 +3,60 @@ const { Router } = require('express');
 const userController = require('../controllers/userController');
 const { authenticated } = require('../middlewares/auth');
 
-const router = new Router();
+const router = Router();
 
-// @desc Login page
-// @route GET /users/login
+/**
+ * @route GET /users/login
+ * @description Login page
+ */
 router.get('/login', userController.login);
 
-// @desc Login handle
-// @route POST /users/login
-router.post('/login', userController.handleLogin, userController.rememberMe);
-
-// @desc Logout handle
-// @route GET /users/logout
+/**
+ * @route GET /users/logout
+ * @description Logout Handle
+ */
 router.get('/logout', authenticated, userController.logout);
 
-// @desc Register page
-// @route GET /users/register
+/**
+ * @route GET /users/register
+ * @description Register page
+ */
 router.get('/register', userController.register);
 
-// @desc Forget Password page
-// @route GET /users/forget-password
+/**
+ * @route GET /users/forget-password
+ * @description Forget password page
+ */
 router.get('/forget-password', userController.forgetPassword);
 
-// @desc Reset Password page
-// @route GET /users/reset-password/:token
+/**
+ * @route GET /users/reset-password:token
+ * @description Reset password page
+ */
 router.get('/reset-password/:token', userController.resetPassword);
 
-// @desc Register handle
-// @route POST /users/register
+/**
+ * @route POST /users/login
+ * @description Login Handle
+ */
+router.post('/login', userController.handleLogin, userController.rememberMe);
+
+/**
+ * @route POST /users/register
+ * @description Register Handle
+ */
 router.post('/register', userController.createUser);
 
-// @desc Handle Forget Password
-// @route POST /users/forget-password
+/**
+ * @route POST /users/forget-password
+ * @description Forget password Handle
+ */
 router.post('/forget-password', userController.handleForgetPassword);
 
-// @desc Handle Reset Password
-// @route POST /users/reset-password/:id
+/**
+ * @route POST /users/reset-password:id
+ * @description Reset password Handle
+ */
 router.post('/reset-password/:id', userController.handleResetPassword);
 
 module.exports = router;

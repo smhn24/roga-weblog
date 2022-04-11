@@ -1,16 +1,41 @@
 @font-face {
-    font-family: "BYekan";
-    src: url("../fonts/BYekan-webfont.eot") format("eot"),
-        url("../fonts/BYekan-webfont.woff") format("woff"),
-        url("../fonts/BYekan-webfont.ttf") format("truetype");
+    font-family: 'BYekan';
+    src: url('../fonts/BYekan-webfont.eot') format('eot'),
+        url('../fonts/BYekan-webfont.woff') format('woff'),
+        url('../fonts/BYekan-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 body {
-    font-family: "BYekan" !important;
+    font-family: 'BYekan' !important;
+    scroll-behavior: smooth;
 }
 
-.custom-file-input ~ .custom-file-label::after {
-    content: "انتخاب عکس" !important;
+input[type='file']::-webkit-file-upload-button {
+    visibility: hidden;
 }
+
+input[type='file'] {
+    position: absolute;
+}
+
+#imageStatus {
+    position: absolute;
+    cursor: pointer;
+    z-index: 5;
+    background-color: #fff;
+    top: 0.5rem;
+    right: 6.9rem;
+    width: 43rem;
+    height: 1.5rem;
+}
+
+#uploadLabel {
+    cursor: pointer;
+}
+
+#uploadResult {
+    font-family: 'Courier New', Courier, monospace;
+}
+

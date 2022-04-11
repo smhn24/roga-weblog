@@ -7,7 +7,7 @@ const options = {
 		filename: `${appRoot}/logs/app.log`,
 		handleExceptions: true,
 		format: winston.format.json(),
-		maxsize: 5000000, //5MB
+		maxsize: 5242880, // 5MB
 		maxfile: 5,
 	},
 	Console: {

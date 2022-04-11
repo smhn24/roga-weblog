@@ -1,0 +1,46 @@
+{% extends "layouts/dashboard.njk" %} {% block content %} {% if blogs | length >
+0 %}
+<h2 class="mt-2">آخرین پست ها</h2>
+<div class="table-responsive">
+    <div class="card">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col" class="col-1">#</th>
+                    <th scope="col" class="col-3">عنوان</th>
+                    <th scope="col" class="col-3">تاریخ</th>
+                    <th scope="col" class="col-1">وضعیت</th>
+                    <th scope="col" c class="col-3">اقدامات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td>{{ 1 }}</td>
+                    <td>
+                        <a href="/post/{{ blog.id }}"> {{ blog.title }} </a>
+                    </td>
+                    <td>{{ formatDate(blog.createdAt) }}</td>
+                    <td>
+                        <span class="badge {% if blog.status == 'public' %}bg-success{% else %}bg-warning text-dark{%
+                            endif %}">
+                            {% if blog.status == "public" %}عمومی{% else %}خصوصی{% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/dashboard/edit-post/{{ blog.id }}" class="btn btn-warning btn-sm me-2">ویرایش</a>
+                        <a href="/dashboard/delete-post/{{ blog.id }}" class="btn btn-danger btn-sm ms-2">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include "includes/pagination.njk" %} {% else %}
+<div class="text-center">
+    <h3 class="mt-2">
+        در حال حاضر هیچ پستی توسط شما در پایگاه داده ثبت نشده است
+    </h3>
+</div>
+{% endif %} {% endblock %}

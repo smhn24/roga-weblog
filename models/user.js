@@ -33,12 +33,6 @@ userSchema.statics.userValidation = function (body) {
 userSchema.pre('save', async function (next) {
 	let user = this;
 	if (!user.isModified('password')) return next();
-	// bcrypt.hash(user.password, 10, (err, hash) => {
-	// 	if (err) return next(err);
-
-	// 	user.password = hash;
-	// 	next();
-	// });
 	try {
 		user.password = await bcrypt.hash(user.password, 10);
 	} catch (err) {

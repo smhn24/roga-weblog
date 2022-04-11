@@ -7,7 +7,11 @@ const { sendEmail } = require('../utils/mailer');
 const { get404 } = require('./errorController');
 
 exports.login = (req, res) => {
-	res.render('login', {
+	res.setHeader(
+		'Cache-Control',
+		'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
+	);
+	res.render('auth/login', {
 		pageTitle: 'ورود به بخش مدیریت',
 		path: '/login',
 		message: req.flash('success_msg'),
@@ -62,12 +66,15 @@ exports.rememberMe = (req, res) => {
 exports.logout = (req, res) => {
 	req.session = null;
 	req.logout();
-	// req.flash('success_msg', 'خروج موفقیت آمیز بود');
+	res.setHeader(
+		'Cache-Control',
+		'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
+	);
 	res.redirect('/users/login');
 };
 
 exports.register = (req, res) => {
-	res.render('register', {
+	res.render('auth/register', {
 		pageTitle: 'ثبت نام کاربر جدید',
 		path: '/register',
 	});
@@ -78,7 +85,7 @@ exports.createUser = async (req, res) => {
 
 	if (!req.body['g-recaptcha-response']) {
 		errors.push({ message: 'احراز هویت captcha را انجام دهید' });
-		return res.render('register', {
+		return res.render('auth/register', {
 			pageTitle: 'ثبت نام کاربر جدید',
 			path: '/register',
 			errors,
@@ -98,7 +105,7 @@ exports.createUser = async (req, res) => {
 		const json = await response.json();
 		if (!json.success) {
 			errors.push({ message: 'مشکلی در captcah وجود دارد' });
-			return res.render('register', {
+			return res.render('auth/register', {
 				pageTitle: 'ثبت نام کاربر جدید',
 				path: '/register',
 				errors,
@@ -106,7 +113,7 @@ exports.createUser = async (req, res) => {
 		}
 	} catch (err) {
 		errors.push({ message: 'مشکلی به جود آمده است' });
-		return res.render('register', {
+		return res.render('auth/register', {
 			pageTitle: 'ثبت نام کاربر جدید',
 			path: '/register',
 			errors,
@@ -119,7 +126,7 @@ exports.createUser = async (req, res) => {
 		const user = await User.findOne({ email });
 		if (user) {
 			errors.push({ message: 'کاربری با این ایمیل وجود دارد' });
-			return res.render('register', {
+			return res.render('auth/register', {
 				pageTitle: 'ثبت نام کاربر جدید',
 				path: '/register',
 				errors,
@@ -143,7 +150,7 @@ exports.createUser = async (req, res) => {
 		err.inner.forEach((e) => {
 			errors.push({ name: e.path, message: e.message });
 		});
-		return res.render('register', {
+		return res.render('auth/register', {
 			pageTitle: 'ثبت نام کاربر جدید',
 			path: '/register',
 			errors,
@@ -152,7 +159,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.forgetPassword = async (req, res) => {
-	res.render('forgetPassword', {
+	res.render('auth/forgetPassword', {
 		pageTitle: 'فراموشی رمز عبور',
 		path: '/login',
 		message: req.flash('success_msg'),
@@ -196,7 +203,7 @@ exports.resetPassword = async (req, res) => {
 		}
 	}
 
-	res.render('resetPassword', {
+	res.render('auth/resetPassword', {
 		pageTitle: 'تغییر رمز عبور',
 		path: '/login',
 		message: req.flash('success_msg'),
@@ -210,7 +217,7 @@ exports.handleResetPassword = async (req, res) => {
 
 	if (password !== confirmPassword) {
 		req.flash('error', 'رمز عبور و تکرار آن یکسان نیست');
-		return res.render('resetPassword', {
+		return res.render('auth/resetPassword', {
 			pageTitle: 'تغییر رمز عبور',
 			path: '/login',
 			message: req.flash('success_msg'),

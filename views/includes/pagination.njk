@@ -1,0 +1,31 @@
+<nav>
+    <ul class="pagination pagination-primary justify-content-center my-5">
+        {% if currentPage != 1 and previousPage != 1 %}
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        {% endif %} {% if hasPreviousPage %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ previousPage }}">
+                {{ previousPage }}
+            </a>
+        </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ currentPage }}">
+                {{ currentPage }}
+            </a>
+        </li>
+        {% if hasNextPage %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ nextPage }}">
+                {{ nextPage }}
+            </a>
+        </li>
+        {% endif %} {% if lastPage != currentPage and nextPage != lastPage %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ lastPage }}">
+                {{ lastPage }}
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
