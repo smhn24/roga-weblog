@@ -13,7 +13,7 @@ exports.schema = Yup.object().shape({
 	thumbnail: Yup.object().shape({
 		name: Yup.string().required('وارد کردن عکس بند انگشتی الزامی است'),
 		size: Yup.number().max(
-			3000000,
+			1024 * 1024 * 3,
 			'عکس بند انگشتی نباید بیشتر از 3 مگابایت باشد',
 		),
 		mimetype: Yup.mixed().oneOf(

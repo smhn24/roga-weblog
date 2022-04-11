@@ -1,40 +1,62 @@
 const { Router } = require('express');
-const { authenticated } = require('../middlewares/auth');
 
+const { authenticated } = require('../middlewares/auth');
 const adminController = require('../controllers/adminController');
 
-const router = new Router();
+const router = Router();
 
-// @desc Dashboard
-// @route GET /dashboard/
-router.get('/', authenticated, adminController.getDashboard);
+/**
+ * @route GET /dashboard
+ * @description Dashboard page
+ */
+router.get('/', authenticated, adminController.dashboard);
 
-// @desc Dashboard Add Post
-// @route GET /dashboard/add-post
+/**
+ * @route GET /dashboard/add-post
+ * @description Dashboard Add Post Page
+ */
 router.get('/add-post', authenticated, adminController.getAddPosts);
 
-// @desc Dashboard Edit Post
-// @route GET /dashboard/edit-post
+/**
+ * @route GET /dashboard/image-galllery
+ * @description Dashboard Image Gallery Page
+ */
+router.get('/image-gallery', authenticated, adminController.imageGallery);
+
+/**
+ * @route GET /dashboard/edit-post/:id
+ * @description Dashboard Edit Post Page
+ */
 router.get('/edit-post/:id', authenticated, adminController.getEditPost);
 
-// @desc Dashboard Delete Post
-// @route GET /dashboard/delete-post
+/**
+ * @route GET /dashboard/delete-post/:id
+ * @description Dashboard Delte Post Page
+ */
 router.get('/delete-post/:id', authenticated, adminController.deletePost);
 
-// @desc Dashboard Handle Post Creation
-// @route POST /dashboard/add-post
+/**
+ * @route POST /dashboard/add-post
+ * @description Dashboard Add Post Handler
+ */
 router.post('/add-post', authenticated, adminController.createPost);
 
-// @desc Dashboard Handle Edit Post
-// @route POST /dashboard/edit-post
+/**
+ * @route POST /dashboard/edit-post/:id
+ * @description Dashboard Edit Post Handler
+ */
 router.post('/edit-post/:id', authenticated, adminController.editPost);
 
-// @desc Dashboard Handle Image Upload
-// @route POST /dashboard/image-upload
+/**
+ * @route POST /dashboard/image-upload
+ * @description Dashboard Handle Image Upload
+ */
 router.post('/image-upload', authenticated, adminController.uploadImage);
 
-// @desc Dashboard Handle Search
-// @route POST /dashboard/search
+/**
+ * @route POST /dashboard/search
+ * @description Dashboard Handle Search
+ */
 router.post('/search', authenticated, adminController.handleDashboardSearch);
 
 module.exports = router;

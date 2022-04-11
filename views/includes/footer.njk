@@ -1,0 +1,95 @@
+{% extends "layouts/base.njk" %} {% block content %}
+<!-- -------- START PRE-FOOTER 1 w/ SUBSCRIBE BUTTON AND IMAGE ------- -->
+<section class="my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <h4>اولین نفری باشید که مقالات را می خوانید</h4>
+                <p class="mb-4">
+                    برای اطلاع از جدیدترین اخبار رُگا ایمیل خود را وارد کنید
+                </p>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input type="text" id="subscribe-email" class="form-control mb-sm-0"
+                                placeholder="ایمیل خود را وارد کنید" />
+                        </div>
+                    </div>
+                    <div class="col-4 ps-0">
+                        <button type="button" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2">
+                            عضویت
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 ms-auto">
+                <div class="position-relative">
+                    <img class="max-width-50 w-100 position-relative z-index-2" src="/img/illustrations/sign-up.png"
+                        alt="image" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- -------- END PRE-FOOTER 1 w/ SUBSCRIBE BUTTON AND IMAGE ------- -->
+<!-- -------- START FOOTER 5 w/ DARK BACKGROUND ------- -->
+<footer class="footer mt-4 py-5 bg-gradient-dark position-relative overflow-hidden">
+    <img src="/img/shapes/waves-white.svg" alt="pattern-lines"
+        class="position-absolute start-0 top-0 w-100 opacity-6" />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 me-auto mb-lg-0 mb-4 text-lg-start text-center">
+                <h6 class="text-white font-weight-bolder letter-spacing-3 display-4 mb-lg-4 mb-3">
+                    رُگا
+                </h6>
+                <ul class="nav flex-row ms-n3 justify-content-lg-start justify-content-center mb-4 mt-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-white opacity-8" href="https://www.creative-tim.com" target="_blank">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white opacity-8" href="https://www.creative-tim.com/presentation"
+                            target="_blank">
+                            درباره ما
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white opacity-8" href="https://www.creative-tim.com/blog"
+                            target="_blank">
+                            پست ها
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white opacity-8" href="https://www.creative-tim.com" target="_blank">
+                            خدمات
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-sm text-white opacity-8 mb-0">
+                    تمامی حقوق مادی و معنوی این سایت متعلق به نوین وب می باشد
+                </p>
+            </div>
+            <div class="col-lg-7 ms-auto text-lg-end text-center">
+                <p class="mb-5 lead text-white font-weight-bold">
+                    پاداش حضور در صحنه شهرت است. بهای شهرت این است که شما نمی
+                    توانید از صحنه خارج شوید .
+                </p>
+                <a href="javascript:;" target="_blank" class="text-white me-xl-4 me-4 opacity-5">
+                    <span class="fa fa-instagram"></span>
+                </a>
+                <a href="javascript:;" target="_blank" class="text-white me-xl-4 me-4 opacity-5">
+                    <span class="fa fa-twitter"></span>
+                </a>
+                <a href="javascript:;" target="_blank" class="text-white me-xl-4 me-4 opacity-5">
+                    <span class="fa fa-whatsapp"></span>
+                </a>
+                <a href="javascript:;" target="_blank" class="text-white opacity-5">
+                    <span class="fa fa-github"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- -------- END FOOTER 5 w/ DARK BACKGROUND ------- -->
+{% endblock %}

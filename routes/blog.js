@@ -2,30 +2,42 @@ const { Router } = require('express');
 
 const blogController = require('../controllers/blogController');
 
-const router = new Router();
+const router = Router();
 
-// @desc Weblog index page
-// @route GET /
-router.get('/', blogController.getIndex);
+/**
+ * @route GET /
+ * @description Home page
+ */
+router.get('/', blogController.index);
 
-// @desc Weblog post page
-// @route GET /post/:id
-router.get('/post/:id', blogController.getSinglePost);
+/**
+ * @route GET /blog/:id
+ * @description Single Post Page
+ */
+router.get('/post/:id', blogController.singlePost);
 
-// @desc Weblog Contact-us page
-// @route GET /contact-us
-router.get('/contact-us', blogController.getContactPage);
+/**
+ * @route GET /contact-us
+ * @description Contact US Page
+ */
+router.get('/contact-us', blogController.contactUs);
 
-// @desc Weblog Numeric Captcha
-// @route GET /captcha.png
-router.get('/captcha.png', blogController.getCaptcha);
+/**
+ * @route GET /captcha
+ * @description Numeric Captcha
+ */
+router.get('/captcha', blogController.captcha);
 
-// @desc Weblog Handle Contact-us
-// @route POST /contact-us
-router.post('/contact-us', blogController.handleContactPage);
+/**
+ * @route POST /contact-us
+ * @description Handle Contact US Page
+ */
+router.post('/contact-us', blogController.handleContactUs);
 
-// @desc Weblog Handle Search
-// @route POST /search
+/**
+ * @route POST /search
+ * @description Handle Search
+ */
 router.post('/search', blogController.handleSearch);
 
 module.exports = router;

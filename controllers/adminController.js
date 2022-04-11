@@ -1,6 +1,5 @@
 const { unlink } = require('fs/promises');
 
-const multer = require('multer');
 const sharp = require('sharp');
 const { nanoid } = require('nanoid');
 const appRoot = require('app-root-path');
@@ -8,10 +7,10 @@ const appRoot = require('app-root-path');
 const Blog = require('../models/Blog');
 const { formatDate } = require('../utils/jalali');
 const { get500 } = require('./errorController');
-const { fileFilter } = require('../utils/multer');
 const { fileExist } = require('../utils/fileExsiting');
+const { imageValidation } = require('../models/secure/imageValidation');
 
-exports.getDashboard = async (req, res) => {
+exports.dashboard = async (req, res) => {
 	const page = +req.query.page || 1;
 	const postPerPage = +req.query.limit || 5;
 
@@ -23,7 +22,11 @@ exports.getDashboard = async (req, res) => {
 			.sort({ createdAt: 'desc' })
 			.skip((page - 1) * postPerPage)
 			.limit(postPerPage);
-		res.render('private/blogs', {
+		res.setHeader(
+			'Cache-Control',
+			'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
+		);
+		res.render('admin/blogs', {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
 			layout: './layouts/dashboardLayout',
@@ -44,10 +47,18 @@ exports.getDashboard = async (req, res) => {
 };
 
 exports.getAddPosts = (req, res) => {
-	res.render('private/addPost', {
+	res.render('admin/addPost', {
 		pageTitle: 'بخش مدیریت | ساخت پست جدید',
 		path: '/dashboard/add-post',
 		layout: './layouts/dashboardLayout',
+		fullname: req.user.fullname,
+	});
+};
+
+exports.imageGallery = (req, res) => {
+	res.render('admin/imageGallery', {
+		pageTitle: 'بخش مدیریت | گالری تصاویر',
+		path: '/dashboard/image-gallery',
 		fullname: req.user.fullname,
 	});
 };
@@ -56,10 +67,9 @@ exports.getEditPost = async (req, res) => {
 	const post = await Blog.findById(req.params.id);
 	if (!post) return res.redirect('errors/404');
 	if (post.user.toString() !== req.user.id) return res.redirect('/dashboard');
-	res.render('private/editPost', {
+	res.render('admin/editPost', {
 		pageTitle: 'بخش مدیریت | ویرایش پست',
 		path: '/dashboard/edit-post',
-		layout: './layouts/dashboardLayout',
 		fullname: req.user.fullname,
 		post,
 	});
@@ -121,7 +131,7 @@ exports.editPost = async (req, res) => {
 		err.inner.forEach((e) => {
 			errors.push({ name: e.path, message: e.message });
 		});
-		return res.render('private/editPost', {
+		return res.render('admin/editPost', {
 			pageTitle: 'بخش مدیریت | ویرایش پست',
 			path: '/dashboard/edit-post',
 			layout: './layouts/dashboardLayout',
@@ -168,7 +178,7 @@ exports.createPost = async (req, res) => {
 		err.inner.forEach((e) => {
 			errors.push({ name: e.path, message: e.message });
 		});
-		return res.render('private/addPost', {
+		return res.render('admin/addPost', {
 			pageTitle: 'بخش مدیریت | ساخت پست جدید',
 			path: '/dashboard/add-post',
 			layout: './layouts/dashboardLayout',
@@ -186,49 +196,39 @@ exports.deletePost = async (req, res) => {
 	return res.redirect('/dashboard');
 };
 
-exports.uploadImage = (req, res) => {
-	const upload = multer({
-		limits: { fileSize: 2000000 },
-		fileFilter,
-	}).single('image');
+exports.uploadImage = async (req, res) => {
+	const errors = [];
 
-	upload(req, res, async (err) => {
-		if (err) {
-			if (err.code === 'LIMIT_FILE_SIZE')
-				return res
-					.status(400)
-					.send('حجم فایل نباید بیشتر از 2 مگابایت باشد');
-			res.status(400).send(err);
-		} else {
-			if (req.files) {
-				const fileName = `${nanoid()}_${req.files.image.name}`;
-				if (req.files.image.mimetype === 'image/jpeg') {
-					await sharp(req.files.image.data)
-						.jpeg({
-							quality: 60,
-						})
-						.toFile(`./public/uploads/images/${fileName}`)
-						.catch((err) => console.log(err));
-				} else if (req.files.image.mimetype === 'image/png') {
-					await sharp(req.files.image.data)
-						.png({
-							quality: 60,
-						})
-						.toFile(`./public/uploads/images/${fileName}`)
-						.catch((err) => console.log(err));
-				} else {
-					return res
-						.status(400)
-						.send('در حال حاضر فقط JPEG و PNG پشتیبانی میشود.');
-				}
-				res.status(200).send(
-					`http://localhost:3000/uploads/images/${fileName}`,
-				);
-			} else {
-				res.status(400).send('هنوز عکسی انتخاب نشده است');
-			}
+	const image = req.files ? req.files.image : {};
+	const fileName = `${nanoid()}_${image.name}`;
+	const uploadPath = `${appRoot}/public/uploads/images/${fileName}`;
+
+	try {
+		await imageValidation.validate(image, { abortEarly: false });
+		if (image.mimetype === 'image/jpeg') {
+			await sharp(image.data)
+				.jpeg({ quality: 60 })
+				.toFile(uploadPath)
+				.catch((err) => console.log(err));
+			res.status(200).send(
+				`http://localhost:3000/uploads/images/${fileName}`,
+			);
+		} else if (image.mimetype === 'image/png') {
+			await sharp(image.data)
+				.png({ quality: 60 })
+				.toFile(uploadPath)
+				.catch((err) => console.log(err));
+			res.status(200).send(
+				`http://localhost:3000/uploads/images/${fileName}`,
+			);
 		}
-	});
+	} catch (err) {
+		console.log(err);
+		err.inner.forEach((e) => {
+			errors.push({ name: e.path, message: e.message });
+		});
+		res.status(400).send(errors);
+	}
 };
 
 exports.handleDashboardSearch = async (req, res) => {
@@ -247,7 +247,7 @@ exports.handleDashboardSearch = async (req, res) => {
 			.sort({ createdAt: 'desc' })
 			.skip((page - 1) * postPerPage)
 			.limit(postPerPage);
-		res.render('private/blogs', {
+		res.render('admin/blogs', {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
 			layout: './layouts/dashboardLayout',

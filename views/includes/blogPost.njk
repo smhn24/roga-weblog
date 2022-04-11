@@ -1,0 +1,45 @@
+{% if posts | length > 0 %} {% for post in posts %}
+<div class="container mt-7">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-6 justify-content-center d-flex flex-column">
+                    <div class="card">
+                        <div class="d-block blur-shadow-image">
+                            <img src="http://localhost:3000/uploads/thumbnails/{{
+                                    post.thumbnail
+                                }}" alt="img-blur-shadow-blog-2" class="img-fluid border-radius-lg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 justify-content-center d-flex flex-column pl-lg-5 pt-lg-0 pt-3">
+                    <h6 class="category text-primary mt-3">برنامه نویسی</h6>
+                    <h3 class="card-title">
+                        <a href="/post/{{ post.id }}" class="text-dark">{{
+                            post.title
+                        }}</a>
+                    </h3>
+                    <p class="card-description">
+                        {{ post.body | safe | truncate(500, true, " ...") }}
+                        <a href="/post/{{ post.id }}" class="text-darker icon-move-right text-sm">ادامه مطلب
+                            <i class="fa fa-arrow-right text-xs ms-1"></i>
+                        </a>
+                    </p>
+                    <p class="author">
+                        توسط
+                        <a href="javascript:;" class="ms-1">
+                            <span class="font-weight-bold text-primary mx-1">عرفان صادقی نژاد</span>
+                        </a>
+
+                        {{ formatDate(post.createdAt) }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %} {% else %}
+<div class="m-5 text-center">
+    <h1>هیچ پستی در پایگاه داده نیست</h1>
+</div>
+{% endif %}

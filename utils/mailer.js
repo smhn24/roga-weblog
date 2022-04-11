@@ -14,13 +14,23 @@ const transporterDetails = smtpTransport({
 	},
 });
 
-exports.sendEmail = (email, fullname, subject, message) => {
+exports.sendEmail = (to, fullname, subject, message) => {
 	const transporter = nodeMailer.createTransport(transporterDetails);
-	transporter.sendMail({
-		from: process.env.EMAIL_USERNAME,
-		to: email,
-		subject: subject,
-		html: `<h1>سلام ${fullname} عزیز</h1><br>
+
+	transporter.sendMail(
+		{
+			from: process.env.EMAIL_USERNAME,
+			to,
+			subject,
+			html: `<h1>سلام ${fullname} عزیز</h1><br>
 			<p>${message}</p>`,
-	});
+		},
+		(err, info) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log(info.response);
+			}
+		},
+	);
 };

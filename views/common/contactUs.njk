@@ -1,0 +1,79 @@
+{% extends "layouts/base.njk" %} {% block content %} {% include
+"includes/navbar.njk" %}
+
+<div class="page-header min-vh-85">
+    <div>
+        <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+            src="/img/curved-images/curved8.jpg" alt="image" />
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 d-flex justify-content-center flex-column">
+                <div class="card d-flex blur justify-content-center p-4 shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+                    <div class="w-100 text-center mx-auto">
+                        {% include "includes/loginMessages.njk" %} {% include
+                        "./includes/validationMessages.njk" %}
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-gradient text-primary">تماس با ما</h3>
+                        <p class="mb-0">
+                            برای سؤالات بیشتر، از جمله فرصت‌های مشارکت، لطفاً با
+                            استفاده از فرم تماس با ما تماس بگیرید.
+                        </p>
+                    </div>
+                    <form id="contact-form" method="post" autocomplete="off">
+                        <div class="card-body pb-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>نام و نام خانوادگی</label>
+                                    <div class="input-group mb-4">
+                                        <input class="form-control" placeholder="نام و نام خانوادگی"
+                                            aria-label="Full Name" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ps-md-2">
+                                    <label>ایمیل</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" placeholder="youremail@mysite.com" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 mt-md-0 mt-4">
+                                <label>چطور میتونیم به شما کمک کنیم ؟</label>
+                                <textarea name="message" class="form-control" id="message" rows="6"
+                                    placeholder="پیام شما ..."></textarea>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center my-3">
+                                <div class="col-md-3 form-label" id="captcha"></div>
+                                <script>
+                                    fetch('/captcha')
+                                        .then((res) => {
+                                            return res.text()
+                                        })
+                                        .then((data) => {
+                                            document.querySelector(
+                                                '#captcha'
+                                            ).innerHTML = data
+                                        })
+                                </script>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="captcha" placeholder="کد امنیتی" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn bg-gradient-primary mt-3 mb-0">
+                                        ارسال پیام
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

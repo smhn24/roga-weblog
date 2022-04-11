@@ -9,15 +9,14 @@ const { fileExist } = require('../utils/fileExsiting');
 const blogSchema = new mongoose.Schema({
 	title: {
 		type: String,
-		required: true,
 		trim: true,
-		minlength: 5,
-		maxlength: 100,
+		required: [true, 'عنوان الزامی می باشد'],
+		minlength: [5, 'عنوان نمیتواند کمتر از 5 کاراکتر باشد'],
+		maxlength: [100, 'عنوان نمیتواند بیشتر از 100 کاراکتر باشد'],
 	},
 	body: {
 		type: String,
-		required: true,
-		trim: true,
+		required: [true, 'متن الزامی می باشد'],
 	},
 	status: {
 		type: String,
@@ -26,7 +25,7 @@ const blogSchema = new mongoose.Schema({
 	},
 	thumbnail: {
 		type: String,
-		required: true,
+		required: [true, 'تصویر بند انگشتی الزامی می باشد'],
 	},
 	user: {
 		type: mongoose.Schema.Types.ObjectId,

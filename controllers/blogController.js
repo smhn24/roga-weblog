@@ -9,9 +9,9 @@ const { sendEmail } = require('../utils/mailer');
 
 let CAPTCHA_NUM;
 
-exports.getIndex = async (req, res) => {
+exports.index = async (req, res) => {
 	const page = +req.query.page || 1;
-	const postPerPage = +req.query.limit || 2;
+	const postPerPage = +req.query.limit || 5;
 
 	try {
 		const numberOfPosts = await Blog.find({
@@ -42,12 +42,12 @@ exports.getIndex = async (req, res) => {
 	}
 };
 
-exports.getSinglePost = async (req, res) => {
+exports.singlePost = async (req, res) => {
 	try {
 		const post = await Blog.findById(req.params.id).populate('user');
 		if (!post) return get404(req, res);
 
-		res.render('post', {
+		res.render('blog/post', {
 			pageTitle: post.title,
 			path: '/post',
 			post,
@@ -59,17 +59,17 @@ exports.getSinglePost = async (req, res) => {
 	}
 };
 
-exports.getContactPage = (req, res) => {
-	res.render('contact', {
+exports.contactUs = (req, res) => {
+	res.render('common/contactUs', {
 		pageTitle: 'تماس با ما',
-		path: '/contact',
+		path: '/contact-us',
 		message: req.flash('success_msg'),
 		error: req.flash('error'),
 		errors: [],
 	});
 };
 
-exports.handleContactPage = async (req, res) => {
+exports.handleContactUs = async (req, res) => {
 	const errors = [];
 	const { fullname, email, message } = req.body;
 
@@ -104,9 +104,9 @@ exports.handleContactPage = async (req, res) => {
 		err.inner.forEach((e) => {
 			errors.push({ name: e.path, message: e.message });
 		});
-		return res.render('contact', {
+		return res.render('common/contactUs', {
 			pageTitle: 'تماس با ما',
-			path: '/contact',
+			path: '/contact-us',
 			message: req.flash('success_msg'),
 			error: req.flash('error'),
 			errors,
@@ -114,7 +114,7 @@ exports.handleContactPage = async (req, res) => {
 	}
 };
 
-exports.getCaptcha = (req, res) => {
+exports.captcha = (req, res) => {
 	CAPTCHA_NUM = parseInt(Math.random() * 9999 + 1000);
 
 	const p = new captchapng(80, 30, CAPTCHA_NUM);

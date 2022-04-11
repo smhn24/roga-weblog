@@ -1,9 +1,8 @@
 const path = require('path');
 
-const debug = require('debug')('weblog-project');
 const fileUpload = require('express-fileupload');
 const express = require('express');
-const expressLayout = require('express-ejs-layouts');
+const nunjucks = require('nunjucks');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
 const flash = require('connect-flash');
@@ -15,29 +14,30 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const winston = require('./config/winston');
 
-//* Load Config
+//* Load env variables
 dotEnv.config({ path: './config/config.env' });
 
 //* Database conncection
 connectDB();
-debug('Connected to database');
 
 //* Passport Configuration
 require('./config/passport');
 
+//* Initialize app
 const app = express();
 
 //* Logging
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev', { stream: winston.stream }));
-	debug('Morgan enabled');
 }
 
 //* View Engine
-app.use(expressLayout);
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-app.set('layout', './layouts/mainLayout');
+nunjucks.configure('views', {
+	autoescape: true,
+	express: app,
+	watch: true,
+});
+app.set('view engine', 'njk');
 
 //* Body Parser
 app.use(express.urlencoded({ extended: false }));
@@ -52,10 +52,10 @@ app.use(
 		secret: process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
+		unset: 'destroy',
 		store: new MongoStore({
 			mongooseConnection: mongoose.connection,
 		}),
-		unset: 'destroy',
 	}),
 );
 
@@ -64,7 +64,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //* Flash
-app.use(flash());
+app.use(flash()); // available on req.flash
 
 //* Static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -80,5 +80,7 @@ app.use(require('./controllers/errorController').get404);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () =>
-	console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`),
+	console.log(
+		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`,
+	),
 );
