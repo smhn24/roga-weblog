@@ -1,5 +1,6 @@
-{% extends "layouts/base.njk" %} {% block content %} {% include
-"includes/navbar.njk" %}
+{% extends "layouts/base.njk" %}
+{% block content %}
+{% include "includes/navbar.njk" %}
 
 <div class="page-header min-vh-85">
     <div>
@@ -11,8 +12,8 @@
             <div class="col-lg-7 d-flex justify-content-center flex-column">
                 <div class="card d-flex blur justify-content-center p-4 shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
                     <div class="w-100 text-center mx-auto">
-                        {% include "includes/loginMessages.njk" %} {% include
-                        "./includes/validationMessages.njk" %}
+                        {% include "includes/loginMessages.njk" %}
+                        {% include "../includes/validationMessages.njk" %}
                     </div>
                     <div class="text-center">
                         <h3 class="text-gradient text-primary">تماس با ما</h3>
@@ -44,20 +45,11 @@
                                     placeholder="پیام شما ..."></textarea>
                             </div>
                             <div class="d-flex justify-content-between align-items-center my-3">
-                                <div class="col-md-3 form-label" id="captcha"></div>
-                                <script>
-                                    fetch('/captcha')
-                                        .then((res) => {
-                                            return res.text()
-                                        })
-                                        .then((data) => {
-                                            document.querySelector(
-                                                '#captcha'
-                                            ).innerHTML = data
-                                        })
-                                </script>
+                                <div class="col-md-3 form-label text-center">
+                                    <img src="/captcha.png" alt="captcha">
+                                </div>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="captcha" placeholder="کد امنیتی" />
+                                    <input type="text" class="form-control" name="captcha" placeholder="کد امنیتی">
                                 </div>
                             </div>
 
