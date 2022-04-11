@@ -23,10 +23,10 @@ router.get('/post/:id', blogController.singlePost);
 router.get('/contact-us', blogController.contactUs);
 
 /**
- * @route GET /captcha
+ * @route GET /captcha.png
  * @description Numeric Captcha
  */
-router.get('/captcha', blogController.captcha);
+router.get('/captcha.png', blogController.captcha);
 
 /**
  * @route POST /contact-us
