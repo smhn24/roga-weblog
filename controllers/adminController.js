@@ -199,6 +199,7 @@ exports.deletePost = async (req, res) => {
 exports.uploadImage = async (req, res) => {
 	const errors = [];
 
+<<<<<<< HEAD
 	const image = req.files ? req.files.image : {};
 	const fileName = `${nanoid()}_${image.name}`;
 	const uploadPath = `${appRoot}/public/uploads/images/${fileName}`;
@@ -221,6 +222,43 @@ exports.uploadImage = async (req, res) => {
 			res.status(200).send(
 				`http://localhost:3000/uploads/images/${fileName}`,
 			);
+=======
+	upload(req, res, async (err) => {
+		if (err) {
+			if (err.code === 'LIMIT_FILE_SIZE')
+				return res
+					.status(400)
+					.send('حجم فایل نباید بیشتر از 2 مگابایت باشد');
+			res.status(400).send(err);
+		} else {
+			if (req.files) {
+				const fileName = `${nanoid()}_${req.files.image.name}`;
+				if (req.files.image.mimetype === 'image/jpeg') {
+					await sharp(req.files.image.data)
+						.jpeg({
+							quality: 60,
+						})
+						.toFile(`./public/uploads/images/${fileName}`)
+						.catch((err) => console.log(err));
+				} else if (req.files.image.mimetype === 'image/png') {
+					await sharp(req.files.image.data)
+						.png({
+							quality: 60,
+						})
+						.toFile(`./public/uploads/images/${fileName}`)
+						.catch((err) => console.log(err));
+				} else {
+					return res
+						.status(400)
+						.send('در حال حاضر فقط JPEG و PNG پشتیبانی میشود.');
+				}
+				res.status(200).send(
+					`http://weblog.nabavi.dev/uploads/images/${fileName}`,
+				);
+			} else {
+				res.status(400).send('هنوز عکسی انتخاب نشده است');
+			}
+>>>>>>> 0d1a9b14969e5c33e893f9bed87bf6549404c077
 		}
 	} catch (err) {
 		console.log(err);
