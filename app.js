@@ -2,9 +2,13 @@ const path = require('path');
 
 const fileUpload = require('express-fileupload');
 const express = require('express');
+<<<<<<< HEAD
 const nunjucks = require('nunjucks');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
+=======
+const expressLayout = require('express-ejs-layouts');
+>>>>>>> 0d1a9b14969e5c33e893f9bed87bf6549404c077
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
@@ -12,10 +16,13 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const connectDB = require('./config/db');
+<<<<<<< HEAD
 const winston = require('./config/winston');
 
 //* Load env variables
 dotEnv.config({ path: './config/config.env' });
+=======
+>>>>>>> 0d1a9b14969e5c33e893f9bed87bf6549404c077
 
 //* Database conncection
 connectDB();
@@ -26,11 +33,14 @@ require('./config/passport');
 //* Initialize app
 const app = express();
 
+<<<<<<< HEAD
 //* Logging
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev', { stream: winston.stream }));
 }
 
+=======
+>>>>>>> 0d1a9b14969e5c33e893f9bed87bf6549404c077
 //* View Engine
 nunjucks.configure('views', {
 	autoescape: true,

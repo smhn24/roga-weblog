@@ -2,7 +2,7 @@ const nodeMailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const transporterDetails = smtpTransport({
-	host: 'mail.smh-nabavi.ir',
+	host: process.env.EMAIL_HOST,
 	port: 465,
 	secure: true,
 	auth: {
