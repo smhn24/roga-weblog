@@ -5,8 +5,7 @@
         <div class="position-absolute border-radius-lg border-top-start-radius-0 border-top-end-radius-0 border-bottom-end-radius-0 fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block"
             style="
                 background-image: url('http://localhost:3000/uploads/thumbnails/{{post.thumbnail}}');
-                background-size: cover;
-            "></div>
+                background-size: cover;"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 d-flex justify-content-center flex-column">
@@ -63,9 +62,8 @@
                 <div class="card">
                     <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
                         <a href="javascript:;" class="d-block blur-shadow-image">
-                            <img src="http://localhost:3000/uploads/thumbnails/{{
-                                    post.thumbnail
-                                }}" class="img-fluid border-radius-md" alt="anastasia" />
+                            <img src="http://localhost:3000/uploads/thumbnails/{{ post.thumbnail }}"
+                                class="img-fluid border-radius-md" alt="anastasia" />
                         </a>
                     </div>
                     <div class="card-body">
@@ -82,9 +80,7 @@
                             <div class="name ps-2">
                                 <span>عرفان صادقی نژاد</span>
                                 <div class="stats">
-                                    <small>{{
-                                        formatDate(post.createdAt)
-                                    }}</small>
+                                    <small>{{ formatDate(post.createdAt) }}</small>
                                 </div>
                             </div>
                         </div>
@@ -124,57 +120,28 @@
                 <div class="card bg-light">
                     <div class="card-body">
                         <!-- Comment form-->
-                        <form class="mb-4">
-                            <textarea class="form-control" rows="3" placeholder="نظر خود را بنویسید ..."></textarea>
+                        <form class="mb-4" action="/comment/{{ post.id }}" method="POST">
+                            <textarea name="text" class="form-control" rows="3"
+                                placeholder="نظر خود را بنویسید ..."></textarea>
+                            <div class="mb-3">
+                                <div class="g-recaptcha" data-sitekey="6LfvI7ceAAAAADZh5x3mxYt6GRwKsPsPkraxLel3"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">ثبت نظر</button>
                         </form>
-                        <!-- Comment with nested comments-->
-                        <div class="d-flex mb-4">
-                            <!-- Parent comment-->
-                            <div class="flex-shrink-0">
-                                <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                    alt="..." />
-                            </div>
-                            <div class="ms-3">
-                                <div class="fw-bold">عرفان صادقی نژاد</div>
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                صنعت چاپ و با استفاده از طراحان گرافیک است
-                                چاپگرها و متون بلکه روزنامه و مجله در ستون و
-                                سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
-                                مورد نیاز و کاربردهای متنوع با هدف بهبود
-                                ابزارهای کاربردی می باشد
-                                <!-- Child comment -->
-                                <div class="d-flex mt-4">
-                                    <div class="flex-shrink-0">
-                                        <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                            alt="..." />
-                                    </div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">
-                                            سید محمد حسین نبوی
-                                        </div>
-                                        لورم ایپسوم متن ساختگی با تولید سادگی
-                                        نامفهوم از صنعت چاپ و با استفاده از
-                                        طراحان گرافیک است چاپگرها و متون بلکه
-                                        روزنامه و مجله در ستون و سطرآنچنان که
-                                        لازم است
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Single comment-->
+                        <!-- Single comment -->
+                        {% for comment in comments %}
                         <div class="d-flex">
                             <div class="flex-shrink-0">
                                 <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                    alt="..." />
+                                    alt="...">
                             </div>
                             <div class="ms-3">
-                                <div class="fw-bold">مهدی نیسی</div>
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                صنعت چاپ و با استفاده از طراحان گرافیک است
-                                چاپگرها و متون بلکه روزنامه و مجله در ستون و
-                                سطرآنچنان که لازم است
+                                <div class="fw-bold">{{ comment.commenter.fullname }}</div>
+                                <div class="fw-bold">{{ formatDate(comment.commentedAt) }}</div>
+                                {{ comment.text }}
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </section>

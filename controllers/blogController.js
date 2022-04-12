@@ -2,6 +2,9 @@ const Yup = require('yup');
 const captchapng = require('captchapng');
 
 const Blog = require('../models/Blog');
+const Comment = require('../models/Comment');
+const User = require('../models/User');
+
 const { formatDate } = require('../utils/jalali');
 const { get500, get404 } = require('./errorController');
 const { truncate } = require('../utils/helpers');
@@ -47,11 +50,16 @@ exports.singlePost = async (req, res) => {
 		const post = await Blog.findById(req.params.id).populate('user');
 		if (!post) return get404(req, res);
 
+		const comments = await Comment.find({ blog: req.params.id }).populate(
+			'commenter',
+		);
+
 		res.render('blog/post', {
 			pageTitle: post.title,
 			path: '/post',
 			post,
 			formatDate,
+			comments,
 		});
 	} catch (err) {
 		console.log(err);
@@ -161,5 +169,58 @@ exports.handleSearch = async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		get500(req, res);
+	}
+};
+
+exports.handleComment = async (req, res) => {
+	const errors = [];
+
+	if (!req.body['g-recaptcha-response']) {
+		// req.flash('error', 'احراز هویت captcha را انجام دهید');
+		errors.push({ message: 'احراز هویت captcha را انجام دهید' });
+		return res.redirect(`/post/${req.params.blogId}`, { errors });
+	}
+
+	const secretKey = process.env.CAPTCHA_SECRET;
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
+
+	try {
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			},
+		});
+		const json = await response.json();
+		if (!json.success) {
+			// req.flash('error', 'مشکلی در captcha به وجود آمده است');
+			errors.push({ message: 'مشکلی در captcha به وجود آمده است' });
+			return res.redirect(`/post/${req.params.blogId}`);
+		}
+	} catch (err) {
+		console.log(err);
+		// req.flash('error', 'مشکلی به جود آمده است');
+		errors.push({ message: 'مشکلی به جود آمده است' });
+		return res.redirect(`/post/${req.params.blogId}`);
+	}
+
+	try {
+		await Comment.commentValidation(req.body);
+
+		const { text } = req.body;
+		await Comment.create({
+			text,
+			commenter: req.user.id,
+			blog: req.params.blogId,
+		});
+
+		req.flash('success_msg', 'نظر شما با موفقیت ثبت شد');
+		res.redirect(`/post/${req.params.blogId}`);
+	} catch (err) {
+		err.inner.forEach((e) => {
+			errors.push({ name: e.path, message: e.message });
+		});
+		res.redirect(`/post/${req.params.blogId}`);
 	}
 };

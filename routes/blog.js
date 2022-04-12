@@ -1,6 +1,7 @@
 const { Router } = require('express');
 
 const blogController = require('../controllers/blogController');
+const { authenticated } = require('../middlewares/auth');
 
 const router = Router();
 
@@ -27,6 +28,18 @@ router.get('/contact-us', blogController.contactUs);
  * @description Numeric Captcha
  */
 router.get('/captcha.png', blogController.captcha);
+
+// /**
+//  * @route GET /comment/:id
+//  * @description Get Comments
+//  */
+// router.get('/comment/:id', blogController.comments);
+
+/**
+ * @route POST /comment/:id
+ * @description Handle Comment
+ */
+router.post('/comment/:blogId', authenticated, blogController.handleComment);
 
 /**
  * @route POST /contact-us
