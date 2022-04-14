@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -16,104 +15,102 @@
     <link href="/css/nucleo-icons.rtl.css" rel="stylesheet" />
     <link href="/css/nucleo-svg.rtl.css" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="/css/soft-design-system.rtl.css?v=1.0.5" rel="stylesheet" />
+    <link
+      id="pagestyle"
+      href="/css/soft-design-system.rtl.css?v=1.0.5"
+      rel="stylesheet"
+    />
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
         }
+      }
     </style>
     <link href="/css/dashboard.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.17.2/ckeditor.js"
-        integrity="sha512-QuHtmTNLFyCbmk2jGlr0URK0XiNn1G0nHYMaNfbOLQgXBiO6RllC+xFkPO5YnG6zYnRVUj6b5uSXwmJeJgOLBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
+  </head>
 
-<body>
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mx-0 px-5 text-white" href="#">
-            <span>سلام</span>
-            {{ fullname }}
-        </a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <form action="/dashboard/search" method="post" class="w-100">
-            <input class="form-control form-control-dark w-100" type="text" name="search" placeholder="جستجو"
-                aria-label="Search" />
-        </form>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="/users/logout">خروج</a>
-            </div>
+  <body>
+    <header
+      class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+    >
+      <a class="navbar-brand col-md-3 col-lg-2 mx-0 px-5 text-white" href="#">
+        <span>سلام</span>
+        {{ fullname }}
+      </a>
+      <button
+        class="navbar-toggler position-absolute d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <form action="/dashboard/search" method="post" class="w-100">
+        <input
+          class="form-control form-control-dark w-100"
+          type="text"
+          name="search"
+          placeholder="جستجو"
+          aria-label="Search"
+        />
+      </form>
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="/users/logout">خروج</a>
         </div>
+      </div>
     </header>
     <div class="container-fluid">
-        <div class="row">
-            {% include "../admin/dashboardSidebar.njk" %}
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                {% block content %} {% endblock %}
-            </main>
-        </div>
+      <div class="row">
+        {% include "../admin/dashboardSidebar.njk" %}
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          {% block content %} {% endblock %}
+        </main>
+      </div>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/tinymce.min.js"
+      integrity="sha512-WVGmm/5lH0QUFrXEtY8U9ypKFDqmJM3OIB9LlyMAoEOsq+xUs46jGkvSZXpQF7dlU24KRXDsUQhQVY+InRbncA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/plugins/image/plugin.min.js"
+      integrity="sha512-WXhLEgUSvo90sNntvjf/i63kpD3zQLnkwNdZ6RxErNTFi2Lv8nm1DqxhsrVlfjGnz+s0Wfw9+7UZ5HsALjjm8w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script>
-        ClassicEditor.create(document.querySelector('#body'), {
-            language: {
-                ui: 'fa',
-                content: 'fa',
-            },
-            toolbar: {
-                items: [
-                    'bold',
-                    'italic',
-                    '|',
-                    'link',
-                    '|',
-                    'outdent',
-                    'indent',
-                    '|',
-                    'bulletedList',
-                    'numberedList',
-                    '|',
-                    'insertTable',
-                    '|',
-                    'uploadImage',
-                    'blockQuote',
-                    '|',
-                    'undo',
-                    'redo',
-                    '|',
-                    'heading',
-                ],
-                shouldNotGroupWhenFull: true,
-            },
-        }).catch((error) => {
-            console.error(error)
-        })
+      tinymce.init({
+        selector: "textarea#body",
+        plugins: "image",
+        toolbar:
+          "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image",
+        images_file_types: "jpg,jpeg,png",
+        file_picker_types: "image",
+      });
     </script>
     {% if path == "/dashboard/image-gallery"%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"
-        integrity="sha512-PIisRT8mFfdxx99gMs7WAY5Gp+CtjYYxKvF93w8yWAvX548UBNADHu7Qkavgr6yRG+asocqfuk5crjNd5z9s6Q=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"
+      integrity="sha512-PIisRT8mFfdxx99gMs7WAY5Gp+CtjYYxKvF93w8yWAvX548UBNADHu7Qkavgr6yRG+asocqfuk5crjNd5z9s6Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="/js/upload.js"></script>
     {% endif %}
-    <script>
-        CKEDITOR.replace('body', {
-            language: 'fa',
-        })
-    </script>
-</body>
-
+  </body>
 </html>
