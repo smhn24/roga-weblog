@@ -1,41 +1,44 @@
 @font-face {
-    font-family: 'BYekan';
-    src: url('../fonts/BYekan-webfont.eot') format('eot'),
-        url('../fonts/BYekan-webfont.woff') format('woff'),
-        url('../fonts/BYekan-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "BYekan";
+  src: url("../fonts/BYekan-webfont.eot") format("eot"),
+    url("../fonts/BYekan-webfont.woff") format("woff"),
+    url("../fonts/BYekan-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-    font-family: 'BYekan' !important;
-    scroll-behavior: smooth;
+  font-family: "BYekan" !important;
+  scroll-behavior: smooth;
 }
 
-input[type='file']::-webkit-file-upload-button {
-    visibility: hidden;
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
 }
 
-input[type='file'] {
-    position: absolute;
+input[type="file"] {
+  position: absolute;
 }
 
 #imageStatus {
-    position: absolute;
-    cursor: pointer;
-    z-index: 5;
-    background-color: #fff;
-    top: 0.5rem;
-    right: 6.9rem;
-    width: 43rem;
-    height: 1.5rem;
+  position: absolute;
+  cursor: pointer;
+  z-index: 5;
+  background-color: #fff;
+  top: 0.5rem;
+  right: 6.9rem;
+  width: 43rem;
+  height: 1.5rem;
 }
 
 #uploadLabel {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #uploadResult {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
+.error-text {
+  font-size: 0.8rem;
+}
