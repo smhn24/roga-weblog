@@ -1,152 +1,191 @@
 {% extends "layouts/base.njk" %} {% block content %} {% include
 "includes/navbar.njk" %}
 <header>
-    <div class="page-header min-vh-85">
-        <div class="position-absolute border-radius-lg border-top-start-radius-0 border-top-end-radius-0 border-bottom-end-radius-0 fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block"
-            style="
-                background-image: url('http://localhost:3000/uploads/thumbnails/{{post.thumbnail}}');
-                background-size: cover;"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 d-flex justify-content-center flex-column">
-                    <div class="card card-body blur d-flex justify-content-center px-5 shadow-lg mt-lg-5 mt-3 py-5">
-                        <h4 class="text-gradient text-primary mb-2">
-                            برنامه نویسی
-                        </h4>
-                        <h1 class="mb-4">
-                            {{ post.title }}
-                        </h1>
-                        <p class="lead pe-sm-5 me-sm-5">
-                            {{ post.body | safe | truncate(200) }}
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <div class="page-header min-vh-85">
+    <div
+      class="position-absolute border-radius-lg border-top-start-radius-0 border-top-end-radius-0 border-bottom-end-radius-0 fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block"
+      style="
+                background-image: url('http://localhost:3000/uploads/thumbnails/{{
+        post.thumbnail
+      }}');
+                background-size: cover;"
+    ></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 d-flex justify-content-center flex-column">
+          <div
+            class="card card-body blur d-flex justify-content-center px-5 shadow-lg mt-lg-5 mt-3 py-5"
+          >
+            <h4 class="text-gradient text-primary mb-2">برنامه نویسی</h4>
+            <h1 class="mb-4">
+              {{ post.title }}
+            </h1>
+            <p class="lead pe-sm-5 me-sm-5">
+              {{ post.body | safe | truncate(200) }}
+            </p>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </header>
 
 <section class="py-5 mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 ms-auto me-auto">
-                <h6 class="opacity-7 text-uppercase font-weight-bolder text-sm">
-                    برنامه نویسی
-                </h6>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 ms-auto me-auto">
+        <h6 class="opacity-7 text-uppercase font-weight-bolder text-sm">
+          برنامه نویسی
+        </h6>
 
-                <h3 class="title mb-4">
-                    {{ post.title }}
-                </h3>
-                <p class="text-dark">
-                    {{ post.body | safe }}
-                </p>
-                <div class="text-muted text-gradient text-primary fst-italic mb-3">
-                    <span>نوشته شده توسط </span>
-                    {{ post.user.fullname }}
-                    <span>در تاریخ </span>
-                    {{ formatDate(post.createdAt) }}
-                </div>
-            </div>
+        <h3 class="title mb-4">
+          {{ post.title }}
+        </h3>
+        <p class="text-dark">
+          {{ post.body | safe }}
+        </p>
+        <div class="text-muted text-gradient text-primary fst-italic mb-3">
+          <span>نوشته شده توسط </span>
+          {{ post.user.fullname }}
+          <span>در تاریخ </span>
+          {{ formatDate(post.createdAt) }}
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section class="py-7">
-    <div class="container">
-        <div class="row">
-            <div class="col-9 text-center mx-auto">
-                <h3 class="mb-5">مقالات دیگر</h3>
-            </div>
-            {% for post in posts %}
-            <div class="col-lg-4 mb-lg-0 mb-4">
-                <div class="card">
-                    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                        <a href="javascript:;" class="d-block blur-shadow-image">
-                            <img src="http://localhost:3000/uploads/thumbnails/{{ post.thumbnail }}"
-                                class="img-fluid border-radius-md" alt="anastasia" />
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold">برنامه
-                            نویسی</span>
-                        <a href="javascript:;" class="card-title mt-3 h5 d-block text-darker">
-                            {{ post.title | truncate(50) }}
-                        </a>
-                        <p class="card-description mb-4">
-                            {{ post.body | safe | truncate(250) }}
-                        </p>
-                        <div class="author align-items-center">
-                            <img src="/img/team-2.jpg" alt="..." class="avatar shadow" />
-                            <div class="name ps-2">
-                                <span>عرفان صادقی نژاد</span>
-                                <div class="stats">
-                                    <small>{{ formatDate(post.createdAt) }}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-9 text-center mx-auto">
+        <h3 class="mb-5">مقالات دیگر</h3>
+      </div>
+      {% for post in posts %}
+      <div class="col-lg-4 mb-lg-0 mb-4">
+        <div class="card">
+          <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+            <a href="javascript:;" class="d-block blur-shadow-image">
+              <img
+                src="http://localhost:3000/uploads/thumbnails/{{
+                  post.thumbnail
+                }}"
+                class="img-fluid border-radius-md"
+                alt="anastasia"
+              />
+            </a>
+          </div>
+          <div class="card-body">
+            <span
+              class="text-gradient text-primary text-uppercase text-xs font-weight-bold"
+              >برنامه نویسی</span
+            >
+            <a
+              href="javascript:;"
+              class="card-title mt-3 h5 d-block text-darker"
+            >
+              {{ post.title | truncate(50) }}
+            </a>
+            <p class="card-description mb-4">
+              {{ post.body | safe | truncate(250) }}
+            </p>
+            <div class="author align-items-center">
+              <img src="/img/team-2.jpg" alt="..." class="avatar shadow" />
+              <div class="name ps-2">
+                <span>عرفان صادقی نژاد</span>
+                <div class="stats">
+                  <small>{{ formatDate(post.createdAt) }}</small>
                 </div>
+              </div>
             </div>
-            {% endfor %}
+          </div>
         </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 <div class="py-lg-5 py-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <h4 class="mb-1">ممنون که تا اینجا اومدی</h4>
-                <p class="lead mb-0">
-                    با اشتراک گذاری این پست از ما حمایت کنید
-                </p>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-4 d-lg-flex align-items-center">
-                <a href="javascript:;" class="btn btn-twitter mb-lg-0 mb-2 me-2">
-                    <i class="fa fa-twitter me-1"></i> Twitter
-                </a>
-                <a href="javascript:;" class="btn btn-facebook mb-lg-0 mb-2 me-2">
-                    <i class="fa fa-facebook-square me-1"></i> Facebook
-                </a>
-                <a href="javascript:;" class="btn btn-tumblr mb-lg-0 mb-2 me-2">
-                    <i class="fa fa-tumblr me-1"></i> Tumblr
-                </a>
-                <a href="javascript:;" class="btn btn-dribbble mb-lg-0 mb-2">
-                    <i class="fa fa-dribbble me-1"></i> Dribbble
-                </a>
-            </div>
-            <!-- Comments section-->
-            <section class="my-5">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <!-- Comment form-->
-                        <form class="mb-4" action="/comment/{{ post.id }}" method="POST">
-                            <textarea name="text" class="form-control" rows="3"
-                                placeholder="نظر خود را بنویسید ..."></textarea>
-                            <div class="mb-3">
-                                <div class="g-recaptcha" data-sitekey="6LfvI7ceAAAAADZh5x3mxYt6GRwKsPsPkraxLel3"></div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">ثبت نظر</button>
-                        </form>
-                        <!-- Single comment -->
-                        {% for comment in comments %}
-                        <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                    alt="...">
-                            </div>
-                            <div class="ms-3">
-                                <div class="fw-bold">{{ comment.commenter.fullname }}</div>
-                                <div class="fw-bold">{{ formatDate(comment.commentedAt) }}</div>
-                                {{ comment.text }}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h4 class="mb-1">ممنون که تا اینجا اومدی</h4>
+        <p class="lead mb-0">با اشتراک گذاری این پست از ما حمایت کنید</p>
+      </div>
+      <div class="col-lg-6 mt-lg-0 mt-4 d-lg-flex align-items-center">
+        <a href="javascript:;" class="btn btn-twitter mb-lg-0 mb-2 me-2">
+          <i class="fa fa-twitter me-1"></i> Twitter
+        </a>
+        <a href="javascript:;" class="btn btn-facebook mb-lg-0 mb-2 me-2">
+          <i class="fa fa-facebook-square me-1"></i> Facebook
+        </a>
+        <a href="javascript:;" class="btn btn-tumblr mb-lg-0 mb-2 me-2">
+          <i class="fa fa-tumblr me-1"></i> Tumblr
+        </a>
+        <a href="javascript:;" class="btn btn-dribbble mb-lg-0 mb-2">
+          <i class="fa fa-dribbble me-1"></i> Dribbble
+        </a>
+      </div>
+      <!-- Comments section-->
+      <section class="my-5">
+        <div class="card bg-light">
+          <div class="card-body">
+            <!-- Comment form-->
+            <form
+              class="mb-4"
+              data-submit="/comment/{{ post.id }}"
+              id="comment-form"
+            >
+              <textarea
+                name="text"
+                class="form-control"
+                rows="5"
+                id="comment-message"
+                placeholder="نظر خود را بنویسید ..."
+              ></textarea>
+              {% if errors | length > 0 %} {% for error in errors %} {% if
+              error.field == "text" %}
 
-{% include 'includes/footer.njk' %} {% endblock %}
+              <p class="text-danger font-weight-bold error-text ms-2">
+                {{ error.message }}
+              </p>
+
+              {% endif %} {% endfor %} {% endif %}
+              <button
+                class="btn btn-primary g-recaptcha mt-3 ms-3"
+                type="submit"
+              >
+                ثبت نظر
+              </button>
+            </form>
+            <div class="card-footer">
+              <!-- Single comment -->
+              {% for comment in comments %}
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <img
+                    class="rounded-circle"
+                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                    alt="..."
+                  />
+                </div>
+                <div class="ms-3">
+                  <div class="fw-bold">{{ comment.commenter.fullname }}</div>
+                  <div class="fw-bold">
+                    {{ formatDate(comment.commentedAt) }}
+                  </div>
+                  {{ comment.text }}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% include 'includes/footer.njk' %} {% endblock %} {% block scripts %}
+<script src="/js/comment.js"></script>
+{% endblock %}
