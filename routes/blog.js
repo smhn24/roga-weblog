@@ -29,12 +29,6 @@ router.get('/contact-us', blogController.contactUs);
  */
 router.get('/captcha.png', blogController.captcha);
 
-// /**
-//  * @route GET /comment/:id
-//  * @description Get Comments
-//  */
-// router.get('/comment/:id', blogController.comments);
-
 /**
  * @route POST /comment/:id
  * @description Handle Comment

@@ -6,3 +6,10 @@ exports.authenticated = (req, res, next) => {
 	}
 	get404(req, res);
 };
+
+exports.notAuthenticated = (req, res, next) => {
+	if (!req.isAuthenticated()) {
+		return next();
+	}
+	return res.redirect('/dashboard');
+};
