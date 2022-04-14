@@ -4,18 +4,13 @@
   <div class="page-header min-vh-85">
     <div
       class="position-absolute border-radius-lg border-top-start-radius-0 border-top-end-radius-0 border-bottom-end-radius-0 fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block"
-      style="
-                background-image: url('http://localhost:3000/uploads/thumbnails/{{
-        post.thumbnail
-      }}');
-                background-size: cover;"
-    ></div>
+      style="background-image: url('http://localhost:3000/uploads/thumbnails/{{post.thumbnail}}');background-size: cover;">
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-lg-7 d-flex justify-content-center flex-column">
-          <div
-            class="card card-body blur d-flex justify-content-center px-5 shadow-lg mt-lg-5 mt-3 py-5"
-          >
+          <div class="card card-body blur d-flex justify-content-center px-5 shadow-lg mt-lg-5 mt-3 py-5">
             <h4 class="text-gradient text-primary mb-2">برنامه نویسی</h4>
             <h1 class="mb-4">
               {{ post.title }}
@@ -66,24 +61,14 @@
         <div class="card">
           <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
             <a href="javascript:;" class="d-block blur-shadow-image">
-              <img
-                src="http://localhost:3000/uploads/thumbnails/{{
+              <img src="http://localhost:3000/uploads/thumbnails/{{
                   post.thumbnail
-                }}"
-                class="img-fluid border-radius-md"
-                alt="anastasia"
-              />
+                }}" class="img-fluid border-radius-md" alt="anastasia" />
             </a>
           </div>
           <div class="card-body">
-            <span
-              class="text-gradient text-primary text-uppercase text-xs font-weight-bold"
-              >برنامه نویسی</span
-            >
-            <a
-              href="javascript:;"
-              class="card-title mt-3 h5 d-block text-darker"
-            >
+            <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold">برنامه نویسی</span>
+            <a href="javascript:;" class="card-title mt-3 h5 d-block text-darker">
               {{ post.title | truncate(50) }}
             </a>
             <p class="card-description mb-4">
@@ -131,44 +116,31 @@
       <section class="my-5">
         <div class="card bg-light">
           <div class="card-body">
+            <h4 class="card-title mb-2">نظرات</h4>
             <!-- Comment form-->
-            <form
-              class="mb-4"
-              data-submit="/comment/{{ post.id }}"
-              id="comment-form"
-            >
-              <textarea
-                name="text"
-                class="form-control"
-                rows="5"
-                id="comment-message"
-                placeholder="نظر خود را بنویسید ..."
-              ></textarea>
-              {% if errors | length > 0 %} {% for error in errors %} {% if
-              error.field == "text" %}
+            <form class="mb-4" data-submit="/comment/{{ post.id }}" id="comment-form">
+              <textarea name="text" class="form-control" rows="5" id="comment-message"
+                placeholder="نظر خود را بنویسید ..."></textarea>
+              <p class="text-danger font-weight-bold error-text ms-2 mt-2" id="comment-error"></p>
+              {% if errors | length > 0 %}
+              {% for error in errors %}
+              {% if error.field == "text" %}
 
-              <p class="text-danger font-weight-bold error-text ms-2">
+              <p class="text-danger font-weight-bold error-text ms-2" id="comment-error">
                 {{ error.message }}
               </p>
 
               {% endif %} {% endfor %} {% endif %}
-              <button
-                class="btn btn-primary g-recaptcha mt-3 ms-3"
-                type="submit"
-              >
+              <button class="btn btn-primary mt-1 ms-3" type="submit">
                 ثبت نظر
               </button>
             </form>
-            <div class="card-footer">
-              <!-- Single comment -->
+            <div class="card-description">
               {% for comment in comments %}
-              <div class="d-flex">
+              <div class="d-flex my-2">
                 <div class="flex-shrink-0">
-                  <img
-                    class="rounded-circle"
-                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                    alt="..."
-                  />
+                  <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                    alt="{{comment.commenter.fullname}}" />
                 </div>
                 <div class="ms-3">
                   <div class="fw-bold">{{ comment.commenter.fullname }}</div>
