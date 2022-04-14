@@ -1,5 +1,6 @@
 const Yup = require('yup');
 const captchapng = require('captchapng');
+const fetch = require('node-fetch');
 
 const Blog = require('../models/Blog');
 const Comment = require('../models/Comment');
@@ -69,8 +70,7 @@ exports.contactUs = (req, res) => {
 	res.render('common/contactUs', {
 		pageTitle: 'تماس با ما',
 		path: '/contact-us',
-		message: req.flash('success_msg'),
-		error: req.flash('error'),
+		success: req.flash('success'),
 		errors: [],
 	});
 };
@@ -100,21 +100,25 @@ exports.handleContactUs = async (req, res) => {
 				`پیام کاربر: ${message} <br><br> ایمیل کاربر: ${email}`,
 			);
 
-			req.flash('success_msg', 'پیام شما با موفقیت ارسال شد');
+			req.flash('success', 'پیام شما با موفقیت ارسال شد');
 			return res.redirect('/contact-us');
 		}
 
-		req.flash('error', 'کد امنیتی اشتباه است');
-		res.redirect('/contact-us');
+		errors.push({ field: 'captcha', message: 'کد امنیتی اشتباه است' });
+		res.render('common/contactUs', {
+			pageTitle: 'تماس با ما',
+			path: '/contact-us',
+			success: req.flash('success'),
+			errors,
+		});
 	} catch (err) {
 		err.inner.forEach((e) => {
-			errors.push({ name: e.path, message: e.message });
+			errors.push({ field: e.path, message: e.message });
 		});
 		return res.render('common/contactUs', {
 			pageTitle: 'تماس با ما',
 			path: '/contact-us',
-			message: req.flash('success_msg'),
-			error: req.flash('error'),
+			success: req.flash('success'),
 			errors,
 		});
 	}
@@ -174,8 +178,8 @@ exports.handleComment = async (req, res) => {
 
 	if (!req.body['g-recaptcha-response']) {
 		// req.flash('error', 'احراز هویت captcha را انجام دهید');
-		errors.push({ message: 'احراز هویت captcha را انجام دهید' });
-		return res.redirect(`/post/${req.params.blogId}`, { errors });
+		// errors.push({ message: "احراز هویت captcha را انجام دهید" });
+		// return res.redirect(`/post/${req.params.blogId}`, { errors });
 	}
 
 	const secretKey = process.env.CAPTCHA_SECRET;
@@ -192,14 +196,13 @@ exports.handleComment = async (req, res) => {
 		const json = await response.json();
 		if (!json.success) {
 			// req.flash('error', 'مشکلی در captcha به وجود آمده است');
-			errors.push({ message: 'مشکلی در captcha به وجود آمده است' });
-			return res.redirect(`/post/${req.params.blogId}`);
+			// errors.push({ message: "مشکلی در captcha به وجود آمده است" });
+			// return res.redirect(`/post/${req.params.blogId}`);
 		}
 	} catch (err) {
-		console.log(err);
 		// req.flash('error', 'مشکلی به جود آمده است');
-		errors.push({ message: 'مشکلی به جود آمده است' });
-		return res.redirect(`/post/${req.params.blogId}`);
+		// errors.push({ message: "مشکلی به جود آمده است" });
+		// return res.redirect(`/post/${req.params.blogId}`);
 	}
 
 	try {
@@ -213,11 +216,31 @@ exports.handleComment = async (req, res) => {
 		});
 
 		req.flash('success_msg', 'نظر شما با موفقیت ثبت شد');
-		res.redirect(`/post/${req.params.blogId}`);
+		// res.redirect(`/post/${req.params.blogId}`);
 	} catch (err) {
 		err.inner.forEach((e) => {
-			errors.push({ name: e.path, message: e.message });
+			errors.push({ field: e.path, message: e.message });
 		});
-		res.redirect(`/post/${req.params.blogId}`);
+		try {
+			const post = await Blog.findById(req.params.blogId).populate(
+				'user',
+			);
+			if (!post) return get404(req, res);
+
+			const comments = await Comment.find({
+				blog: req.params.id,
+			}).populate('commenter');
+
+			res.render('blog/post', {
+				pageTitle: post.title,
+				path: '/post',
+				post,
+				formatDate,
+				comments,
+				errors,
+			});
+		} catch (err) {
+			get500(req, res);
+		}
 	}
 };
