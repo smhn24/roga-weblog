@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="fa">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <!-- <link rel="stylesheet" href="/css/bootstrap.rtl.min.css" /> -->
     <link rel="stylesheet" href="/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <!-- Nucleo Icons -->
-    <!-- <link href="/css/nucleo-icons.css" rel="stylesheet" /> -->
-    <!-- <link href="/css/nucleo-svg.css" rel="stylesheet" /> -->
-    <!-- CSS Files -->
-    <!-- <link
-            id="pagestyle"
-            href="/css/soft-design-system.css?v=1.0.7"
-            rel="stylesheet"
-        /> -->
-    <!-- Nucleo Icons -->
     <link href="/css/nucleo-icons.rtl.css" rel="stylesheet" />
     <link href="/css/nucleo-svg.rtl.css" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="/css/soft-design-system.rtl.css?v=1.0.5" rel="stylesheet" />
-    <!-- auth css -->
-    {% if path == "/login" or path == "/register" or path == '/post' %}
+    <link
+      id="pagestyle"
+      href="/css/soft-design-system.rtl.css?v=1.0.5"
+      rel="stylesheet"
+    />
+    {% if path == "/login" or path == "/register" %}
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
-    {% endif %}
-    <!-- 404 css -->
-    {% if path == "/404" %}
+    <script
+      src="https://www.google.com/recaptcha/api.js?hl=fa"
+      async
+      defer
+    ></script>
+    <script>
+      function onSubmitCaptcha(token) {
+        document.querySelector("form").submit();
+      }
+    </script>
+    {% endif %} {% if path == "/404" %}
     <link rel="stylesheet" href="/css/404.css" />
     {% endif %} {% if path == "/500" %}
     <link rel="stylesheet" href="/css/500.css" />
     {% endif %}
     <title>{{ pageTitle }}</title>
-</head>
+  </head>
 
-<body>
-    {% block content %}{% endblock %}
+  <body>
+    {% block content %}{% endblock %} {% block scripts %}{% endblock %}
     <script src="/js/bootstrap.bundle.min.js"></script>
-</body>
-
+  </body>
 </html>
