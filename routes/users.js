@@ -1,7 +1,7 @@
 const { Router } = require('express');
 
 const userController = require('../controllers/userController');
-const { authenticated } = require('../middlewares/auth');
+const { authenticated, notAuthenticated } = require('../middlewares/auth');
 
 const router = Router();
 
@@ -9,7 +9,7 @@ const router = Router();
  * @route GET /users/login
  * @description Login page
  */
-router.get('/login', userController.login);
+router.get('/login', notAuthenticated, userController.login);
 
 /**
  * @route GET /users/logout

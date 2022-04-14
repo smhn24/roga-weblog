@@ -7,7 +7,6 @@ const User = require('../models/User');
 
 const { formatDate } = require('../utils/jalali');
 const { get500, get404 } = require('./errorController');
-const { truncate } = require('../utils/helpers');
 const { sendEmail } = require('../utils/mailer');
 
 let CAPTCHA_NUM;
@@ -31,7 +30,6 @@ exports.index = async (req, res) => {
 			path: '/',
 			posts,
 			formatDate,
-			truncate,
 			currentPage: page,
 			nextPage: page + 1,
 			previousPage: page - 1,
@@ -158,7 +156,6 @@ exports.handleSearch = async (req, res) => {
 			path: '/',
 			posts,
 			formatDate,
-			truncate,
 			currentPage: page,
 			nextPage: page + 1,
 			previousPage: page - 1,
