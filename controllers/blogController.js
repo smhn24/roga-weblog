@@ -1,5 +1,4 @@
 const Yup = require('yup')
-const captchapng = require('captchapng')
 const fetch = require('node-fetch')
 
 const Blog = require('../models/Blog')
@@ -9,8 +8,6 @@ const User = require('../models/User')
 const { formatDate } = require('../utils/jalali')
 const { get500, get404 } = require('./errorController')
 const { sendEmail } = require('../utils/mailer')
-
-let CAPTCHA_NUM
 
 exports.index = async (req, res) => {
   const page = +req.query.page || 1
@@ -75,6 +72,10 @@ exports.contactUs = (req, res) => {
 
 exports.handleContactUs = async (req, res) => {
   const errors = []
+
+  const secretKey = process.env.CAPTCHA_SECRET
+  const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
+
   const { fullname, email, message } = req.body
 
   const schema = Yup.object().shape({
@@ -84,22 +85,41 @@ exports.handleContactUs = async (req, res) => {
   })
 
   try {
-    await schema.validate(req.body, { abortEarly: false })
-
-    if (parseInt(req.body.captcha) === CAPTCHA_NUM) {
-      sendEmail(email, fullname, 'پیام از طرف وبلاگ', `پیام کاربر: ${message} <br><br> ایمیل کاربر: ${email}`)
-
-      req.flash('success', 'پیام شما با موفقیت ارسال شد')
-      return res.redirect('/contact-us')
+    const response = await fetch(verifyUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+      }
+    })
+    const json = await response.json()
+    console.log(json)
+    if (!json.success) {
+      errors.push({ field: 'global', message: 'مشکلی در کپچا وجود دارد' })
+      res.render('common/contactUs', {
+        pageTitle: 'تماس با ما',
+        path: '/contact-us',
+        success: req.flash('success'),
+        errors
+      })
     }
-
-    errors.push({ field: 'captcha', message: 'کد امنیتی اشتباه است' })
+  } catch (err) {
+    errors.push({ field: 'global', message: 'مشکلی به جود آمده است' })
     res.render('common/contactUs', {
       pageTitle: 'تماس با ما',
       path: '/contact-us',
       success: req.flash('success'),
       errors
     })
+  }
+
+  try {
+    await schema.validate(req.body, { abortEarly: false })
+
+    sendEmail(email, fullname, 'پیام از طرف وبلاگ', `پیام کاربر: ${message} <br><br> ایمیل کاربر: ${email}`)
+
+    req.flash('success', 'پیام شما با موفقیت ارسال شد')
+    return res.redirect('/contact-us')
   } catch (err) {
     err.inner.forEach(e => {
       errors.push({ field: e.path, message: e.message })
@@ -111,19 +131,6 @@ exports.handleContactUs = async (req, res) => {
       errors
     })
   }
-}
-
-exports.captcha = (req, res) => {
-  CAPTCHA_NUM = parseInt(Math.random() * 9999 + 1000)
-
-  const p = new captchapng(80, 30, CAPTCHA_NUM)
-  p.color(0, 0, 0, 0)
-  p.color(80, 80, 80, 255)
-
-  const img = p.getBase64()
-  const imgbase64 = Buffer(img, 'base64')
-
-  res.send(imgbase64)
 }
 
 exports.handleSearch = async (req, res) => {

@@ -13,11 +13,9 @@
 	"dependencies": {
 		"@adminjs/express": "^4.1.0",
 		"@adminjs/mongoose": "^2.0.2",
-		"@ckeditor/ckeditor5-editor-classic": "^34.0.0",
 		"adminjs": "^5.9.8",
 		"app-root-path": "^3.0.0",
 		"bcryptjs": "^2.4.3",
-		"captchapng": "^0.0.1",
 		"chokidar": "^3.5.3",
 		"connect-flash": "^0.1.1",
 		"connect-mongo": "^3.2.0",
