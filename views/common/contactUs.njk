@@ -1,20 +1,15 @@
-{% extends "layouts/base.njk" %} {% block content %} {% include
-"includes/navbar.njk" %}
+{% extends "layouts/base.njk" %} {% block content %} {% include "includes/navbar.njk" %}
 
 <div class="page-header min-vh-85">
   <div>
     <img
       class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-      src="/img/curved-images/curved8.jpg"
-      alt="image"
-    />
+      src="/img/curved-images/curved8.jpg" alt="image" />
   </div>
   <div class="container">
     <div class="row">
       <div class="col-lg-7 d-flex justify-content-center flex-column">
-        <div
-          class="card d-flex blur justify-content-center p-4 shadow-lg my-sm-0 my-sm-6 mt-8 mb-5"
-        >
+        <div class="card d-flex blur justify-content-center p-4 shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
           <div class="w-100 text-center mx-auto">
             {% include "includes/messages.njk" %}
           </div>
@@ -26,21 +21,24 @@
             </p>
           </div>
           <form id="contact-form" method="post" autocomplete="off">
+            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
             <div class="card-body pb-2">
               <div class="row">
+
+                {% if errors | length > 0 %}{% for error in errors %} {% if error.field == "global" %}
+
+                <p class="text-danger font-weight-bold error-text ms-2">
+                  {{ error.message }}
+                </p>
+
+                {% endif %} {% endfor %} {% endif %}
                 <div class="col-md-6">
                   <label>نام و نام خانوادگی</label>
                   <div class="input-group mb-1">
-                    <input
-                      class="form-control"
-                      name="fullname"
-                      placeholder="نام و نام خانوادگی"
-                      aria-label="Full Name"
-                      type="text"
-                    />
+                    <input class="form-control" name="fullname" placeholder="نام و نام خانوادگی" aria-label="Full Name"
+                      type="text" />
                   </div>
-                  {% if errors | length > 0 %} {% for error in errors %} {% if
-                  error.field == "fullname" %}
+                  {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "fullname" %}
 
                   <p class="text-danger font-weight-bold error-text ms-2">
                     {{ error.message }}
@@ -51,15 +49,9 @@
                 <div class="col-md-6 ps-md-2">
                   <label>ایمیل</label>
                   <div class="input-group mb-1">
-                    <input
-                      type="email"
-                      name="email"
-                      class="form-control"
-                      placeholder="youremail@mysite.com"
-                    />
+                    <input type="email" name="email" class="form-control" placeholder="youremail@mysite.com" />
                   </div>
-                  {% if errors | length > 0 %} {% for error in errors %} {% if
-                  error.field == "email" %}
+                  {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "email" %}
 
                   <p class="text-danger font-weight-bold error-text ms-2">
                     {{ error.message }}
@@ -70,15 +62,9 @@
               </div>
               <div class="form-group mb-0 mt-md-0 mt-4">
                 <label>چطور میتونیم به شما کمک کنیم ؟</label>
-                <textarea
-                  name="message"
-                  class="form-control mb-2"
-                  id="message"
-                  rows="6"
-                  placeholder="پیام شما ..."
-                ></textarea>
-                {% if errors | length > 0 %} {% for error in errors %} {% if
-                error.field == "email" %}
+                <textarea name="message" class="form-control mb-2" id="message" rows="6"
+                  placeholder="پیام شما ..."></textarea>
+                {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "email" %}
 
                 <p class="text-danger font-weight-bold error-text ms-2">
                   {{ error.message }}
@@ -86,42 +72,16 @@
 
                 {% endif %} {% endfor %} {% endif %}
               </div>
-              <div
-                class="d-flex justify-content-between align-items-center my-3"
-              >
-                <div class="col-md-3 form-label text-center">
-                  <img src="/captcha.png" alt="captcha" />
-                </div>
-                <div class="col-md-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="captcha"
-                    placeholder="کد امنیتی"
-                  />
-                </div>
-              </div>
-              {% if errors | length > 0 %} {% for error in errors %} {% if
-              error.field == "captcha" %}
-
-              <p class="text-danger font-weight-bold error-text ms-2">
-                {{ error.message }}
-              </p>
-
-              {% endif %} {% endfor %} {% endif %}
-
-              <div class="row">
-                <div class="col-md-12 text-center">
-                  <button
-                    type="submit"
-                    class="btn bg-gradient-primary mt-3 mb-0"
-                  >
-                    ارسال پیام
-                  </button>
-                </div>
-              </div>
             </div>
           </form>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn bg-gradient-primary w-50 g-recaptcha"
+              data-sitekey="6LeB0mkfAAAAAG4GdgAnCYyazx8iZblackM2wVVr" data-callback='onSubmit' data-action='submit'>
+              ارسال پیام
+            </button>
+          </div>
         </div>
       </div>
     </div>
