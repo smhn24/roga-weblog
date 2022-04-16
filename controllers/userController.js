@@ -102,10 +102,11 @@ exports.rememberMe = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-  req.session = null
-  req.logout()
-  res.setHeader('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
-  res.redirect('/users/login')
+  req.session.destroy(() => {
+    req.logout()
+    res.setHeader('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
+    res.redirect('/users/login')
+  })
 }
 
 exports.register = (req, res) => {
