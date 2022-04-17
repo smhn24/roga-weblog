@@ -23,7 +23,9 @@
     <div class="my-2">
       <label for="category" class="form-label">دسته بندی</label>
       <select name="category" class="form-select" id="category">
-        <option value=""></option>
+        {% for category in categories %}
+        <option value="{{category.id}}">{{category.name}}</option>
+        {% endfor %}
       </select>
     </div>
 
