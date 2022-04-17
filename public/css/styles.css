@@ -1,44 +1,48 @@
 @font-face {
-  font-family: "BYekan";
-  src: url("../fonts/BYekan-webfont.eot") format("eot"),
-    url("../fonts/BYekan-webfont.woff") format("woff"),
-    url("../fonts/BYekan-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'Estedad';
+	src: url('../fonts/Estedad-Black.woff2') format('woff2'),
+		url('../fonts/Estedad-Bold.woff2') format('woff2'),
+		url('../fonts/Estedad-ExtraBold.woff2') format('woff2'),
+		url('../fonts/Estedad-ExtraLight.woff2') format('woff2'),
+		url('../fonts/Estedad-Light.woff2') format('woff2'),
+		url('../fonts/Estedad-Medium.woff2') format('woff2'),
+		url('../fonts/Estedad-Regular.woff2') format('woff2'),
+		url('../fonts/Estedad-SemiBold.woff2') format('woff2'),
+		url('../fonts/Estedad-Thin.woff2') format('woff2');
 }
 
 body {
-  font-family: "BYekan" !important;
-  scroll-behavior: smooth;
+	font-family: 'Estedad' !important;
+	scroll-behavior: smooth;
 }
 
-input[type="file"]::-webkit-file-upload-button {
-  visibility: hidden;
+input[type='file']::-webkit-file-upload-button {
+	visibility: hidden;
 }
 
-input[type="file"] {
-  position: absolute;
+input[type='file'] {
+	position: absolute;
 }
 
 #imageStatus {
-  position: absolute;
-  cursor: pointer;
-  z-index: 5;
-  background-color: #fff;
-  top: 0.5rem;
-  right: 6.9rem;
-  width: 43rem;
-  height: 1.5rem;
+	position: absolute;
+	cursor: pointer;
+	z-index: 5;
+	background-color: #fff;
+	top: 0.5rem;
+	right: 6.9rem;
+	width: 43rem;
+	height: 1.5rem;
 }
 
 #uploadLabel {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 #uploadResult {
-  font-family: "Courier New", Courier, monospace;
+	font-family: 'Courier New', Courier, monospace;
 }
 
 .error-text {
-  font-size: 0.8rem;
+	font-size: 0.8rem;
 }
