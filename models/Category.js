@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'نام دسته بندی الزامی است'],
 		trim: true,
+		unique: true,
 	},
 });
 

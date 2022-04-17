@@ -76,6 +76,7 @@ exports.createCategory = async (req, res) => {
 		await Category.create({ name: req.body.category });
 		res.redirect('/dashboard/add-post');
 	} catch (err) {
+		//TODO Handle duplicate category and show message
 		console.log(err);
 		get500(req, res);
 	}

@@ -1,5 +1,4 @@
-{% extends "layouts/base.njk" %} {% block content %} {% include
-"includes/navbar.njk" %}
+{% extends "layouts/base.njk" %} {% block content %} {% include "includes/navbar.njk" %}
 <header>
   <div class="page-header min-vh-85">
     <div
@@ -11,7 +10,7 @@
       <div class="row">
         <div class="col-lg-7 d-flex justify-content-center flex-column">
           <div class="card card-body blur d-flex justify-content-center px-5 shadow-lg mt-lg-5 mt-3 py-5">
-            <h4 class="text-gradient text-primary mb-2">برنامه نویسی</h4>
+            <h4 class="text-gradient text-primary mb-2">{{ post.category.name }}</h4>
             <h1 class="mb-4">
               {{ post.title }}
             </h1>
@@ -30,7 +29,7 @@
     <div class="row">
       <div class="col-lg-8 ms-auto me-auto">
         <h6 class="opacity-7 text-uppercase font-weight-bolder text-sm">
-          برنامه نویسی
+          {{ post.category.name }}
         </h6>
 
         <h3 class="title mb-4">
@@ -61,9 +60,8 @@
         <div class="card">
           <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
             <a href="javascript:;" class="d-block blur-shadow-image">
-              <img src="http://localhost:3000/uploads/thumbnails/{{
-                  post.thumbnail
-                }}" class="img-fluid border-radius-md" alt="anastasia" />
+              <img src="http://localhost:3000/uploads/thumbnails/{{ post.thumbnail }}"
+                class="img-fluid border-radius-md" alt="anastasia" />
             </a>
           </div>
           <div class="card-body">
