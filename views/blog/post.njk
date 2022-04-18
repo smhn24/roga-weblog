@@ -131,7 +131,7 @@
                   {{ comment.text }}
                 </div>
               </div>
-              {% if comment.commenter.id == user.id %}
+              {% if comment.commenter.id == user.id or user.role == 'admin' %}
               <a href="/delete-comment/{{ comment.id }}" class="btn btn-danger btn-sm ms-2">حذف</a>
               {% endif %}
               {% endfor %}

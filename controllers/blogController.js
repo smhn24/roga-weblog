@@ -243,10 +243,15 @@ exports.handleComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
 	try {
 		const comment = await Comment.findById(req.params.commentId);
-		if (!comment || comment.commenter.toString() !== req.user.id)
-			return get404(req, res);
-		comment.remove();
-		return res.redirect('back');
+		if (!comment) return get404(req, res);
+		else if (
+			comment.commenter.toString() === req.user.id ||
+			req.user.role === 'admin'
+		) {
+			comment.remove();
+			return res.redirect('back');
+		}
+		return get404(req, res);
 	} catch (err) {
 		console.log(err);
 		get500(req, res);
