@@ -2,9 +2,16 @@
     <div class="pt-3">
         <ul class="position-sticky flex-column mx-1">
             <li class="nav-item mb-2 me-2">
+                <a class="nav-link d-flex align-items-center btn btn-outline-secondary {% if path == '/' %}active{% else %}{% endif %}"
+                    href="/">
+                    <span class="fa fa-home me-3"></span>
+                    وبلاگ
+                </a>
+            </li>
+            <li class="nav-item mb-2 me-2">
                 <a class="nav-link d-flex align-items-center btn btn-outline-secondary {% if path == '/dashboard' %}active{% else %}{% endif %}"
                     href="/dashboard">
-                    <span class="fa fa-home me-3"></span>
+                    <span class="fa fa-dashboard me-3"></span>
                     داشبورد
                 </a>
             </li>
