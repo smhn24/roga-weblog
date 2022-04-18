@@ -13,7 +13,7 @@ const { imageValidation } = require('../models/secure/imageValidation');
 const { default: mongoose } = require('mongoose');
 
 exports.dashboard = async (req, res) => {
-	const page = +req.query.page || 1;
+	let page = +req.query.page || 1;
 	const postPerPage = +req.query.limit || 5;
 
 	try {
@@ -29,6 +29,7 @@ exports.dashboard = async (req, res) => {
 			'Cache-Control',
 			'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
 		);
+		while (blogs.length === 0 && page > 1) page--;
 		res.render('admin/blogs', {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
