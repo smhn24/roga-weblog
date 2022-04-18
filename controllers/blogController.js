@@ -51,6 +51,10 @@ exports.singlePost = async (req, res) => {
 		]);
 		if (!post) return get404(req, res);
 
+		const similarPosts = await Blog.find({
+			_id: { $ne: post.id },
+			category: post.category,
+		}).populate(['user', 'category']);
 		const comments = await await Comment.find({ blog: req.params.id })
 			.sort({ commentedAt: 'desc' })
 			.populate('commenter');
@@ -59,6 +63,7 @@ exports.singlePost = async (req, res) => {
 			pageTitle: post.title,
 			path: '/post',
 			post,
+			similarPosts,
 			formatDate,
 			comments,
 			user: req.user,
