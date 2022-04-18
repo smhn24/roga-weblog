@@ -6,11 +6,42 @@
     <div class="input-group my-3">
       <input type="file" class="custom-file-input form-control" id="selectedThumbnail" name="thumbnail" />
     </div>
+    {% if errors | length > 0 %} {% for error in errors %}
+    {% if error.field == "thumbnail.name" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
+    {% if errors | length > 0 %} {% for error in errors %}
+    {% if error.field == "thumbnail.size" %}
+
+    <p class="text-warning font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
+    {% if errors | length > 0 %} {% for error in errors %}
+    {% if error.field == "thumbnail.mimetype" %}
+
+    <p class="text-secondary font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div class="my-2">
-      <label for="selectedThumbnail" class="form-label">عنوان پست</label>
+      <label for="title" class="form-label">عنوان پست</label>
       <input type="text" class="form-control" name="title" id="title" />
     </div>
+    {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "title" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div class="my-2">
       <label for="status" class="form-label">وضعیت</label>
@@ -19,6 +50,13 @@
         <option value="private">خصوصی</option>
       </select>
     </div>
+    {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "status" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div class="my-2">
       <label for="category" class="form-label">دسته بندی</label>
@@ -28,11 +66,25 @@
         {% endfor %}
       </select>
     </div>
+    {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "category" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div class="my-2">
       <h5 class="form-label">متن اصلی پست</h5>
       <textarea name="body" class="form-control" id="body"></textarea>
     </div>
+    {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "body" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div>
       <input type="submit" value="ساخت پست" class="btn btn-success m-2" />
