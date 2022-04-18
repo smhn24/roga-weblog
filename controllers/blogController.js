@@ -60,6 +60,7 @@ exports.singlePost = async (req, res) => {
 			post,
 			formatDate,
 			comments,
+			user: req.user,
 		});
 	} catch (err) {
 		console.log(err);
@@ -229,5 +230,18 @@ exports.handleComment = async (req, res) => {
 		} catch (err) {
 			get500(req, res);
 		}
+	}
+};
+
+exports.deleteComment = async (req, res) => {
+	try {
+		const comment = await Comment.findById(req.params.commentId);
+		if (!comment || comment.commenter.toString() !== req.user.id)
+			return get404(req, res);
+		comment.remove();
+		return res.redirect('back');
+	} catch (err) {
+		console.log(err);
+		get500(req, res);
 	}
 };
