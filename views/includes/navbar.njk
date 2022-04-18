@@ -4,7 +4,11 @@
             title="Designed and Coded by Novin Web" data-placement="bottom">
             رُگا
         </a>
+        {% if isAuthenticated %}
+        <a href="/dashboard" class="btn btn-sm bg-gradient-primary btn-round mb-0 ms-auto d-lg-none d-block">داشبورد</a>
+        {% else %}
         <a href="/users/login" class="btn btn-sm bg-gradient-primary btn-round mb-0 ms-auto d-lg-none d-block">ورود</a>
+        {% endif %}
         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
             data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -25,10 +29,17 @@
             </ul>
 
             <ul class="navbar-nav d-lg-block d-none">
+                {% if isAuthenticated %}
+                <li class="nav-item">
+                    <a href="/dashboard" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1"
+                        role="button">داشبورد</a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a href="/users/login" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1"
                         role="button">ورود</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
