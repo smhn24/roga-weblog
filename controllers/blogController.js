@@ -10,7 +10,7 @@ const { get500, get404 } = require('./errorController');
 const { sendEmail } = require('../utils/mailer');
 
 exports.index = async (req, res) => {
-	const page = +req.query.page || 1;
+	let page = +req.query.page || 1;
 	const postPerPage = +req.query.limit || 5;
 
 	try {
@@ -24,6 +24,7 @@ exports.index = async (req, res) => {
 			.skip((page - 1) * postPerPage)
 			.limit(postPerPage)
 			.populate(['user', 'category']);
+		while (posts.length === 0 && page > 1) page--;
 		res.render('index', {
 			pageTitle: 'وبلاگ',
 			path: '/',
