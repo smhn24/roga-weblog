@@ -92,6 +92,7 @@ exports.imageGallery = (req, res) => {
 
 exports.getEditPost = async (req, res) => {
 	const post = await Blog.findById(req.params.id);
+	const categories = await Category.find();
 	if (!post) return res.redirect('errors/404');
 	if (post.user.toString() !== req.user.id) return res.redirect('/dashboard');
 	res.render('admin/editPost', {
@@ -99,6 +100,7 @@ exports.getEditPost = async (req, res) => {
 		path: '/dashboard/edit-post',
 		fullname: req.user.fullname,
 		post,
+		categories,
 	});
 };
 
@@ -147,10 +149,11 @@ exports.editPost = async (req, res) => {
 			}
 		}
 
-		const { title, status, body } = req.body;
+		const { title, status, body, category } = req.body;
 		post.title = title;
 		post.status = status;
 		post.body = body;
+		post.category = category;
 		post.thumbnail = thumbnail.name ? fileName : post.thumbnail;
 		await post.save();
 		res.redirect('/dashboard');
