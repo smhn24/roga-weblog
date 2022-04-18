@@ -20,7 +20,7 @@
                 {{ nextPage }}
             </a>
         </li>
-        {% endif %} {% if lastPage != currentPage and nextPage != lastPage %}
+        {% endif %} {% if lastPage != currentPage and nextPage != lastPage and lastPage != 0 %}
         <li class="page-item">
             <a class="page-link" href="?page={{ lastPage }}">
                 {{ lastPage }}
