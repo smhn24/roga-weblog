@@ -36,6 +36,7 @@ exports.index = async (req, res) => {
 			hasNextPage: postPerPage * page < numberOfPosts,
 			hasPreviousPage: page > 1,
 			lastPage: Math.ceil(numberOfPosts / postPerPage),
+			isAuthenticated: req.isAuthenticated(),
 		});
 	} catch (err) {
 		console.log(err);
