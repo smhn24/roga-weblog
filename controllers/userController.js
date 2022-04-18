@@ -1,6 +1,7 @@
 const passport = require('passport');
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 const { sendEmail } = require('../utils/mailer');
@@ -20,78 +21,90 @@ exports.login = (req, res) => {
 };
 
 exports.handleLogin = async (req, res, next) => {
-	// const errors = [];
-	// const secretKey = process.env.CAPTCHA_SECRET;
-	// const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}&remoteip=${req.connection.remoteAddress}`;
+	const errors = [];
+	const secretKey = process.env.CAPTCHA_SECRET;
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
 
-	// try {
-	//   await loginValidation.validate(req.body, { abortEarly: false });
+	const { email, password } = req.body;
 
-	//   const response = await fetch(verifyUrl, {
-	//     method: "POST",
-	//     headers: {
-	//       Accept: "application/json",
-	//       contentType: "application/x-www-form-urlencoded; charset=utf-8",
-	//     },
-	//   });
-	//   const json = await response.json();
-	//   if (json.success) {
-	passport.authenticate(
-		'local',
-		{
-			failureRedirect: '/users/login',
-		},
-		// (err, user, info) => {
-		//   if (err) {
-		//     errors.push({
-		//       field: "global",
-		//       message: info.message,
-		//     });
-		//     res.render("auth/login", {
-		//       pageTitle: "ورود به بخش مدیریت",
-		//       path: "/login",
-		//       errors,
-		//     });
-		//   }
-		//   if (!user) {
-		//     errors.push({
-		//       field: "global",
-		//       message: info.message,
-		//     });
-		//     res.render("auth/login", {
-		//       pageTitle: "ورود به بخش مدیریت",
-		//       path: "/login",
-		//       errors,
-		//     });
-		//   }
-		// }
-	)(req, res, next);
-	//   } else {
-	//     errors.push({
-	//       field: "global",
-	//       message: "مشکلی در کپچا وجود دارد",
-	//     });
-	//     res.render("auth/login", {
-	//       pageTitle: "ورود به بخش مدیریت",
-	//       path: "/login",
-	//       success: req.flash("success"),
-	//       errors,
-	//     });
-	//   }
-	// } catch (err) {
-	//   if (err.inner) {
-	//     err.inner.forEach((e) => {
-	//       errors.push({ field: e.path, message: e.message });
-	//     });
-	//   } else {
-	//     errors.push({ field: "global", message: "مشکلی روی داده است" });
-	//   }
-	//   res.render("auth/login", {
-	//     pageTitle: "ورود به بخش مدیریت",
-	//     path: "/login",
-	//     errors,
-	//   });
-	// }
+	try {
+		await loginValidation.validate(req.body, { abortEarly: false });
+
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			},
+		});
+		const json = await response.json();
+		if (json.success) {
+			try {
+				const user = await User.findOne({ email });
+				if (!user) {
+					errors.push({
+						field: 'global',
+						message: 'کاربری با این ایمیل وجود ندارد',
+					});
+					res.render('auth/login', {
+						pageTitle: 'ورود به بخش مدیریت',
+						path: '/login',
+						errors,
+					});
+				}
+				const isMatch = await bcrypt.compare(password, user.password);
+				if (!isMatch) {
+					errors.push({
+						field: 'global',
+						message: 'نام کاربری یا کلمه عبور صحیح نیست',
+					});
+					return res.render('auth/login', {
+						pageTitle: 'ورود به بخش مدیریت',
+						path: '/login',
+						errors,
+					});
+				}
+				passport.authenticate('local', {
+					failureRedirect: '/users/login',
+				})(req, res, next);
+			} catch (err) {
+				console.log(err);
+				errors.push({
+					field: 'global',
+					message: 'مشکلی روی داده است',
+				});
+				res.render('auth/login', {
+					pageTitle: 'ورود به بخش مدیریت',
+					path: '/login',
+					errors,
+				});
+			}
+		} else {
+			errors.push({
+				field: 'global',
+				message: 'مشکلی در کپچا وجود دارد',
+			});
+			res.render('auth/login', {
+				pageTitle: 'ورود به بخش مدیریت',
+				path: '/login',
+				success: req.flash('success'),
+				errors,
+			});
+		}
+	} catch (err) {
+		if (err.inner) {
+			err.inner.forEach((e) => {
+				errors.push({ field: e.path, message: e.message });
+			});
+		} else {
+			errors.push({ field: 'global', message: 'مشکلی روی داده است' });
+		}
+		res.render('auth/login', {
+			pageTitle: 'ورود به بخش مدیریت',
+			path: '/login',
+			errors,
+		});
+	}
 };
 
 exports.rememberMe = (req, res) => {

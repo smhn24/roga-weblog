@@ -21,7 +21,7 @@ passport.use(
 				message: 'نام کاربری یا کلمه عبور صحیح نیست',
 			});
 		} catch (err) {
-			console.log(err);
+			return done(err);
 		}
 	}),
 );
