@@ -156,12 +156,11 @@ exports.editPost = async (req, res) => {
 		res.redirect('/dashboard');
 	} catch (err) {
 		err.inner.forEach((e) => {
-			errors.push({ name: e.path, message: e.message });
+			errors.push({ field: e.path, message: e.message });
 		});
 		return res.render('admin/editPost', {
 			pageTitle: 'بخش مدیریت | ویرایش پست',
 			path: '/dashboard/edit-post',
-			layout: './layouts/dashboardLayout',
 			fullname: req.user.fullname,
 			errors,
 			post,
@@ -203,15 +202,13 @@ exports.createPost = async (req, res) => {
 		});
 		res.redirect('/dashboard');
 	} catch (err) {
-		console.log(err);
 		err.inner.forEach((e) => {
-			errors.push({ name: e.path, message: e.message });
+			errors.push({ field: e.path, message: e.message });
 		});
 		const categories = await Category.find();
 		return res.render('admin/addPost', {
 			pageTitle: 'بخش مدیریت | ساخت پست جدید',
 			path: '/dashboard/add-post',
-			layout: './layouts/dashboardLayout',
 			fullname: req.user.fullname,
 			errors,
 			categories,

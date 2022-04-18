@@ -10,6 +10,7 @@ exports.schema = Yup.object().shape({
 		['public', 'private'],
 		'حتما یکی از 2 وضعیت عمومی یا خصوصی باید انتخاب شود',
 	),
+	category: Yup.string().required('پست شما حتما باید عضو دسته بندی باشد'),
 	thumbnail: Yup.object().shape({
 		name: Yup.string().required('وارد کردن عکس بند انگشتی الزامی است'),
 		size: Yup.number().max(
