@@ -53,9 +53,9 @@
   <div class="container">
     <div class="row">
       <div class="col-9 text-center mx-auto">
-        <h3 class="mb-5">مقالات دیگر</h3>
+        <h3 class="mb-5">مقالات مشابه</h3>
       </div>
-      {% for post in posts %}
+      {% for post in similarPosts %}
       <div class="col-lg-4 mb-lg-0 mb-4">
         <div class="card">
           <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
@@ -65,7 +65,8 @@
             </a>
           </div>
           <div class="card-body">
-            <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold">برنامه نویسی</span>
+            <span
+              class="text-gradient text-primary text-uppercase text-xs font-weight-bold">{{ post.category.name }}</span>
             <a href="javascript:;" class="card-title mt-3 h5 d-block text-darker">
               {{ post.title | truncate(50) }}
             </a>
@@ -75,7 +76,7 @@
             <div class="author align-items-center">
               <img src="/img/team-2.jpg" alt="..." class="avatar shadow" />
               <div class="name ps-2">
-                <span>عرفان صادقی نژاد</span>
+                <span>{{ post.user.fullname }}</span>
                 <div class="stats">
                   <small>{{ formatDate(post.createdAt) }}</small>
                 </div>
@@ -130,7 +131,7 @@
                   {{ comment.text }}
                 </div>
               </div>
-              {% if comment.commenter.id == user.id %}
+              {% if comment.commenter.id == user.id or user.role == 'admin' %}
               <a href="/delete-comment/{{ comment.id }}" class="btn btn-danger btn-sm ms-2">حذف</a>
               {% endif %}
               {% endfor %}
