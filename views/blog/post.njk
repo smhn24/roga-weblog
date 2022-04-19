@@ -118,22 +118,26 @@
             </form>
             <div class="card-description">
               {% for comment in comments %}
-              <div class="d-flex my-2">
-                <div class="flex-shrink-0">
-                  <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                    alt="{{comment.commenter.fullname}}" />
-                </div>
-                <div class="ms-3">
-                  <div class="fw-bold">{{ comment.commenter.fullname }}</div>
-                  <div class="fw-lighter">
-                    {{ formatDate(comment.commentedAt) }}
+              <div class="d-flex justify-content-between">
+                <div class="d-flex my-2">
+                  <div class="flex-shrink-0">
+                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                      alt="{{comment.commenter.fullname}}" />
                   </div>
-                  {{ comment.text }}
+                  <div class="ms-3">
+                    <div class="fw-bold">{{ comment.commenter.fullname }}</div>
+                    <div class="fw-lighter">
+                      {{ formatDate(comment.commentedAt) }}
+                    </div>
+                    {{ comment.text }}
+                  </div>
                 </div>
+                {% if comment.commenter.id == user.id or user.role == 'admin' %}
+                <div>
+                  <a href="/delete-comment/{{ comment.id }}" class="btn btn-danger btn-icon-only fa fa-trash"></a>
+                </div>
+                {% endif %}
               </div>
-              {% if comment.commenter.id == user.id or user.role == 'admin' %}
-              <a href="/delete-comment/{{ comment.id }}" class="btn btn-danger btn-sm ms-2">حذف</a>
-              {% endif %}
               {% endfor %}
             </div>
           </div>
