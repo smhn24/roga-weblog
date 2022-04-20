@@ -85,7 +85,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mx-auto">
+            {% if path == "/articles" %}
+            {% include "includes/searchResult.njk" %}
+            {% else %}
             {% include "includes/blogPost.njk" %}
+            {% endif %}
             <!-- Pagination -->
             {% include "includes/pagination.njk" %}
         </div>

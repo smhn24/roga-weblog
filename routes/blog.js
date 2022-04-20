@@ -45,6 +45,6 @@ router.post('/contact-us', blogController.handleContactUs);
  * @route POST /search
  * @description Handle Search
  */
-router.post('/search', blogController.handleSearch);
+router.post('/articles', blogController.handleSearch);
 
 module.exports = router;
