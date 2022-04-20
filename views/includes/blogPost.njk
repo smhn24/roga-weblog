@@ -14,11 +14,11 @@
         <div class="col-lg-6 justify-content-center d-flex flex-column pl-lg-5 pt-lg-0 pt-3">
           <h6 class="category text-primary mt-3">{{ post.category.name }}</h6>
           <h3 class="card-title">
-            <a href="/post/{{ post.id }}" class="text-dark">{{ post.title }}</a>
+            <a href="/post/{{ post.slug }}" class="text-dark">{{ post.title }}</a>
           </h3>
           <p class="card-description">
             {{ post.body | safe | truncate(500, true, " ...") }}
-            <a href="/post/{{ post.id }}" class="text-darker icon-move-right text-sm">ادامه مطلب
+            <a href="/post/{{ post.slug }}" class="text-darker icon-move-right text-sm">ادامه مطلب
               <i class="fa fa-arrow-right text-xs ms-1"></i>
             </a>
           </p>

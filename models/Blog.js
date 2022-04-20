@@ -39,6 +39,11 @@ const blogSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Category',
 	},
+	slug: {
+		type: String,
+		required: [true, 'اسلاگ الزامی می باشد'],
+		unique: true,
+	},
 });
 
 blogSchema.index({ title: 'text' });
@@ -50,6 +55,12 @@ blogSchema.statics.postValidation = function (body) {
 blogSchema.pre('remove', async function (next) {
 	const thumbPath = `${appRoot}/public/uploads/thumbnails/${this.thumbnail}`;
 	if (await fileExist(thumbPath)) await unlink(thumbPath);
+});
+
+blogSchema.pre('save', async function (next) {
+	const slug = this.title.replace(/\s+/g, '-').trim();
+	this.slug = slug;
+	next();
 });
 
 module.exports = mongoose.model('Blog', blogSchema);

@@ -46,17 +46,18 @@ exports.index = async (req, res) => {
 
 exports.singlePost = async (req, res) => {
 	try {
-		const post = await Blog.findById(req.params.id).populate([
+		const post = await Blog.find({ slug: req.params.slug }).populate([
 			'user',
 			'category',
 		]);
-		if (!post) return get404(req, res);
+		if (post.length == 0) return get404(req, res);
 
 		const similarPosts = await Blog.find({
 			_id: { $ne: post.id },
 			category: post.category,
 		}).populate(['user', 'category']);
-		const comments = await await Comment.find({ blog: req.params.id })
+
+		const comments = await await Comment.find({ blog: post.id })
 			.sort({ commentedAt: 'desc' })
 			.populate('commenter');
 
