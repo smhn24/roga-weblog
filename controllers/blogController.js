@@ -93,6 +93,14 @@ exports.contactUs = (req, res) => {
 	});
 };
 
+exports.aboutUs = (req, res) => {
+	res.render('common/aboutUs', {
+		pageTitle: 'درباره ما',
+		path: '/about-us',
+		isAuthenticated: req.isAuthenticated(),
+	});
+};
+
 exports.handleContactUs = async (req, res) => {
 	const errors = [];
 
