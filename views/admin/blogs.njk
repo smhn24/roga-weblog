@@ -39,7 +39,8 @@
                     </td>
                     <td class="align-middle">
                         <a href="/dashboard/edit-post/{{ blog.id }}" class="btn btn-warning btn-sm me-2">ویرایش</a>
-                        <a href="/dashboard/delete-post/{{ blog.id }}" class="btn btn-danger btn-sm ms-2">حذف</a>
+                        <a data-href="/dashboard/delete-post/{{ blog.id }}" class="btn btn-danger btn-sm ms-2"
+                            id="delete-post">حذف</a>
                     </td>
                 </tr>
                 {% endfor %}
