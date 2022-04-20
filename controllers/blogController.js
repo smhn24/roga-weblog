@@ -46,7 +46,7 @@ exports.index = async (req, res) => {
 
 exports.singlePost = async (req, res) => {
 	try {
-		const post = await Blog.find({ slug: req.params.slug }).populate([
+		const post = await Blog.findOne({ slug: req.params.slug }).populate([
 			'user',
 			'category',
 		]);
