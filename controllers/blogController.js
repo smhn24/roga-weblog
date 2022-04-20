@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const Blog = require('../models/Blog');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
+const Category = require('../models/Category');
 
 const { formatDate } = require('../utils/jalali');
 const { get500, get404 } = require('./errorController');
@@ -14,6 +15,8 @@ exports.index = async (req, res) => {
 	const postPerPage = +req.query.limit || 5;
 
 	try {
+		const usersNumber = await User.find().countDocuments();
+		const categoryNumbers = await Category.find().countDocuments();
 		const numberOfPosts = await Blog.find({
 			status: 'public',
 		}).countDocuments();
@@ -37,6 +40,9 @@ exports.index = async (req, res) => {
 			hasPreviousPage: page > 1,
 			lastPage: Math.ceil(numberOfPosts / postPerPage),
 			isAuthenticated: req.isAuthenticated(),
+			postsNumber: numberOfPosts,
+			usersNumber,
+			categoryNumbers,
 		});
 	} catch (err) {
 		console.log(err);
