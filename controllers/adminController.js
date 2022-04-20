@@ -34,7 +34,7 @@ exports.dashboard = async (req, res) => {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
 			layout: './layouts/dashboardLayout',
-			fullname: req.user.fullname,
+			user: req.user,
 			blogs,
 			formatDate,
 			currentPage: page,
