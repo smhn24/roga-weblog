@@ -12,10 +12,10 @@ const router = Router();
 router.get('/', blogController.index);
 
 /**
- * @route GET /blog/:id
+ * @route GET /articles/:slug
  * @description Single Post Page
  */
-router.get('/post/:id', blogController.singlePost);
+router.get('/post/:slug', blogController.singlePost);
 
 /**
  * @route GET /contact-us

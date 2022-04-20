@@ -203,6 +203,7 @@ exports.createPost = async (req, res) => {
 			user: req.user.id,
 			category: req.body.category,
 			thumbnail: fileName,
+			slug: req.body.title.replace(/\s+/g, '-'),
 		});
 		res.redirect('/dashboard');
 	} catch (err) {
