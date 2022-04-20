@@ -32,15 +32,19 @@
                     </td>
                     <td class="align-middle text-center text-sm">{{ formatDate(blog.createdAt) }}</td>
                     <td class="align-middle text-center text-sm">
-                        <span class="badge {% if blog.status == 'public' %}bg-success{% else %}bg-warning text-dark{%
+                        <span class="badge {% if blog.status == 'public' %}bg-gradient-success{% else %}bg-gradient-warning{%
                             endif %}">
                             {% if blog.status == "public" %}عمومی{% else %}خصوصی{% endif %}
                         </span>
                     </td>
                     <td class="align-middle">
-                        <a href="/dashboard/edit-post/{{ blog.id }}" class="btn btn-warning btn-sm me-2">ویرایش</a>
-                        <a data-href="/dashboard/delete-post/{{ blog.id }}" class="btn btn-danger btn-sm ms-2"
-                            id="delete-post">حذف</a>
+                        <a href="/dashboard/edit-post/{{ blog.id }}"
+                            class="btn btn-warning btn-icon-only btn-lg ms-4 me-4 mt-1">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a data-href="/dashboard/delete-post/{{ blog.id }}"
+                            class="btn btn-danger btn-icon-only btn-lg mt-1" id="delete-post"><i
+                                class="fa fa-trash-o"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
