@@ -3,6 +3,7 @@ const { unlink } = require('fs/promises');
 const mongoose = require('mongoose');
 const appRoot = require('app-root-path');
 
+const Comment = require('./Comment');
 const { schema } = require('./secure/postValidation');
 const { fileExist } = require('../utils/fileExsiting');
 
@@ -55,6 +56,8 @@ blogSchema.statics.postValidation = function (body) {
 blogSchema.pre('remove', async function (next) {
 	const thumbPath = `${appRoot}/public/uploads/thumbnails/${this.thumbnail}`;
 	if (await fileExist(thumbPath)) await unlink(thumbPath);
+	await Comment.deleteMany({ blog: this.id });
+	next();
 });
 
 blogSchema.pre('save', async function (next) {
