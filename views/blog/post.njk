@@ -56,25 +56,24 @@
         <h3 class="mb-5">مقالات مشابه</h3>
       </div>
       {% for post in similarPosts %}
-      <div class="col-lg-4 mb-lg-0 mb-4">
+      <div class="col-lg-4 mb-lg-0 mb-4 shadow-card max-height-600 overflow-hidden flex-nowrap">
         <div class="card">
           <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-            <a href="javascript:;" class="d-block blur-shadow-image">
+            <a href="{{post.id}}" class="d-block blur-shadow-image">
               <img src="http://localhost:3000/uploads/thumbnails/{{ post.thumbnail }}"
-                class="img-fluid border-radius-md" alt="anastasia" />
+                class="img-fluid border-radius-md" alt="anastasia" style="width: 400px; height: 256px;" />
             </a>
           </div>
           <div class="card-body">
             <span
               class="text-gradient text-primary text-uppercase text-xs font-weight-bold">{{ post.category.name }}</span>
             <a href="javascript:;" class="card-title mt-3 h5 d-block text-darker">
-              {{ post.title | truncate(50) }}
+              {{ post.title | trim | truncate(45, false) }}
             </a>
             <p class="card-description mb-4">
-              {{ post.body | safe | truncate(250) }}
+              {{ post.body | truncate(120, false) | safe }}
             </p>
             <div class="author align-items-center">
-              <img src="/img/team-2.jpg" alt="..." class="avatar shadow" />
               <div class="name ps-2">
                 <span>{{ post.user.fullname }}</span>
                 <div class="stats">
