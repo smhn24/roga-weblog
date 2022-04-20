@@ -1,5 +1,6 @@
 const nodeMailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
+const nunjucks = require('nunjucks');
 
 const transporterDetails = smtpTransport({
 	host: process.env.EMAIL_HOST,
@@ -17,13 +18,17 @@ const transporterDetails = smtpTransport({
 exports.sendEmail = (to, fullname, subject, message) => {
 	const transporter = nodeMailer.createTransport(transporterDetails);
 
+	const html = nunjucks.render('../views/email/email.njk', {
+		fullname,
+		message,
+	});
+
 	transporter.sendMail(
 		{
 			from: process.env.EMAIL_USERNAME,
 			to,
 			subject,
-			html: `<h1>سلام ${fullname} عزیز</h1><br>
-			<p>${message}</p>`,
+			html: html,
 		},
 		(err, info) => {
 			if (err) {
