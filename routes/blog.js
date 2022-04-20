@@ -24,6 +24,12 @@ router.get('/post/:slug', blogController.singlePost);
 router.get('/contact-us', blogController.contactUs);
 
 /**
+ * @route GET /about-us
+ * @description About US Page
+ */
+router.get('/about-us', blogController.aboutUs);
+
+/**
  * @route GET /delete-comment/:commentId
  * @description Delete Comment
  */
