@@ -39,43 +39,31 @@
         <div class="row">
             <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
                 <div class="row">
-                    <div class="col-md-4 position-relative">
-                        <div class="p-3 text-center">
-                            <h1 class="text-gradient text-primary">
-                                <span id="state1" countTo="70">45</span>
-                            </h1>
-                            <h5 class="mt-3">نویسنده ها</h5>
-                            <p class="text-sm">
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                صنعت چاپ و با استفاده از طراحان گرافیک است
-                            </p>
-                        </div>
-                        <hr class="vertical dark" />
-                    </div>
-                    <div class="col-md-4 position-relative">
-                        <div class="p-3 text-center">
-                            <h1 class="text-gradient text-primary">
-                                <span id="state2" countTo="15">455, 525</span>
-                            </h1>
-                            <h5 class="mt-3">مقالات</h5>
-                            <p class="text-sm">
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                صنعت چاپ و با استفاده از طراحان گرافیک است
-                            </p>
-                        </div>
-                        <hr class="vertical dark" />
-                    </div>
                     <div class="col-md-4">
                         <div class="p-3 text-center">
                             <h1 class="text-gradient text-primary" id="state3" countTo="4">
-                                155, 455
+                                {{ usersNumber }}
                             </h1>
                             <h5 class="mt-3">کاربران</h5>
-                            <p class="text-sm">
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                صنعت چاپ و با استفاده از طراحان گرافیک است
-                            </p>
                         </div>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <div class="p-3 text-center">
+                            <h1 class="text-gradient text-primary">
+                                <span id="state1" countTo="70">{{ categoryNumbers }}</span>
+                            </h1>
+                            <h5 class="mt-3">دسته بندی ها</h5>
+                        </div>
+                        <hr class="vertical dark" />
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <div class="p-3 text-center">
+                            <h1 class="text-gradient text-primary">
+                                <span id="state2" countTo="15">{{ postsNumber }}</span>
+                            </h1>
+                            <h5 class="mt-3">مقالات</h5>
+                        </div>
+                        <hr class="vertical dark" />
                     </div>
                 </div>
             </div>
