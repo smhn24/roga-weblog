@@ -68,6 +68,7 @@ exports.singlePost = async (req, res) => {
 			formatDate,
 			comments,
 			user: req.user,
+			isAuthenticated: req.isAuthenticated(),
 		});
 	} catch (err) {
 		console.log(err);
@@ -80,6 +81,7 @@ exports.contactUs = (req, res) => {
 		pageTitle: 'تماس با ما',
 		path: '/contact-us',
 		success: req.flash('success'),
+		isAuthenticated: req.isAuthenticated(),
 		errors: [],
 	});
 };
@@ -121,6 +123,7 @@ exports.handleContactUs = async (req, res) => {
 				pageTitle: 'تماس با ما',
 				path: '/contact-us',
 				success: req.flash('success'),
+				isAuthenticated: req.isAuthenticated(),
 				errors,
 			});
 		}
@@ -130,6 +133,7 @@ exports.handleContactUs = async (req, res) => {
 			pageTitle: 'تماس با ما',
 			path: '/contact-us',
 			success: req.flash('success'),
+			isAuthenticated: req.isAuthenticated(),
 			errors,
 		});
 	}
@@ -154,6 +158,7 @@ exports.handleContactUs = async (req, res) => {
 			pageTitle: 'تماس با ما',
 			path: '/contact-us',
 			success: req.flash('success'),
+			isAuthenticated: req.isAuthenticated(),
 			errors,
 		});
 	}
@@ -188,6 +193,7 @@ exports.handleSearch = async (req, res) => {
 			hasNextPage: postPerPage * page < numberOfPosts,
 			hasPreviousPage: page > 1,
 			lastPage: Math.ceil(numberOfPosts / postPerPage),
+			isAuthenticated: req.isAuthenticated(),
 		});
 	} catch (err) {
 		console.log(err);
@@ -233,6 +239,7 @@ exports.handleComment = async (req, res) => {
 				formatDate,
 				comments,
 				errors,
+				isAuthenticated: req.isAuthenticated(),
 			});
 		} catch (err) {
 			get500(req, res);
