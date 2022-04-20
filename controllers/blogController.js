@@ -185,7 +185,7 @@ exports.handleSearch = async (req, res) => {
 			.limit(postPerPage);
 		res.render('index', {
 			pageTitle: 'نتایج جستجو',
-			path: '/',
+			path: '/articles',
 			posts,
 			formatDate,
 			currentPage: page,
