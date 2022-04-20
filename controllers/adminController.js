@@ -57,7 +57,7 @@ exports.getAddPosts = async (req, res) => {
 		pageTitle: 'بخش مدیریت | ساخت پست جدید',
 		path: '/dashboard/add-post',
 		layout: './layouts/dashboardLayout',
-		fullname: req.user.fullname,
+		user: req.user,
 		categories,
 	});
 };
@@ -66,7 +66,7 @@ exports.getAddCategory = (req, res) => {
 	res.render('admin/addCategory', {
 		pageTitle: 'بخش مدیریت | ساخت دسته بندی جدید',
 		path: '/dashboard/add-category',
-		fullname: req.user.fullname,
+		user: req.user,
 	});
 };
 
@@ -87,7 +87,7 @@ exports.imageGallery = (req, res) => {
 	res.render('admin/imageGallery', {
 		pageTitle: 'بخش مدیریت | گالری تصاویر',
 		path: '/dashboard/image-gallery',
-		fullname: req.user.fullname,
+		user: req.user,
 	});
 };
 
@@ -99,7 +99,7 @@ exports.getEditPost = async (req, res) => {
 	res.render('admin/editPost', {
 		pageTitle: 'بخش مدیریت | ویرایش پست',
 		path: '/dashboard/edit-post',
-		fullname: req.user.fullname,
+		user: req.user,
 		post,
 		categories,
 	});
@@ -165,7 +165,7 @@ exports.editPost = async (req, res) => {
 		return res.render('admin/editPost', {
 			pageTitle: 'بخش مدیریت | ویرایش پست',
 			path: '/dashboard/edit-post',
-			fullname: req.user.fullname,
+			user: req.user,
 			errors,
 			post,
 		});
@@ -214,7 +214,7 @@ exports.createPost = async (req, res) => {
 		return res.render('admin/addPost', {
 			pageTitle: 'بخش مدیریت | ساخت پست جدید',
 			path: '/dashboard/add-post',
-			fullname: req.user.fullname,
+			user: req.user,
 			errors,
 			categories,
 		});
@@ -284,7 +284,7 @@ exports.handleDashboardSearch = async (req, res) => {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
 			layout: './layouts/dashboardLayout',
-			fullname: req.user.fullname,
+			user: req.user,
 			blogs,
 			formatDate,
 			currentPage: page,
