@@ -29,7 +29,7 @@ const app = express();
 
 //* Logging
 if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev', { stream: winston.stream }));
+	app.use(morgan('combined', { stream: winston.stream }));
 }
 
 //* View Engine

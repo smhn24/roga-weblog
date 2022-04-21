@@ -10,21 +10,10 @@ const options = {
 		maxsize: 5242880, // 5MB
 		maxfile: 5,
 	},
-	Console: {
-		level: 'debug',
-		handleExceptions: true,
-		format: winston.format.combine(
-			winston.format.colorize(),
-			winston.format.simple(),
-		),
-	},
 };
 
 const logger = new winston.createLogger({
-	transports: [
-		new winston.transports.File(options.File),
-		new winston.transports.Console(options.Console),
-	],
+	transports: [new winston.transports.File(options.File)],
 	exitOnError: false,
 });
 
