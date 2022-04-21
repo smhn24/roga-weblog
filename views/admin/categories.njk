@@ -14,4 +14,10 @@
     </div>
   </form>
 </div>
+<h4 class="text-center mt-4">دسته بندی های ثبت شده</h4>
+<ul class="list-group list-group-flush">
+  {% for category in categories %}
+  <li class="list-group-item ms-5 me-5">{{ category.name }}</li>
+  {% endfor %}
+</ul>
 {% endblock %}
