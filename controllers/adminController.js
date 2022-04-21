@@ -63,22 +63,26 @@ exports.getAddPosts = async (req, res) => {
 	});
 };
 
-exports.getAddCategory = (req, res) => {
-	res.render('admin/addCategory', {
+exports.getCategories = async (req, res) => {
+	const categories = await Category.find();
+	res.render('admin/categories', {
 		pageTitle: 'بخش مدیریت | ساخت دسته بندی جدید',
 		path: '/dashboard/add-category',
 		user: req.user,
+		categories,
 	});
 };
 
 exports.createCategory = async (req, res) => {
 	if (!req.body.category) return res.redirect('/dashboard/add-category');
-
+	const caetgoryName = req.body.category;
 	try {
+		if ((await Category.findOne({ name: caetgoryName }).length) !== 0) {
+			return res.redirect('/dashboard/add-category');
+		}
 		await Category.create({ name: req.body.category });
 		res.redirect('/dashboard/add-post');
 	} catch (err) {
-		//TODO Handle duplicate category and show message
 		consola.error(err);
 		get500(req, res);
 	}

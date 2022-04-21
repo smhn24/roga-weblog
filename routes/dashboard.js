@@ -23,10 +23,10 @@ router.get('/add-post', authenticated, adminController.getAddPosts);
  * @description Dashboard Add Category Page
  */
 router.get(
-	'/add-category',
+	'/categories',
 	authenticated,
 	isAdmin,
-	adminController.getAddCategory,
+	adminController.getCategories,
 );
 
 /**
