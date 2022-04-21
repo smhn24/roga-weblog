@@ -3,6 +3,7 @@ const { unlink } = require('fs/promises');
 const sharp = require('sharp');
 const { nanoid } = require('nanoid');
 const appRoot = require('app-root-path');
+const consola = require('consola');
 
 const Blog = require('../models/Blog');
 const Category = require('../models/Category');
@@ -45,7 +46,7 @@ exports.dashboard = async (req, res) => {
 			lastPage: Math.ceil(numberOfPosts / postPerPage),
 		});
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };
@@ -78,7 +79,7 @@ exports.createCategory = async (req, res) => {
 		res.redirect('/dashboard/add-post');
 	} catch (err) {
 		//TODO Handle duplicate category and show message
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };
@@ -139,14 +140,14 @@ exports.editPost = async (req, res) => {
 						quality: 60,
 					})
 					.toFile(uploadPath)
-					.catch((err) => console.log(err));
+					.catch((err) => consola.error(err));
 			} else if (thumbnail.mimetype === 'image/png') {
 				await sharp(thumbnail.data)
 					.png({
 						quality: 60,
 					})
 					.toFile(uploadPath)
-					.catch((err) => console.log(err));
+					.catch((err) => consola.error(err));
 			}
 		}
 
@@ -189,14 +190,14 @@ exports.createPost = async (req, res) => {
 					quality: 60,
 				})
 				.toFile(uploadPath)
-				.catch((err) => console.log(err));
+				.catch((err) => consola.error(err));
 		} else if (thumbnail.mimetype === 'image/png') {
 			await sharp(thumbnail.data)
 				.png({
 					quality: 60,
 				})
 				.toFile(uploadPath)
-				.catch((err) => console.log(err));
+				.catch((err) => consola.error(err));
 		}
 		await Blog.create({
 			...req.body,
@@ -242,7 +243,7 @@ exports.uploadImage = async (req, res) => {
 			await sharp(image.data)
 				.jpeg({ quality: 60 })
 				.toFile(uploadPath)
-				.catch((err) => console.log(err));
+				.catch((err) => consola.error(err));
 			res.status(200).send(
 				`http://localhost:3000/uploads/images/${fileName}`,
 			);
@@ -250,13 +251,13 @@ exports.uploadImage = async (req, res) => {
 			await sharp(image.data)
 				.png({ quality: 60 })
 				.toFile(uploadPath)
-				.catch((err) => console.log(err));
+				.catch((err) => consola.error(err));
 			res.status(200).send(
 				`http://localhost:3000/uploads/images/${fileName}`,
 			);
 		}
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		err.inner.forEach((e) => {
 			errors.push({ name: e.path, message: e.message });
 		});
@@ -295,7 +296,7 @@ exports.handleDashboardSearch = async (req, res) => {
 			lastPage: Math.ceil(numberOfPosts / postPerPage),
 		});
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };

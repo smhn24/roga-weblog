@@ -32,9 +32,7 @@ exports.sendEmail = (to, fullname, subject, message) => {
 		},
 		(err, info) => {
 			if (err) {
-				console.log(err);
-			} else {
-				console.log(info.response);
+				consola.error(err);
 			}
 		},
 	);
