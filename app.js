@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const consola = require('consola');
 
@@ -54,8 +54,8 @@ app.use(
 		resave: false,
 		saveUninitialized: false,
 		unset: 'destroy',
-		store: new MongoStore({
-			mongooseConnection: mongoose.connection,
+		store: MongoStore.create({
+			mongoUrl: mongoose.connection.client.s.url,
 		}),
 	}),
 );
