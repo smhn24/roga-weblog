@@ -7,6 +7,13 @@
       <label for="title" class="form-label">عنوان دسته بندی</label>
       <input type="text" class="form-control" name="category" id="title">
     </div>
+    {% if errors | length > 0 %} {% for error in errors %} {% if error.field == "title" %}
+
+    <p class="text-danger font-weight-bold error-text ms-2">
+      {{ error.message }}
+    </p>
+
+    {% endif %} {% endfor %} {% endif %}
 
     <div>
       <input type="submit" value="ساخت دسته بندی" class="btn btn-success m-2" />
@@ -15,9 +22,9 @@
   </form>
 </div>
 <h4 class="text-center mt-4">دسته بندی های ثبت شده</h4>
-<ul class="list-group list-group-flush">
+<ul class="list-group list-group-item-white">
   {% for category in categories %}
-  <li class="list-group-item ms-5 me-5">{{ category.name }}</li>
+  <li class="list-group-item w-40 text-center mx-auto text-dark text-bold">{{ category.name }}</li>
   {% endfor %}
 </ul>
 {% endblock %}
