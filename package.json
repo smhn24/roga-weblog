@@ -32,6 +32,7 @@
 		"nunjucks": "^3.2.3",
 		"passport": "^0.5.2",
 		"passport-local": "^1.0.0",
+		"prompts": "^2.4.2",
 		"sharp": "^0.30.4",
 		"winston": "^3.7.2",
 		"yup": "^0.32.11"
