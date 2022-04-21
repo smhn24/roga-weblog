@@ -45,7 +45,7 @@ exports.index = async (req, res) => {
 			categoryNumbers,
 		});
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };
@@ -78,7 +78,7 @@ exports.singlePost = async (req, res) => {
 			isAuthenticated: req.isAuthenticated(),
 		});
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };
@@ -128,7 +128,6 @@ exports.handleContactUs = async (req, res) => {
 			},
 		});
 		const json = await response.json();
-		console.log(json);
 		if (!json.success) {
 			errors.push({
 				field: 'global',
@@ -211,7 +210,7 @@ exports.handleSearch = async (req, res) => {
 			isAuthenticated: req.isAuthenticated(),
 		});
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };
@@ -275,7 +274,7 @@ exports.deleteComment = async (req, res) => {
 		}
 		return get404(req, res);
 	} catch (err) {
-		console.log(err);
+		consola.error(err);
 		get500(req, res);
 	}
 };

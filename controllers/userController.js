@@ -68,7 +68,7 @@ exports.handleLogin = async (req, res, next) => {
 					failureRedirect: '/users/login',
 				})(req, res, next);
 			} catch (err) {
-				console.log(err);
+				consola.error(err);
 				errors.push({
 					field: 'global',
 					message: 'مشکلی روی داده است',
