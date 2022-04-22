@@ -8,12 +8,16 @@
                 <tr>
                     <th scope="col" class="col-1 text-center text-secondary text-xxs font-weight-bolder opacity-7">ردیف
                     </th>
-                    <th scope="col" class="col-5 text-center text-secondary text-xxs font-weight-bolder opacity-7">عنوان
+                    <th scope="col" class="col-4 text-center text-secondary text-xxs font-weight-bolder opacity-7">عنوان
                     </th>
                     <th scope="col" class="col-1 text-center text-secondary text-xxs font-weight-bolder opacity-7">دسته
                         بندی</th>
+                    <th scope="col" class="col-3 text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                        نویسنده
+                    </th>
                     <th scope="col" class="col-2 text-center text-secondary text-xxs font-weight-bolder opacity-7">تاریخ
                     </th>
+
                     <th scope="col" class="col-1 text-center text-secondary text-xxs font-weight-bolder opacity-7">وضعیت
                     </th>
                     <th scope="col" c class="col-2 opacity-7">
@@ -23,13 +27,14 @@
             <tbody>
                 {% for blog in blogs %}
                 <tr>
-                    <td class="align-middle text-center text-sm">{{ loop.index }}</tdc>
+                    <td class="align-middle text-center text-sm">{{ loop.index }}</td>
                     <td class="align-middle text-center text-sm">
                         <a href="/post/{{ blog.slug }}"> {{ blog.title }} </a>
                     </td>
                     <td class="align-middle text-center text-sm">
                         <div class="badge bg-gradient-secondary ">{{ blog.category.name }}</div>
                     </td>
+                    <td class="align-middle text-center text-sm">{{ blog.user.fullname }}</td>
                     <td class="align-middle text-center text-sm">{{ formatDate(blog.createdAt) }}</td>
                     <td class="align-middle text-center text-sm">
                         <span class="badge {% if blog.status == 'public' %}bg-gradient-success{% else %}bg-gradient-warning{%
