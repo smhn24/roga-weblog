@@ -8,7 +8,7 @@ const consola = require('consola');
 const Blog = require('../models/Blog');
 const Category = require('../models/Category');
 const { formatDate } = require('../utils/jalali');
-const { get500 } = require('./errorController');
+const { get500, get404 } = require('./errorController');
 const { fileExist } = require('../utils/fileExsiting');
 const { imageValidation } = require('../models/secure/imageValidation');
 const { default: mongoose } = require('mongoose');
@@ -112,6 +112,18 @@ exports.createCategory = async (req, res) => {
 	} catch (err) {
 		consola.error(err);
 		get500(req, res);
+	}
+};
+
+exports.deleteCategory = async (req, res) => {
+	try {
+		const category = await Category.findOne({ name: req.params.category });
+		if (!category) return get404(req, res);
+		category.remove();
+		return res.redirect('back');
+	} catch (err) {
+		consola.error(err);
+		return get500(req, res);
 	}
 };
 
