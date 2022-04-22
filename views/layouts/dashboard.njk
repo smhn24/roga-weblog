@@ -78,7 +78,7 @@
     integrity="sha512-KMOKthdp8z/ltLlRyTUh++7dcXfkEkP2Pha9VmYZtX5x6yDaM6zw88cz6wI/yTzRqOAYlEcw4V9Ut1wwKj4j0A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    document.getElementById("delete-post").addEventListener("click", (e) => {
+    document.querySelectorAll(".delete-post").forEach(element => element.addEventListener("click", (e) => {
       e.preventDefault();
       Swal.fire({
         title: "آیا از حذف این پست اطمینان دارید؟",
@@ -100,13 +100,13 @@
             allowEnterKey: false,
             showConfirmButton: false,
           });
-          window.location.href = document.getElementById("delete-post").dataset.href
+          window.location.href = element.dataset.href
         };
       })
-    })
+    }))
   </script>
   <script>
-    document.getElementById("delete-category").addEventListener("click", (e) => {
+    document.querySelectorAll(".delete-category").forEach(element => element.addEventListener("click", (e) => {
       e.preventDefault();
       Swal.fire({
         title: "آیا از حذف این دسته بندی اطمینان دارید؟",
@@ -128,10 +128,10 @@
             allowEnterKey: false,
             showConfirmButton: false,
           });
-          window.location.href = document.getElementById("delete-category").dataset.href
+          window.location.href = element.dataset.href
         };
       })
-    })
+    }))
   </script>
   {% if path == "/dashboard/image-gallery"%}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"
