@@ -28,12 +28,12 @@ exports.dashboard = async (req, res) => {
 						.sort({ createdAt: 'desc' })
 						.skip((page - 1) * postPerPage)
 						.limit(postPerPage)
-						.populate('category')
+						.populate(['category', 'user'])
 				: await Blog.find({ user: req.user.id })
 						.sort({ createdAt: 'desc' })
 						.skip((page - 1) * postPerPage)
 						.limit(postPerPage)
-						.populate('category');
+						.populate(['category', 'user']);
 		res.setHeader(
 			'Cache-Control',
 			'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
