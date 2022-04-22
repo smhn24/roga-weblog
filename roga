@@ -60,6 +60,7 @@ const questions = [
 ];
 
 (async () => {
+	console.info('Welcome to the Super User Registration');
 	const { fullname, email, password, confirmPassword } = await prompts(
 		questions,
 	);
