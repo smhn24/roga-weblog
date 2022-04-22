@@ -24,7 +24,13 @@
 <h4 class="text-center mt-4">دسته بندی های ثبت شده</h4>
 <ul class="list-group list-group-item-white">
   {% for category in categories %}
-  <li class="list-group-item w-40 text-center mx-auto text-dark text-bold">{{ category.name }}</li>
+  <li class="list-group-item w-40 text-center mx-auto text-dark text-bold">
+    <div class="row row-cols-2">
+      <div>{{ category.name }}</div>
+      <div><a data-href="/dashboard/delete-category/{{ category.name }}"
+          class="btn btn-danger btn-icon-only btn-lg mt-1" id="delete-post"><i class="fa fa-trash-o"></i></a></div>
+    </div>
+  </li>
   {% endfor %}
 </ul>
 {% endblock %}

@@ -30,6 +30,17 @@ router.get(
 );
 
 /**
+ * @route GET /dashboard/delete-category/:category
+ * @description Dashboard Delete Category
+ */
+router.get(
+	'/delete-category/:category',
+	authenticated,
+	isAdmin,
+	adminController.deleteCategory,
+);
+
+/**
  * @route GET /dashboard/image-galllery
  * @description Dashboard Image Gallery Page
  */
