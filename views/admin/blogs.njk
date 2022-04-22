@@ -55,7 +55,12 @@
 {% include "includes/pagination.njk" %} {% else %}
 <div class="text-center">
     <h3 class="mt-2">
+        {% if isSearch %}
+        {% if searchFor | length > 0 %} نتیجه جستجو برای {{ searchFor }} {% endif %}
+        پیدا نشد.
+        {% else %}
         در حال حاضر هیچ پستی توسط شما در پایگاه داده ثبت نشده است
+        {% endif %}
     </h3>
 </div>
 {% endif %} {% endblock %}

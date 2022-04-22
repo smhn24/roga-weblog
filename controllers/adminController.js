@@ -337,7 +337,8 @@ exports.handleDashboardSearch = async (req, res) => {
 		res.render('admin/blogs', {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
-			layout: './layouts/dashboardLayout',
+			isSearch: true,
+			searchFor: req.body.search,
 			user: req.user,
 			blogs,
 			formatDate,
