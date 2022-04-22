@@ -128,7 +128,7 @@
                     <div class="fw-lighter">
                       {{ formatDate(comment.commentedAt) }}
                     </div>
-                    {{ comment.text }}
+                    {{ comment.text | safe }}
                   </div>
                 </div>
                 {% if comment.commenter.id == user.id or user.role == 'admin' %}
@@ -147,4 +147,19 @@
 </div>
 {% include 'includes/footer.njk' %} {% endblock %} {% block scripts %}
 <script src="/js/comment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/tinymce.min.js"
+  integrity="sha512-WVGmm/5lH0QUFrXEtY8U9ypKFDqmJM3OIB9LlyMAoEOsq+xUs46jGkvSZXpQF7dlU24KRXDsUQhQVY+InRbncA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/plugins/image/plugin.min.js"
+  integrity="sha512-WXhLEgUSvo90sNntvjf/i63kpD3zQLnkwNdZ6RxErNTFi2Lv8nm1DqxhsrVlfjGnz+s0Wfw9+7UZ5HsALjjm8w=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  tinymce.init({
+    selector: "textarea#comment-message",
+    plugins: "image",
+    toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image",
+    images_file_types: "jpg,jpeg,png",
+    file_picker_types: "image",
+  });
+</script>
 {% endblock %}
