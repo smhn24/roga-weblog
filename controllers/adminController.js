@@ -18,14 +18,22 @@ exports.dashboard = async (req, res) => {
 	const postPerPage = +req.query.limit || 5;
 
 	try {
-		const numberOfPosts = await Blog.find({
-			user: req.user.id,
-		}).countDocuments();
-		const blogs = await Blog.find({ user: req.user.id })
-			.sort({ createdAt: 'desc' })
-			.skip((page - 1) * postPerPage)
-			.limit(postPerPage)
-			.populate('category');
+		const numberOfPosts =
+			req.user.role === 'admin'
+				? await Blog.find().countDocuments()
+				: await Blog.find({ user: req.user.id }).countDocuments();
+		const blogs =
+			req.user.role === 'admin'
+				? await Blog.find()
+						.sort({ createdAt: 'desc' })
+						.skip((page - 1) * postPerPage)
+						.limit(postPerPage)
+						.populate('category')
+				: await Blog.find({ user: req.user.id })
+						.sort({ createdAt: 'desc' })
+						.skip((page - 1) * postPerPage)
+						.limit(postPerPage)
+						.populate('category');
 		res.setHeader(
 			'Cache-Control',
 			'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0',
@@ -139,7 +147,8 @@ exports.getEditPost = async (req, res) => {
 	const post = await Blog.findById(req.params.id);
 	const categories = await Category.find();
 	if (!post) return res.redirect('errors/404');
-	if (post.user.toString() !== req.user.id) return res.redirect('/dashboard');
+	if (post.user.toString() !== req.user.id && req.user.role !== 'admin')
+		return res.redirect('/dashboard');
 	res.render('admin/editPost', {
 		pageTitle: 'بخش مدیریت | ویرایش پست',
 		path: '/dashboard/edit-post',
@@ -170,7 +179,7 @@ exports.editPost = async (req, res) => {
 			});
 
 		if (!post) return res.redirect('/errors/404');
-		if (post.user.toString() !== req.user.id)
+		if (post.user.toString() !== req.user.id && req.user.role !== 'admin')
 			return res.redirect('/dashboard');
 
 		if (thumbnail.name) {
@@ -268,7 +277,8 @@ exports.createPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
 	const post = await Blog.findById(req.params.id);
 	if (!post) return res.redirect('errors/404');
-	if (post.user.toString() != req.user.id) return res.redirect('/dashboard');
+	if (post.user.toString() !== req.user.id && req.user.role !== 'admin')
+		return res.redirect('/dashboard');
 	post.remove();
 	return res.redirect('/dashboard');
 };
