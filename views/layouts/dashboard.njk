@@ -58,29 +58,17 @@
     </div>
   </div>
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/tinymce.min.js"
-    integrity="sha512-WVGmm/5lH0QUFrXEtY8U9ypKFDqmJM3OIB9LlyMAoEOsq+xUs46jGkvSZXpQF7dlU24KRXDsUQhQVY+InRbncA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.1/plugins/image/plugin.min.js"
-    integrity="sha512-WXhLEgUSvo90sNntvjf/i63kpD3zQLnkwNdZ6RxErNTFi2Lv8nm1DqxhsrVlfjGnz+s0Wfw9+7UZ5HsALjjm8w=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/tinymce.min.js"></script>
+  <script src="/js/plugin.min.js"></script>
   <script>
     tinymce.init({
-      selector: "textarea#body",
-      directionality: "rtl",
-      language_url: '/langs/fa.js',
-      language: 'fa',
-      content_style: "body { font-family: Estedad; }",
-      font_formats: 'Estedad',
-      plugins: "image",
-      toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image",
-      images_file_types: "jpg,jpeg,png",
-      file_picker_types: "image",
-    });
+      selector: " textarea#body", directionality: "rtl", language_url: '/langs/fa.js', language: 'fa',
+      content_style: "body { font-family: Estedad; }", font_formats: 'Estedad', plugins: "image",
+      toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image"
+      , images_file_types: "jpg,jpeg,png", file_picker_types: "image",
+    }); 
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.all.min.js"
-    integrity="sha512-KMOKthdp8z/ltLlRyTUh++7dcXfkEkP2Pha9VmYZtX5x6yDaM6zw88cz6wI/yTzRqOAYlEcw4V9Ut1wwKj4j0A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/sweetalert2.all.min.js"></script>
   <script>
     document.querySelectorAll(".delete-post").forEach(element => element.addEventListener("click", (e) => {
       e.preventDefault();
@@ -138,9 +126,7 @@
     }))
   </script>
   {% if path == "/dashboard/image-gallery"%}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"
-    integrity="sha512-PIisRT8mFfdxx99gMs7WAY5Gp+CtjYYxKvF93w8yWAvX548UBNADHu7Qkavgr6yRG+asocqfuk5crjNd5z9s6Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/clipboard.min.js"></script>
   <script src="/js/upload.js"></script>
   {% endif %}
 </body>
