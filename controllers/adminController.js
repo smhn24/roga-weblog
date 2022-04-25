@@ -11,7 +11,6 @@ const { formatDate } = require('../utils/jalali');
 const { get500, get404 } = require('./errorController');
 const { fileExist } = require('../utils/fileExsiting');
 const { imageValidation } = require('../models/secure/imageValidation');
-const { default: mongoose } = require('mongoose');
 
 exports.dashboard = async (req, res) => {
 	let page = +req.query.page || 1;
@@ -42,7 +41,6 @@ exports.dashboard = async (req, res) => {
 		res.render('admin/blogs', {
 			pageTitle: 'بخش مدیریت | داشبورد',
 			path: '/dashboard',
-			layout: './layouts/dashboardLayout',
 			user: req.user,
 			blogs,
 			formatDate,
@@ -65,7 +63,6 @@ exports.getAddPosts = async (req, res) => {
 	res.render('admin/addPost', {
 		pageTitle: 'بخش مدیریت | ساخت پست جدید',
 		path: '/dashboard/add-post',
-		layout: './layouts/dashboardLayout',
 		user: req.user,
 		categories,
 	});
