@@ -27,9 +27,6 @@ require('./config/passport');
 //* Initialize app
 const app = express();
 
-//* Disable x-powered by header
-app.disable('x-powered-by');
-
 //* Logging
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('combined', { stream: winston.stream }));
