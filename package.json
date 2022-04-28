@@ -27,6 +27,7 @@
 		"express-session": "^1.17.2",
 		"jalali-moment": "^3.3.11",
 		"jsonwebtoken": "^8.5.1",
+		"mongodb": "^4.1.0",
 		"mongoose": "^6.3.0",
 		"morgan": "^1.10.0",
 		"nanoid": "^3.3.3",
