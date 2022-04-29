@@ -1,6 +1,21 @@
-{% extends "layouts/base.njk" %} {% block content %} {% include
-"includes/navbar.njk" %}
+{% extends "layouts/base.njk" %} {% block content %} {% include "includes/navbar.njk" %}
 <header class="header-2">
+    {% if path == "/" %}
+    <form action="/articles" method="post">
+        <div class="container">
+            <div class="row w-lg-75 position-absolute mt-2 mx-auto mx-lg-auto z-index-3">
+                <div class="col-lg-10 mt-lg-3 mt-2">
+                    <input class="form-control form-control-lg" name="search" type="search" placeholder="جستجو"
+                        aria-label="Search">
+                </div>
+                <div class="col-lg-2 d-flex align-items-center my-auto">
+                    <button type="submit"
+                        class="btn bg-gradient-danger w-100 text-center btn-lg mb-0 mt-3">جستجو</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% endif %}
     <div class="page-header min-vh-75 relative" style="background-image: url('/img/curved-images/curved.jpg')">
         <div class="container">
             <div class="row">
