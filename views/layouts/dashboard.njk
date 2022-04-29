@@ -30,20 +30,34 @@
 </head>
 
 <body>
+  <a class="d-md-none d-block py-2 text-center px-5 text-white font-weight-bold lead bg-gradient-faded-secondary"
+    href="/dashboard">
+    <span>سلام</span>
+    {{ user.fullname }}
+  </a>
+  <form action="/dashboard/search" method="post" class="w-100 bg-gradient-dark d-block d-md-none">
+    <input class="form-control form-control-dark w-100" type="text" name="search" placeholder="جستجو"
+      aria-label="Search" />
+  </form>
+  <div class="bg-gradient-dark">
+    <div class="d-block d-md-none py-2 text-center">
+      <a class="text-bold text-white px-3" href="/users/logout">خروج</a>
+    </div>
+  </div>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 mx-0 px-5 text-white" href="#">
+    <button class="navbar-toggler d-md-none collapsed mx-auto my-2" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-bars"></i>
+    </button>
+    <a class="navbar-brand col-md-3 col-lg-2 mx-0 d-none d-md-block px-5 text-white" href="/dashboard">
       <span>سلام</span>
       {{ user.fullname }}
     </a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <form action="/dashboard/search" method="post" class="w-100">
-      <input class="form-control form-control-dark w-100" type="text" name="search" placeholder="جستجو"
-        aria-label="Search" />
+      <input class="form-control d-none d-md-block form-control-dark w-100" type="text" name="search"
+        placeholder="جستجو" aria-label="Search" />
     </form>
-    <div class="navbar-nav">
+    <div class="navbar-nav d-none d-md-block">
       <div class="nav-item text-nowrap">
         <a class="nav-link px-3" href="/users/logout">خروج</a>
       </div>
