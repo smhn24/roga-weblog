@@ -76,6 +76,11 @@
                 <label for="floatingPassword">کلمه عبور</label>
               </div>
 
+              <p class="text-sm my-3">
+                رمز خود را فراموش کردید ؟
+                <a href="/users/forget-password" class="text-dark font-weight-bolder">ریست پسورد</a>
+              </p>
+
               {% if errors | length > 0 %} {% for error in errors %} {% if
               error.field == "password" %}
 
